@@ -51,7 +51,11 @@ def create_milestone(title: str, description: str = "", due_on: str = None) -> i
 
 def list_milestones() -> list[dict]:
     url = f"{GH_BASE_URL}/milestones?state=all&per_page=100"
+    print(f"   [DEBUG] GET {url}")
     r = requests.get(url, headers=_headers())
+    print(f"   [DEBUG] Response: {r.status_code} {r.reason}")
+    if r.status_code != 200:
+        print(f"   [DEBUG] Body: {r.text[:500]}")
     r.raise_for_status()
     return r.json()
 
@@ -60,7 +64,6 @@ def create_issue(
     title: str,
     body: str,
     labels: list[str],
-    milestone: int | None,
     assignees: list[str],
 ) -> dict:
     url = f"{GH_BASE_URL}/issues"
@@ -70,11 +73,17 @@ def create_issue(
         "labels": labels,
         "assignees": assignees,
     }
-    if milestone:
-        payload["milestone"] = milestone
+
+    print(f"   [DEBUG] POST {url}")
+    print(f"   [DEBUG] Title: {title[:80]}")
+    print(f"   [DEBUG] Labels: {labels}")
+    print(f"   [DEBUG] Body length: {len(body)} chars")
 
     while True:
         r = requests.post(url, json=payload, headers=_headers())
+        print(f"   [DEBUG] Response: {r.status_code} {r.reason}")
+        if r.status_code != 201:
+            print(f"   [DEBUG] Body: {r.text[:500]}")
         if _handle_rate_limit(r):
             continue
         r.raise_for_status()

@@ -58,13 +58,13 @@ def get_work_items_batch(ids: list[int]) -> list[dict]:
             "System.Tags",
             "Microsoft.VSTS.Common.Priority",
             "Microsoft.VSTS.Common.AcceptanceCriteria",
-            "Microsoft.VSTS.Common.ReproSteps",
-            "Microsoft.VSTS.TCM.Steps",
             "System.Parent",
         ],
-        "$expand": "relations",
+        "errorPolicy": "omit",
     }
     response = requests.post(url, json=payload, headers=_headers())
+    if not response.ok:
+        print(f"   [DEBUG] Batch API error {response.status_code}: {response.text[:500]}")
     response.raise_for_status()
     return response.json().get("value", [])
 

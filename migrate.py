@@ -6,20 +6,12 @@ Tracks progress in state.json to support resume-on-failure.
 import json
 import time
 import os
-from ado_client import fetch_all_work_items, get_work_item_comments
-from github_client import create_issue, close_issue, add_comment, list_milestones
+from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch
+from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
 from config import ADO_ORG, ADO_PROJECT
 
 STATE_FILE = "state.json"
-
-# ── Milestone cache ──────────────────────────────────────────────────────────
-
-def load_milestone_map() -> dict[str, int]:
-    """Returns a dict of { sprint_name: milestone_number }."""
-    milestones = list_milestones()
-    return {m["title"]: m["number"] for m in milestones}
-
 
 # ── State / Resume support ───────────────────────────────────────────────────
 
@@ -50,7 +42,7 @@ def iteration_to_sprint(iteration_path: str) -> str | None:
 
 # ── Migrate a single work item ────────────────────────────────────────────────
 
-def migrate_work_item(work_item: dict, milestone_map: dict, state: dict) -> int:
+def migrate_work_item(work_item: dict, state: dict) -> int:
     """
     Migrates one ADO work item to a GitHub issue.
     Returns the created GitHub issue number.
@@ -61,11 +53,6 @@ def migrate_work_item(work_item: dict, milestone_map: dict, state: dict) -> int:
     # Build GitHub issue fields
     body        = build_issue_body(work_item, ADO_ORG, ADO_PROJECT)
     labels      = build_labels(work_item) + ["migrated-from-ado"]
-    sprint_name = iteration_to_sprint(
-        work_item.get("fields", {}).get("System.IterationPath", "")
-    )
-    milestone   = milestone_map.get(sprint_name) if sprint_name else None
-
     # Assignee: map ADO uniqueName to GitHub username if possible
     # ⚠️ Update this mapping with your team's real GitHub usernames
     assigned_to = work_item.get("fields", {}).get("System.AssignedTo", {})
@@ -80,7 +67,6 @@ def migrate_work_item(work_item: dict, milestone_map: dict, state: dict) -> int:
         title=f"[ADO #{ado_id}] {title}",
         body=body,
         labels=labels,
-        milestone=milestone,
         assignees=assignees,
     )
     gh_issue_number = gh_issue["number"]
@@ -112,27 +98,58 @@ def migrate_test(ado_id: int):
     print("=" * 60)
     print()
 
+    # Debug: show config
+    from config import GH_TOKEN, GH_BASE_URL
+    print(f"[DEBUG] GH_BASE_URL = {GH_BASE_URL}")
+    print(f"[DEBUG] GH_TOKEN    = {GH_TOKEN[:10]}...{GH_TOKEN[-4:] if GH_TOKEN else 'EMPTY'}")
+    print()
+
     state = load_state()
     if str(ado_id) in state:
         print(f"⚠️  ADO #{ado_id} was already migrated as GitHub Issue #{state[str(ado_id)]}.")
         return
 
-    print("📌 Loading GitHub milestones...")
-    milestone_map = load_milestone_map()
-    print(f"   Found {len(milestone_map)} milestones.\n")
+    # Test basic GitHub connectivity first
+    import requests
+    print("📡 Testing GitHub API connectivity...")
+    r = requests.get(GH_BASE_URL, headers={
+        "Authorization": f"Bearer {GH_TOKEN}",
+        "Accept": "application/vnd.github+json",
+    })
+    print(f"   [DEBUG] GET {GH_BASE_URL} → {r.status_code} {r.reason}")
+    if r.status_code != 200:
+        print(f"   [DEBUG] Response: {r.text[:500]}")
+        print(f"\n❌ Cannot access GitHub repo. Check GH_TOKEN permissions and repo name.")
+        return
+    print(f"   ✅ Repo accessible: {r.json().get('full_name', '?')}\n")
 
-    all_items = fetch_all_work_items()
-    work_item = next((item for item in all_items if item.get("id") == ado_id), None)
+    print("📥 Fetching ADO work item #" + str(ado_id) + "...")
+    items = get_work_items_batch([ado_id])
+    work_item = items[0] if items else None
 
     if not work_item:
         print(f"⚠️  ADO work item #{ado_id} not found.")
         return
 
-    title = work_item.get("fields", {}).get("System.Title", f"Untitled #{ado_id}")
+    fields = work_item.get("fields", {})
+    title = fields.get("System.Title", f"Untitled #{ado_id}")
+    description = fields.get("System.Description", "(no description)")
+    wi_type = fields.get("System.WorkItemType", "?")
+    state_val = fields.get("System.State", "?")
+    iteration = fields.get("System.IterationPath", "?")
+
+    print(f"\n📋 ADO Work Item #{ado_id} details:")
+    print(f"   Title:       {title}")
+    print(f"   Type:        {wi_type}")
+    print(f"   State:       {state_val}")
+    print(f"   Iteration:   {iteration}")
+    print(f"   Description: {description[:200]}{'...' if len(description or '') > 200 else ''}")
+    print()
+
     print(f"🧪 Test-migrating ADO #{ado_id}: {title[:60]}...")
 
     try:
-        gh_issue_number = migrate_work_item(work_item, milestone_map, state)
+        gh_issue_number = migrate_work_item(work_item, state)
         print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
     except Exception as e:
         print(f"   ❌ Error migrating ADO #{ado_id}: {e}")
@@ -157,11 +174,6 @@ def migrate():
     already_migrated = set(str(k) for k in state.keys())
     print(f"📂 Resuming: {len(already_migrated)} items already migrated.\n")
 
-    # Load milestones
-    print("📌 Loading GitHub milestones...")
-    milestone_map = load_milestone_map()
-    print(f"   Found {len(milestone_map)} milestones.\n")
-
     # Fetch all ADO work items
     all_items = fetch_all_work_items()
 
@@ -182,7 +194,7 @@ def migrate():
         print(f"[{idx}/{len(pending)}] Migrating ADO #{ado_id}: {title[:60]}...")
 
         try:
-            gh_issue_number = migrate_work_item(work_item, milestone_map, state)
+            gh_issue_number = migrate_work_item(work_item, state)
             print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
             success_count += 1
             time.sleep(0.5)  # Avoid secondary rate limits
@@ -202,4 +214,9 @@ def migrate():
 
 
 if __name__ == "__main__":
-    migrate()
+    import sys
+
+    if len(sys.argv) >= 3 and sys.argv[1] == "test":
+        migrate_test(int(sys.argv[2]))
+    else:
+        migrate()
