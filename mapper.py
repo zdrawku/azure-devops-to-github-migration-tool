@@ -216,8 +216,8 @@ def resolve_github_type(work_item: dict) -> str:
             fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
         )
         return "type: task" if has_scheduling else "type: feature"
-    # Fallback: use the existing label mapping if available
-    return f"type: {WORK_ITEM_TYPE_LABELS.get(wi_type, wi_type.lower().replace(' ', '-'))}"
+    # Fallback: type is ambiguous — fail-safe to "type: unknown"
+    return "type: unknown"
 
 
 def resolve_github_issue_type_name(work_item: dict) -> str:
@@ -234,8 +234,8 @@ def resolve_github_issue_type_name(work_item: dict) -> str:
             fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
         )
         return "Task" if has_scheduling else "Feature"
-    # Keep a sane fallback for unmapped types.
-    return "Feature"
+    # Fallback: type is ambiguous — fail-safe to Bug.
+    return "Bug"
 
 
 def build_labels(work_item: dict) -> list[str]:
