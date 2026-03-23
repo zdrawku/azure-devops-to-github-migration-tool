@@ -13,6 +13,7 @@ This document describes how Azure DevOps (ADO) work items are migrated to GitHub
 | `python migrate.py` | **Full migration** — migrates all pending work items, resuming from `state.json` |
 | `python migrate.py count` | **Count preview** — queries ADO and prints a breakdown of all work items by type and state, plus how many are already migrated vs. still pending. Nothing is created. |
 | `python migrate.py test <ADO_ID>` | **Dry-run** — prints the GitHub issue that would be created for one work item; nothing is submitted |
+| `python migrate.py single <ADO_ID>` | **Single item migration** — creates a GitHub issue for one specific ADO work item, updates `state.json`, and returns the GitHub issue number |
 | `python migrate.py discover <ADO_ID>` | **Field discovery** — prints every ADO field reference name and value for a work item; useful for identifying custom fields |
 
 ### setup_github.py

@@ -220,6 +220,24 @@ def resolve_github_type(work_item: dict) -> str:
     return f"type: {WORK_ITEM_TYPE_LABELS.get(wi_type, wi_type.lower().replace(' ', '-'))}"
 
 
+def resolve_github_issue_type_name(work_item: dict) -> str:
+    """
+    Returns the GitHub native Issue Type name for a work item.
+    Expected values in this repo: Bug, Task, Feature.
+    """
+    fields = work_item.get("fields", {})
+    wi_type = fields.get("System.WorkItemType", "")
+    if wi_type == "Bug":
+        return "Bug"
+    if wi_type == "Task":
+        has_scheduling = any(
+            fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
+        )
+        return "Task" if has_scheduling else "Feature"
+    # Keep a sane fallback for unmapped types.
+    return "Feature"
+
+
 def build_labels(work_item: dict) -> list[str]:
     """Returns the list of GitHub label names for this work item."""
     fields = work_item.get("fields", {})

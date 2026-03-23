@@ -2,6 +2,8 @@ import time
 import requests
 from config import GH_TOKEN, GH_BASE_URL, GH_REPO_OWNER, GH_REPO_NAME
 
+GRAPHQL_URL = "https://api.github.com/graphql"
+
 
 def _headers():
     return {
@@ -9,6 +11,67 @@ def _headers():
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+
+
+def _graphql(query: str, variables: dict | None = None) -> dict:
+        payload = {"query": query}
+        if variables:
+                payload["variables"] = variables
+        r = requests.post(
+                GRAPHQL_URL,
+                json=payload,
+                headers={
+                        "Authorization": f"Bearer {GH_TOKEN}",
+                        "Content-Type": "application/json",
+                },
+        )
+        r.raise_for_status()
+        body = r.json()
+        if "errors" in body and "data" not in body:
+                raise RuntimeError(f"GraphQL errors: {body['errors']}")
+        return body
+
+
+def _get_issue_type_id_by_name(type_name: str) -> str | None:
+        query = """
+        query($owner: String!, $repo: String!) {
+            repository(owner: $owner, name: $repo) {
+                issueTypes(first: 50) {
+                    nodes {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+        """
+        data = _graphql(query, {"owner": GH_REPO_OWNER, "repo": GH_REPO_NAME})
+        nodes = data.get("data", {}).get("repository", {}).get("issueTypes", {}).get("nodes", [])
+        for n in nodes:
+                if n.get("name", "").lower() == type_name.lower():
+                        return n.get("id")
+        return None
+
+
+def _set_issue_type(issue_node_id: str, type_name: str):
+        issue_type_id = _get_issue_type_id_by_name(type_name)
+        if not issue_type_id:
+                print(f"   [WARN] GitHub issue type '{type_name}' not found. Skipping native issue type set.")
+                return
+
+        mutation = """
+        mutation($issueId: ID!, $issueTypeId: ID!) {
+            updateIssue(input: {id: $issueId, issueTypeId: $issueTypeId}) {
+                issue {
+                    number
+                    issueType {
+                        name
+                    }
+                }
+            }
+        }
+        """
+        _graphql(mutation, {"issueId": issue_node_id, "issueTypeId": issue_type_id})
 
 
 def _handle_rate_limit(response: requests.Response):
@@ -74,6 +137,7 @@ def create_issue(
     labels: list[str],
     assignees: list[str],
     milestone: int | None = None,
+    issue_type_name: str | None = None,
 ) -> dict:
     url = f"{GH_BASE_URL}/issues"
     payload = {
@@ -98,7 +162,14 @@ def create_issue(
         if _handle_rate_limit(r):
             continue
         r.raise_for_status()
-        return r.json()
+        issue = r.json()
+        if issue_type_name and issue.get("node_id"):
+            try:
+                _set_issue_type(issue["node_id"], issue_type_name)
+                print(f"   [DEBUG] Native issue type set: {issue_type_name}")
+            except Exception as ex:
+                print(f"   [WARN] Failed to set native issue type '{issue_type_name}': {ex}")
+        return issue
 
 
 def close_issue(issue_number: int):

@@ -7,10 +7,11 @@ import json
 import logging
 import time
 import os
+import sys
 from datetime import datetime, timezone
 from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type
 from github_client import create_issue, close_issue, add_comment
-from mapper import build_issue_body, build_labels, should_close, build_comment_body
+from mapper import build_issue_body, build_labels, should_close, build_comment_body, resolve_github_issue_type_name
 from milestone_map import build_milestone_map, resolve_milestone
 from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP
 
@@ -126,6 +127,7 @@ def migrate_work_item(work_item: dict, state: dict, ms_map: dict[str, int] | Non
     # Build GitHub issue fields
     body        = build_issue_body(work_item, ADO_ORG, ADO_PROJECT)
     labels      = build_labels(work_item) + ["migrated-from-ado"]
+    issue_type_name = resolve_github_issue_type_name(work_item)
     # Assignee: resolve ADO display name to GitHub username via ADO_GH_USER_MAP
     assigned_to = work_item.get("fields", {}).get("System.AssignedTo", {})
     display_name = (
@@ -145,6 +147,7 @@ def migrate_work_item(work_item: dict, state: dict, ms_map: dict[str, int] | Non
         labels=labels,
         assignees=assignees,
         milestone=milestone,
+        issue_type_name=issue_type_name,
     )
     gh_issue_number = gh_issue["number"]
 
@@ -228,6 +231,7 @@ def migrate_test(ado_id: int):
     issue_title  = f"[ADO #{ado_id}] {title}"
     issue_body   = build_issue_body(work_item, ADO_ORG, ADO_PROJECT)
     issue_labels = build_labels(work_item) + ["migrated-from-ado"]
+    issue_type_name = resolve_github_issue_type_name(work_item)
     will_close   = should_close(work_item)
 
     comments = get_work_item_comments(ado_id)
@@ -238,6 +242,7 @@ def migrate_test(ado_id: int):
     print("=" * 60)
     print(f"\n📌 TITLE:\n   {issue_title}\n")
     print(f"🏷️  LABELS:\n   {', '.join(issue_labels)}\n")
+    print(f"🧩 ISSUE TYPE:\n   {issue_type_name}\n")
     print(f"🔒 WILL BE CLOSED: {will_close}\n")
     print("─" * 60)
     print("📄 BODY:")
@@ -255,6 +260,78 @@ def migrate_test(ado_id: int):
     print("  Dry-run complete. Nothing was submitted to GitHub.")
     print("=" * 60)
 
+# ── Single item migration ────────────────────────────────────────────────────
+
+def migrate_single(ado_id: int):
+    """
+    Migrate a single ADO work item to GitHub and create the issue.
+    Updates state.json and logs the result.
+    """
+    print("="*60)
+    print("  ADO → GitHub Work Item Migration (SINGLE ITEM)")
+    print("="*60)
+    print()
+
+    state = load_state()
+    errors = load_errors()
+
+    # Check if already migrated
+    if str(ado_id) in state:
+        gh_issue_num = state[str(ado_id)]
+        print(f"⚠️  ADO #{ado_id} was already migrated as GitHub Issue #{gh_issue_num}.")
+        print(f"   The issue has not been re-created.")
+        return gh_issue_num
+
+    # Fetch the work item
+    print(f"📥 Fetching ADO work item #{ado_id}...")
+    items = get_work_items_batch([ado_id])
+    work_item = items[0] if items else None
+
+    if not work_item:
+        print(f"❌ ADO work item #{ado_id} not found.")
+        return None
+
+    fields = work_item.get("fields", {})
+    title = fields.get("System.Title", f"Untitled #{ado_id}")
+    print(f"   Title: {title}")
+    print()
+
+    # Build milestone mapping
+    print("🗓️  Loading GitHub milestone mapping...")
+    ms_map = build_milestone_map()
+    print(f"   {len(ms_map)} milestone(s) mapped.\n")
+
+    # Migrate the single item
+    try:
+        print(f"🚀 Creating GitHub issue for ADO #{ado_id}...")
+        gh_issue_number = migrate_work_item(work_item, state, ms_map)
+        print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
+        errors.pop(str(ado_id), None)  # Clear from error ledge on success
+        save_errors(errors)
+        print()
+        print("="*60)
+        print(f"  ✅ Migration successful!")
+        print(f"     ADO #{ado_id} → GitHub Issue #{gh_issue_number}")
+        print("="*60)
+        return gh_issue_number
+
+    except Exception as e:
+        error_msg = str(e)
+        print(f"   ❌ Error: {error_msg}")
+        errors[str(ado_id)] = {
+            "title": title,
+            "error": error_msg,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+        save_errors(errors)
+        log.error("ADO #%s FAILED | %s | %s", ado_id, title[:80], error_msg)
+        print()
+        print("="*60)
+        print(f"  ❌ Migration failed!")
+        print(f"     Error: {error_msg}")
+        print(f"     See {ERRORS_FILE} for details.")
+        print("="*60)
+        return None
 
 # ── Full migration ───────────────────────────────────────────────────────────
 
@@ -385,10 +462,10 @@ def discover(ado_id: int):
 
 
 if __name__ == "__main__":
-    import sys
-
     if len(sys.argv) >= 3 and sys.argv[1] == "test":
         migrate_test(int(sys.argv[2]))
+    elif len(sys.argv) >= 3 and sys.argv[1] == "single":
+        migrate_single(int(sys.argv[2]))
     elif len(sys.argv) >= 3 and sys.argv[1] == "discover":
         discover(int(sys.argv[2]))
     elif len(sys.argv) >= 2 and sys.argv[1] == "count":
