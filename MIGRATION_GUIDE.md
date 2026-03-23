@@ -499,14 +499,51 @@ To add a discovered field:
 
 ## Configuration
 
-All configuration lives in `.env` (loaded via `python-dotenv`):
+All configuration lives in a `.env` file (loaded via `python-dotenv`) at the repository root. Create this file before running any migration commands.
 
-| Variable | Description |
-|---|---|
-| `ADO_ORG` | ADO organisation name (e.g. `infragistics`) |
-| `ADO_PROJECT` | ADO project name (e.g. `BusinessTools`) |
-| `ADO_PAT` | ADO Personal Access Token with **Read** scope on Work Items |
-| `GH_TOKEN` | GitHub PAT with **repo** and **issues** scopes |
+### .env File Template
+
+```dotenv
+# Azure DevOps
+ADO_ORG=your-ado-organization
+ADO_PROJECT=your-ado-project
+ADO_PAT=your-ado-personal-access-token
+
+# GitHub
+GH_TOKEN=your-github-personal-access-token
+
+# ADO display name → GitHub username mapping (JSON format)
+ADO_GH_USER_MAP={"Luis Pandolfi":"luispandolfi","Brian Lagunas":"brianlagunas","Zdravko Kolev":"zdrawku"}
+```
+
+### Configuration Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `ADO_ORG` | Azure DevOps organization name | `infragistics` |
+| `ADO_PROJECT` | Azure DevOps project name | `BusinessTools` |
+| `ADO_PAT` | ADO Personal Access Token with **Read** scope on Work Items | `8NrxboNt...` |
+| `GH_TOKEN` | GitHub Personal Access Token with **repo**, **issues**, and **project** scopes | `github_pat_11A...` |
+| `ADO_GH_USER_MAP` | JSON mapping of ADO display names to GitHub usernames. Used to assign items to the correct GitHub user. | `{"Zdravko Kolev":"zdrawku","Brian Lagunas":"brianlagunas"}` |
+
+### Building ADO_GH_USER_MAP
+
+The `ADO_GH_USER_MAP` is a JSON object that maps the exact ADO display name (from `System.AssignedTo.displayName`) to the corresponding GitHub username. 
+
+**Steps to build the map:**
+1. Query your ADO project and collect all unique assignee display names
+2. Look up each person's GitHub username in your organization
+3. Create a JSON object with the mapping: `{"ADO Display Name": "github-username", ...}`
+4. Paste the entire JSON object (with escaped quotes) as the value of `ADO_GH_USER_MAP`
+
+**Example:**
+```dotenv
+ADO_GH_USER_MAP={"Luis Pandolfi":"luispandolfi","Brian Lagunas":"brianlagunas","Zdravko Kolev":"zdrawku","Hristo Anastasov":"hanastasov"}
+```
+
+If an ADO user has no entry in the map, the migrated issue will be created without an assignee (no error is thrown).
+
+### Additional Configuration
 
 Label and state mappings are defined in `config.py` (`PRIORITY_LABELS`, `SEVERITY_LABELS`, `TRIAGE_LABELS`, `STATE_LABELS`, `CLOSED_STATES`).
 
