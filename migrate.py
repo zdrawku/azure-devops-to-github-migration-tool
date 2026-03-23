@@ -4,14 +4,37 @@ Reads all ADO work items and creates corresponding GitHub Issues.
 Tracks progress in state.json to support resume-on-failure.
 """
 import json
+import logging
 import time
 import os
+from datetime import datetime, timezone
 from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields
 from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
 from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP
 
-STATE_FILE = "state.json"
+STATE_FILE  = "state.json"
+ERRORS_FILE = "migration_errors.json"
+LOG_FILE    = "migration.log"
+
+
+def _setup_logger() -> logging.Logger:
+    logger = logging.getLogger("migration")
+    if logger.handlers:
+        return logger
+    logger.setLevel(logging.DEBUG)
+    fmt = logging.Formatter(
+        "%(asctime)s  %(levelname)-8s  %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    fh = logging.FileHandler(LOG_FILE, encoding="utf-8")
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(fmt)
+    logger.addHandler(fh)
+    return logger
+
+
+log = _setup_logger()
 
 # ── ADO name → GitHub username resolver ─────────────────────────────────────
 
@@ -47,6 +70,22 @@ def resolve_github_username(display_name: str) -> str | None:
 
 
 # ── State / Resume support ───────────────────────────────────────────────────
+
+def load_errors() -> dict:
+    """
+    Returns the error ledger: { "ado_id": {"title", "error", "timestamp"} }.
+    Items are removed automatically when successfully migrated in a later run.
+    """
+    if os.path.exists(ERRORS_FILE):
+        with open(ERRORS_FILE) as f:
+            return json.load(f)
+    return {}
+
+
+def save_errors(errors: dict):
+    with open(ERRORS_FILE, "w") as f:
+        json.dump(errors, f, indent=2)
+
 
 def load_state() -> dict:
     if os.path.exists(STATE_FILE):
@@ -118,6 +157,7 @@ def migrate_work_item(work_item: dict, state: dict) -> int:
     state[str(ado_id)] = gh_issue_number
     save_state(state)
 
+    log.info("ADO #%s → GH #%s | %s", ado_id, gh_issue_number, title)
     return gh_issue_number
 
 
@@ -219,10 +259,14 @@ def migrate():
     print("=" * 60)
     print()
 
-    # Load resume state
+    # Load resume state and error ledger
     state = load_state()
+    errors = load_errors()
     already_migrated = set(str(k) for k in state.keys())
-    print(f"📂 Resuming: {len(already_migrated)} items already migrated.\n")
+    print(f"📂 Resuming: {len(already_migrated)} items already migrated.")
+    if errors:
+        print(f"⚠️  {len(errors)} item(s) previously failed — they will be retried.")
+    print()
 
     # Fetch all ADO work items
     all_items = fetch_all_work_items()
@@ -233,6 +277,7 @@ def migrate():
         if str(item.get("id")) not in already_migrated
     ]
     print(f"🚀 {len(pending)} work items to migrate.\n")
+    log.info("=== Migration run started — %d items pending ===", len(pending))
 
     success_count = 0
     error_count   = 0
@@ -247,19 +292,36 @@ def migrate():
             gh_issue_number = migrate_work_item(work_item, state)
             print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
             success_count += 1
+            errors.pop(str(ado_id), None)  # Clear from error ledger on success
+            save_errors(errors)
             time.sleep(0.5)  # Avoid secondary rate limits
 
         except Exception as e:
-            print(f"   ❌ Error migrating ADO #{ado_id}: {e}")
+            error_msg = str(e)
+            print(f"   ❌ Error migrating ADO #{ado_id}: {error_msg}")
+            log.error("ADO #%s FAILED | %s | %s", ado_id, title[:80], error_msg)
+            errors[str(ado_id)] = {
+                "title": title,
+                "error": error_msg,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+            save_errors(errors)
             error_count += 1
             time.sleep(2)
 
+    log.info(
+        "=== Migration run complete — success=%d  failed=%d ===",
+        success_count, error_count,
+    )
     print()
     print("=" * 60)
     print(f"  Migration complete!")
     print(f"  ✅ Succeeded : {success_count}")
     print(f"  ❌ Failed    : {error_count}")
-    print(f"  📄 State saved to: {STATE_FILE}")
+    if errors:
+        print(f"  ⚠️  Unresolved failures : {ERRORS_FILE}")
+    print(f"  📄 State saved to      : {STATE_FILE}")
+    print(f"  📋 Full log            : {LOG_FILE}")
     print("=" * 60)
 
 

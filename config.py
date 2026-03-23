@@ -75,5 +75,6 @@ STATE_LABELS = {
     "Open":        "state: open",
 }
 
-# ADO states that should result in a CLOSED GitHub issue
+# ADO states that should result in a CLOSED GitHub issue (used as fallback for
+# work item types not explicitly listed in mapper.should_close)
 CLOSED_STATES = {"Resolved", "Closed", "Done", "Removed"}

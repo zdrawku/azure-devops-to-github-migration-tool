@@ -262,7 +262,26 @@ def build_labels(work_item: dict) -> list[str]:
 
 
 def should_close(work_item: dict) -> bool:
-    state = _get_field(work_item, "System.State", "")
+    """
+    Determines whether the migrated GitHub issue should be closed.
+
+    Rules (per work item type):
+    - Bug  : close only when State == "Closed"
+    - Task : close when State is "Closed" or "Removed"
+             (covers both real Tasks and User-Story/Feature sub-types,
+              which share System.WorkItemType == "Task" in ADO)
+    - All other types: use the broad fallback set
+      ("Closed", "Done", "Removed", "Resolved")
+    """
+    fields  = work_item.get("fields", {})
+    wi_type = fields.get("System.WorkItemType", "")
+    state   = fields.get("System.State", "")
+
+    if wi_type == "Bug":
+        return state == "Closed"
+    if wi_type == "Task":
+        return state in {"Closed", "Removed"}
+    # Fallback for Epic, Feature, User Story, etc.
     return state in CLOSED_STATES
 
 

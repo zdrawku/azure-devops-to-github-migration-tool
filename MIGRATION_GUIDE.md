@@ -168,3 +168,43 @@ When a work item has one or more attachments, the generated GitHub issue display
 2. Download the attachments from the **Attachments** tab.
 3. Follow the [Attachment Migration Guide](https://github.com/Infragistics-BusinessTools/Reveal/wiki/ADO-to-GitHub-Migration-Guide) (GitHub Wiki) to commit them into the repository and link them back to the issue.
 
+## Fail-safe logging (migrate.py)
+
+Two new artifacts are written automatically during every run:
+
+| File | Purpose |
+|---|---|
+| `migration.log` | Human-readable timestamped log — one line per success (ADO #X → GH #Y), one line per failure with the full error message, plus run-start / run-end lines. Appended on every run, so the full history is preserved. |
+| `migration_errors.json` | Machine-readable JSON ledger of unresolved failures. Contains `{ ado_id: { title, error, timestamp } }`. An item is removed from this file automatically the next time it migrates successfully, so the file always reflects exactly what still needs attention. |
+
+On each run the console now shows how many items previously failed so you know upfront that retries are queued.
+
+## Type-aware should_close() (mapper.py)
+
+ADO type	Closes when state is…
+Bug	Closed only
+Task (→ task and feature/user-story in GitHub)	Closed or Removed
+Everything else (Epic, User Story, etc.)	Closed, Done, Removed, Resolved (original broad set)
+
+## Pre-mass-migration checklist
+These are the things that can cost you the most time or are hardest to fix after the fact:
+
+### Before you run
+
+- Dry-run a representative sample. Run python migrate.py test <id> on at least one Bug, one Task/Feature, and one closed item of each type to validate body formatting, label creation, and should_close logic before touching 2 500 items.
+- Enumerate the exact item count first. Add a quick WIQL query run (the same one get_all_work_item_ids() uses) without actually migrating, and confirm the number. The query WHERE [System.TeamProject] = @project has no date or type filter — if the BacklogTools project has sub-projects or archived items you don't expect, they show up here.
+- GitHub label pre-creation. The migration calls create_issue with labels that may not exist yet. GitHub silently drops unknown labels on issue creation. Run python setup_github.py (or whatever creates labels) and verify every label in WORK_ITEM_TYPE_LABELS, PRIORITY_LABELS, SEVERITY_LABELS, TRIAGE_LABELS, and STATE_LABELS actually exists in the repo before the run.
+- Validate the assignee list. Call resolve_github_username() against a sample of real displayName values from your ADO data. If any name variant doesn't match, the issue is created without an assignee — no error is thrown. Worth checking: accented characters, middle names, or nicknames in ADO.
+- GitHub secondary rate limit. With 2 500 items × (1 create_issue + N comments + maybe 1 close) API calls, you will approach or hit GitHub's secondary rate limit (roughly 80–100 write requests per minute for the REST API). The current time.sleep(0.5) between items and time.sleep(0.3) between comments helps, but if comments are numerous, slow it down further. A 429 or 403 with "secondary rate limit" in the body will show up as a logged error, and the item will be retried on the next run.
+- state.json is your safety net — back it up. The file is the only record of ADO ID → GitHub issue number mappings. Copy it somewhere safe before the run. If you need to re-run for any reason, missing entries here will cause duplicate issues.
+
+### During the run
+
+- Keep the terminal in view. Errors are printed in real time. If you see a burst of ❌ lines (e.g. a GitHub outage or token expiry), kill the process — the state and error ledger are saved after every individual item, so you lose at most one item's progress.
+- Watch migration.log in a second terminal (Get-Content migration.log -Wait on PowerShell) for a timestamped stream.
+
+### After the run
+
+- Check migration_errors.json. If it's non-empty, fix the root cause (wrong token, missing label, rate limit) and re-run — the failed items will be retried automatically.
+- Verify a random 5–10 issues on GitHub: confirm labels, closed state, comments, and the > Migrated from Azure DevOps header all look right.
+- The ADO items themselves are not touched by this script, so you can compare source and destination at any point.
