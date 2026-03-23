@@ -227,9 +227,14 @@ def migrate_work_item(
     project_priority = ADO_PRIORITY_TO_PROJECT_PRIORITY.get(ado_priority)
 
     # Resolve ADO area path → GitHub project Area single-select option name
-    # System.AreaPath value (e.g. "BusinessTools\Reveal\Data Sources") maps
-    # directly to the option names created by create_area_fields.py
+    # ADO values look like "BusinessTools\Reveal\Data Sources"; the GitHub
+    # field options were created without the leading "BusinessTools\" segment,
+    # so strip it before mapping.
     area_path = work_item.get("fields", {}).get("System.AreaPath")
+    if area_path:
+        prefix = "BusinessTools\\"
+        if area_path.startswith(prefix):
+            area_path = area_path[len(prefix):]
 
     issue_node_id = gh_issue.get("node_id", "")
     for proj_num in GH_PROJECT_NUMBERS:

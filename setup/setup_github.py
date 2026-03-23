@@ -151,5 +151,5 @@ if __name__ == "__main__":
         sys.exit(0 if ok else 1)
     else:
         setup_labels()
-        setup_milestones()
+        # setup_milestones() # Optional: milestones are not strictly required for migration, but can be set up if desired
         print("✅ GitHub repository is ready for migration.")
