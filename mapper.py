@@ -3,6 +3,8 @@ import html
 from config import (
     WORK_ITEM_TYPE_LABELS,
     PRIORITY_LABELS,
+    SEVERITY_LABELS,
+    TRIAGE_LABELS,
     STATE_LABELS,
     CLOSED_STATES,
 )
@@ -32,19 +34,28 @@ def _get_field(work_item: dict, field: str, default=None):
 def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
     """Constructs a rich GitHub Issue body from an ADO work item."""
     fields = work_item.get("fields", {})
-    wi_id        = work_item.get("id")
-    wi_type      = fields.get("System.WorkItemType", "Unknown")
-    description  = _strip_html(fields.get("System.Description", ""))
-    acceptance   = _strip_html(fields.get("Microsoft.VSTS.Common.AcceptanceCriteria", ""))
-    repro_steps  = _strip_html(fields.get("Microsoft.VSTS.Common.ReproSteps", ""))
-    test_steps   = _strip_html(fields.get("Microsoft.VSTS.TCM.Steps", ""))
-    area         = fields.get("System.AreaPath", "")
-    iteration    = fields.get("System.IterationPath", "")
-    created_by   = fields.get("System.CreatedBy", {})
-    created_date = fields.get("System.CreatedDate", "")
-    tags         = fields.get("System.Tags", "")
-    priority     = fields.get("Microsoft.VSTS.Common.Priority", "")
-    state        = fields.get("System.State", "")
+    wi_id           = work_item.get("id")
+    wi_type         = fields.get("System.WorkItemType", "Unknown")
+    description     = _strip_html(fields.get("System.Description", ""))
+    acceptance      = _strip_html(fields.get("Microsoft.VSTS.Common.AcceptanceCriteria", ""))
+    repro_steps     = _strip_html(fields.get("Microsoft.VSTS.TCM.ReproSteps", ""))
+    symptom         = _strip_html(fields.get("Microsoft.VSTS.CMMI.Symptom", ""))
+    expected_result = _strip_html(fields.get("Custom.Infragistics_ExpectedResult", ""))
+    category          = fields.get("Custom.Infragistics_Category", "")
+    regression        = fields.get("Custom.Infragistics_Regression", "")
+    visibility        = fields.get("Custom.Infragistics_Visibility", "")
+    reason            = fields.get("System.Reason", "")
+    triage            = fields.get("Microsoft.VSTS.Common.Triage", "")
+    resolved_reason   = fields.get("Microsoft.VSTS.Common.ResolvedReason", "")
+    priority          = fields.get("Microsoft.VSTS.Common.Priority", "")
+    severity          = fields.get("Microsoft.VSTS.Common.Severity", "")
+    activity          = fields.get("Microsoft.VSTS.Common.Activity", "")
+    area            = fields.get("System.AreaPath", "")
+    iteration       = fields.get("System.IterationPath", "")
+    created_by      = fields.get("System.CreatedBy", {})
+    created_date    = fields.get("System.CreatedDate", "")
+    tags            = fields.get("System.Tags", "")
+    state           = fields.get("System.State", "")
 
     ado_url = (
         f"https://dev.azure.com/{ado_org}/{ado_project}/_workitems/edit/{wi_id}"
@@ -60,38 +71,83 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
     ]
 
     if description:
-        lines += ["## 📋 Description", "", description, ""]
+        lines += ["## Description", "", description, ""]
 
     if repro_steps:
-        lines += ["## 🐛 Repro Steps", "", repro_steps, ""]
+        lines += ["## Repro Steps", "", repro_steps, ""]
+
+    if symptom:
+        lines += ["## Symptom", "", symptom, ""]
+
+    if expected_result:
+        lines += ["## Expected Result", "", expected_result, ""]
 
     if acceptance:
-        lines += ["## ✅ Acceptance Criteria", "", acceptance, ""]
+        lines += ["## Acceptance Criteria", "", acceptance, ""]
 
-    if test_steps:
-        lines += ["## 🧪 Test Steps", "", test_steps, ""]
+    # Metadata table — build rows explicitly to avoid duplicates
+    meta_rows = [
+        ("ADO ID",         f"#{wi_id}"),
+        ("Type",           wi_type),
+        ("State",          state),
+        ("Reason",         reason),
+        # Planning
+        ("Triage",         triage),
+        ("Resolved Reason",resolved_reason),
+        ("Priority",       str(priority) if priority else ""),
+        ("Severity",       severity),
+        ("Activity",       activity),
+        # ── Classification ────────────────────────────────────────────
+        ("Area Path",      area),
+        ("Iteration",      iteration),
+        ("Category",       str(category) if category else ""),
+        ("Regression",     str(regression) if regression else ""),
+        ("Visibility",     str(visibility) if visibility else ""),
+        # Origin
+        ("Created By",     created_by_name),
+        ("Created Date",   created_date[:10] if created_date else ""),
+        ("Tags",           tags),
+    ]
 
-    # Metadata table
     lines += [
         "---",
-        "### 🗂️ ADO Metadata",
+        "### ADO Metadata",
         "",
         "| Field | Value |",
         "|---|---|",
-        f"| **ADO ID** | #{wi_id} |",
-        f"| **Type** | {wi_type} |",
-        f"| **State** | {state} |",
-        f"| **Priority** | {priority} |",
-        f"| **Area Path** | {area} |",
-        f"| **Iteration** | {iteration} |",
-        f"| **Created By** | {created_by_name} |",
-        f"| **Created Date** | {created_date[:10] if created_date else ''} |",
     ]
-
-    if tags:
-        lines.append(f"| **Tags** | {tags} |")
+    for label, value in meta_rows:
+        if value:
+            lines.append(f"| **{label}** | {value} |")
 
     return "\n".join(lines)
+
+
+# Scheduling fields that distinguish a real Task from a User Story/Feature
+_TASK_SCHEDULING_FIELDS = (
+    "Microsoft.VSTS.Scheduling.CompletedWork",
+    "Microsoft.VSTS.Scheduling.OriginalEstimate",
+    "Microsoft.VSTS.Scheduling.RemainingWork",
+)
+
+
+def resolve_github_type(work_item: dict) -> str:
+    """
+    Returns the GitHub type label for a work item.
+    Both real Tasks and User Stories appear as System.WorkItemType=Task in ADO.
+    Tasks have scheduling fields; User Stories / Features do not.
+    """
+    fields = work_item.get("fields", {})
+    wi_type = fields.get("System.WorkItemType", "")
+    if wi_type == "Bug":
+        return "type: bug"
+    if wi_type == "Task":
+        has_scheduling = any(
+            fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
+        )
+        return "type: task" if has_scheduling else "type: feature"
+    # Fallback: use the existing label mapping if available
+    return f"type: {WORK_ITEM_TYPE_LABELS.get(wi_type, wi_type.lower().replace(' ', '-'))}"
 
 
 def build_labels(work_item: dict) -> list[str]:
@@ -99,15 +155,25 @@ def build_labels(work_item: dict) -> list[str]:
     fields = work_item.get("fields", {})
     labels = []
 
-    # Work item type
-    wi_type = fields.get("System.WorkItemType", "")
-    if wi_type in WORK_ITEM_TYPE_LABELS:
-        labels.append(WORK_ITEM_TYPE_LABELS[wi_type])
+    # GitHub type (Bug / Task / Feature)
+    labels.append(resolve_github_type(work_item))
 
     # Priority
     priority = fields.get("Microsoft.VSTS.Common.Priority")
     if priority in PRIORITY_LABELS:
         labels.append(PRIORITY_LABELS[priority])
+
+    # Severity
+    severity = fields.get("Microsoft.VSTS.Common.Severity", "")
+    severity_label = SEVERITY_LABELS.get(severity)
+    if severity_label:
+        labels.append(severity_label)
+
+    # Triage
+    triage = fields.get("Microsoft.VSTS.Common.Triage", "")
+    triage_label = TRIAGE_LABELS.get(triage)
+    if triage_label:
+        labels.append(triage_label)
 
     # State
     state = fields.get("System.State", "")

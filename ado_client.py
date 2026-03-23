@@ -43,23 +43,6 @@ def get_work_items_batch(ids: list[int]) -> list[dict]:
     )
     payload = {
         "ids": ids,
-        "fields": [
-            "System.Id",
-            "System.Title",
-            "System.Description",
-            "System.WorkItemType",
-            "System.State",
-            "System.AssignedTo",
-            "System.CreatedBy",
-            "System.CreatedDate",
-            "System.ChangedDate",
-            "System.AreaPath",
-            "System.IterationPath",
-            "System.Tags",
-            "Microsoft.VSTS.Common.Priority",
-            "Microsoft.VSTS.Common.AcceptanceCriteria",
-            "System.Parent",
-        ],
         "errorPolicy": "omit",
     }
     response = requests.post(url, json=payload, headers=_headers())
@@ -91,6 +74,25 @@ def get_iterations() -> list[dict]:
     response = requests.get(url, headers=_headers())
     response.raise_for_status()
     return response.json().get("value", [])
+
+
+def discover_work_item_fields(work_item_id: int) -> list[dict]:
+    """
+    Fetches a single work item with ALL fields expanded and returns a sorted
+    list of {referenceName, value} dicts — useful for finding custom
+    field reference names.
+    """
+    url = (
+        f"{ADO_BASE_URL}/wit/workitems/{work_item_id}"
+        f"?$expand=all&api-version={ADO_API_VER}"
+    )
+    response = requests.get(url, headers=_headers())
+    response.raise_for_status()
+    fields = response.json().get("fields", {})
+    return sorted(
+        [{"referenceName": k, "value": v} for k, v in fields.items()],
+        key=lambda x: x["referenceName"],
+    )
 
 
 def fetch_all_work_items() -> list[dict]:

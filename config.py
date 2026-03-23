@@ -43,6 +43,21 @@ PRIORITY_LABELS = {
     4: "priority: low",
 }
 
+# Map ADO severity values → GitHub label names
+SEVERITY_LABELS = {
+    "1 - Critical": "severity: critical",
+    "2 - High":     "severity: high",
+    "3 - Medium":   "severity: medium",
+    "4 - Low":      "severity: low",
+}
+
+# Map ADO triage values → GitHub label names
+TRIAGE_LABELS = {
+    "Pending":       "triage: pending",
+    "Info Received": "triage: info-received",
+    "Triaged":       "triage: triaged",
+}
+
 # Map ADO states → GitHub label names
 STATE_LABELS = {
     "Active":      "state: active",

@@ -6,7 +6,7 @@ Tracks progress in state.json to support resume-on-failure.
 import json
 import time
 import os
-from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch
+from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields
 from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
 from config import ADO_ORG, ADO_PROJECT
@@ -146,17 +146,35 @@ def migrate_test(ado_id: int):
     print(f"   Description: {description[:200]}{'...' if len(description or '') > 200 else ''}")
     print()
 
-    print(f"🧪 Test-migrating ADO #{ado_id}: {title[:60]}...")
+    # ── Dry-run: build and print the GitHub issue payload without submitting ──
+    issue_title  = f"[ADO #{ado_id}] {title}"
+    issue_body   = build_issue_body(work_item, ADO_ORG, ADO_PROJECT)
+    issue_labels = build_labels(work_item) + ["migrated-from-ado"]
+    will_close   = should_close(work_item)
 
-    try:
-        gh_issue_number = migrate_work_item(work_item, state)
-        print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
-    except Exception as e:
-        print(f"   ❌ Error migrating ADO #{ado_id}: {e}")
+    comments = get_work_item_comments(ado_id)
+    comment_bodies = [build_comment_body(c) for c in comments]
 
+    print("=" * 60)
+    print("  DRY-RUN: GitHub issue that would be created")
+    print("=" * 60)
+    print(f"\n📌 TITLE:\n   {issue_title}\n")
+    print(f"🏷️  LABELS:\n   {', '.join(issue_labels)}\n")
+    print(f"🔒 WILL BE CLOSED: {will_close}\n")
+    print("─" * 60)
+    print("📄 BODY:")
+    print("─" * 60)
+    print(issue_body)
+    if comment_bodies:
+        print()
+        print(f"─" * 60)
+        print(f"💬 COMMENTS ({len(comment_bodies)}):")
+        for i, cb in enumerate(comment_bodies, 1):
+            print(f"─ comment {i} ─")
+            print(cb)
     print()
     print("=" * 60)
-    print(f"  Test migration complete! State saved to: {STATE_FILE}")
+    print("  Dry-run complete. Nothing was submitted to GitHub.")
     print("=" * 60)
 
 
@@ -213,10 +231,41 @@ def migrate():
     print("=" * 60)
 
 
+def discover(ado_id: int):
+    """Print all field reference names and values for a given ADO work item."""
+    HIGHLIGHT_KEYWORDS = {"symptom", "repro", "expected", "result", "steps", "acceptance"}
+
+    fields = discover_work_item_fields(ado_id)
+
+    print(f"\n🔍 All fields for ADO work item #{ado_id}:\n")
+    print(f"  {'Reference Name':<60} Value")
+    print(f"  {'-'*59} -----")
+
+    highlighted = []
+    for f in fields:
+        ref  = f["referenceName"]
+        val  = str(f["value"] or "")[:80]
+        low  = ref.lower()
+        mark = ""
+        if any(kw in low for kw in HIGHLIGHT_KEYWORDS):
+            mark = "  ◀ CUSTOM FIELD"
+            highlighted.append(ref)
+        print(f"  {ref:<60} {val}{mark}")
+
+    print(f"\n✅ {len(fields)} fields found.")
+    if highlighted:
+        print(f"\n⭐ Likely custom fields matching your target labels:")
+        for ref in highlighted:
+            print(f"   {ref}")
+    print(f"\nCopy the reference names above into ado_client.py's fields list.\n")
+
+
 if __name__ == "__main__":
     import sys
 
     if len(sys.argv) >= 3 and sys.argv[1] == "test":
         migrate_test(int(sys.argv[2]))
+    elif len(sys.argv) >= 3 and sys.argv[1] == "discover":
+        discover(int(sys.argv[2]))
     else:
         migrate()
