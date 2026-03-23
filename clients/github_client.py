@@ -14,22 +14,43 @@ def _headers():
 
 
 def _graphql(query: str, variables: dict | None = None) -> dict:
-        payload = {"query": query}
-        if variables:
-                payload["variables"] = variables
-        r = requests.post(
-                GRAPHQL_URL,
-                json=payload,
-                headers={
-                        "Authorization": f"Bearer {GH_TOKEN}",
-                        "Content-Type": "application/json",
-                },
-        )
+    payload = {"query": query}
+    if variables:
+        payload["variables"] = variables
+    gql_headers = {
+        "Authorization": f"Bearer {GH_TOKEN}",
+        "Content-Type": "application/json",
+    }
+    for attempt in range(5):
+        r = requests.post(GRAPHQL_URL, json=payload, headers=gql_headers)
+        # GitHub returns 429 for secondary rate limits on GraphQL too
+        if r.status_code == 429:
+            wait = int(r.headers.get("Retry-After", 60))
+            print(f"⏳ GraphQL secondary rate limit (429). Waiting {wait}s...")
+            time.sleep(wait)
+            continue
+        # Some secondary limits come back as 403
+        if r.status_code == 403 and (
+            "Retry-After" in r.headers or "rate limit" in r.text.lower()
+        ):
+            retry_after = int(r.headers.get("Retry-After", 0))
+            reset_time  = int(r.headers.get("X-RateLimit-Reset", time.time() + 60))
+            wait = retry_after if retry_after else max(reset_time - int(time.time()), 10)
+            print(f"⏳ GraphQL rate limit (403). Waiting {wait}s...")
+            time.sleep(wait)
+            continue
+        # Transient server errors
+        if r.status_code >= 500 and attempt < 4:
+            wait = 5 * (2 ** attempt)  # 5, 10, 20, 40 s
+            print(f"⏳ GraphQL server error {r.status_code}. Retrying in {wait}s...")
+            time.sleep(wait)
+            continue
         r.raise_for_status()
         body = r.json()
         if "errors" in body and "data" not in body:
-                raise RuntimeError(f"GraphQL errors: {body['errors']}")
+            raise RuntimeError(f"GraphQL errors: {body['errors']}")
         return body
+    raise RuntimeError("GraphQL request failed after retries")
 
 
 def _get_issue_type_id_by_name(type_name: str) -> str | None:
@@ -74,14 +95,44 @@ def _set_issue_type(issue_node_id: str, type_name: str):
         _graphql(mutation, {"issueId": issue_node_id, "issueTypeId": issue_type_id})
 
 
-def _handle_rate_limit(response: requests.Response):
-    """Pauses execution if GitHub rate limit is hit."""
-    if response.status_code == 403 and "rate limit" in response.text.lower():
-        reset_time = int(response.headers.get("X-RateLimit-Reset", time.time() + 60))
-        wait = max(reset_time - int(time.time()), 10)
-        print(f"⏳ Rate limit hit. Waiting {wait}s...")
+def _handle_rate_limit(response: requests.Response) -> bool:
+    """
+    Pauses execution if GitHub rate limit is hit. Returns True if the caller
+    should retry the request.
+
+    Handles:
+    - HTTP 429  — secondary rate limit (Retry-After header)
+    - HTTP 403  — secondary/primary rate limit (Retry-After or X-RateLimit-Reset)
+    - Low X-RateLimit-Remaining — proactively sleeps until the window resets
+      so we never saturate the quota mid-run.
+    """
+    if response.status_code == 429:
+        # Secondary rate limit – GitHub always includes Retry-After on 429
+        wait = int(response.headers.get("Retry-After", 60))
+        print(f"⏳ Secondary rate limit (429). Waiting {wait}s...")
         time.sleep(wait)
         return True
+
+    if response.status_code == 403 and (
+        "Retry-After" in response.headers or "rate limit" in response.text.lower()
+    ):
+        retry_after = int(response.headers.get("Retry-After", 0))
+        reset_time  = int(response.headers.get("X-RateLimit-Reset", time.time() + 60))
+        wait = retry_after if retry_after else max(reset_time - int(time.time()), 10)
+        print(f"⏳ Rate limit hit (403). Waiting {wait}s...")
+        time.sleep(wait)
+        return True
+
+    # Proactive: when fewer than 50 requests remain in the current window,
+    # sleep until the window resets rather than hammering the API.
+    remaining = response.headers.get("X-RateLimit-Remaining")
+    if remaining is not None and int(remaining) < 50:
+        reset_time = int(response.headers.get("X-RateLimit-Reset", time.time() + 30))
+        wait = max(reset_time - int(time.time()), 5)
+        print(f"⏳ Rate limit nearly exhausted ({remaining} remaining). Pausing {wait}s...")
+        time.sleep(wait)
+        # Request succeeded – don't retry, just continue after the sleep
+
     return False
 
 
@@ -174,8 +225,12 @@ def create_issue(
 
 def close_issue(issue_number: int):
     url = f"{GH_BASE_URL}/issues/{issue_number}"
-    r = requests.patch(url, json={"state": "closed"}, headers=_headers())
-    r.raise_for_status()
+    while True:
+        r = requests.patch(url, json={"state": "closed"}, headers=_headers())
+        if _handle_rate_limit(r):
+            continue
+        r.raise_for_status()
+        return
 
 
 def list_labels() -> list[str]:

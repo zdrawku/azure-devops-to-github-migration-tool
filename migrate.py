@@ -208,7 +208,7 @@ def migrate_work_item(
     for comment in comments:
         comment_body = build_comment_body(comment)
         add_comment(gh_issue_number, comment_body)
-        time.sleep(0.3)  # Be gentle with the API
+        time.sleep(1)  # Stay well under GitHub secondary rate limits
 
     # Close the issue if it was Done/Closed/Resolved in ADO
     if should_close(work_item):
@@ -576,7 +576,7 @@ def migrate():
             success_count += 1
             errors.pop(str(ado_id), None)  # Clear from error ledger on success
             save_errors(errors)
-            time.sleep(0.5)  # Avoid secondary rate limits
+            time.sleep(2)  # ~2s between items keeps us well under GitHub's 5 000 req/hr limit
 
         except Exception as e:
             error_msg = str(e)

@@ -610,3 +610,50 @@ Check a few real `System.AssignedTo.displayName` values from your ADO data again
 - Check `migration_errors.json`. If it is non-empty, fix the root cause and re-run — failed items are retried automatically.
 - Spot-check 5–10 random issues on GitHub: confirm labels, closed state, comments, and the `> Migrated from Azure DevOps` header.
 - ADO work items are never modified by this script, so you can compare source and destination freely.
+
+## Rate Limit Considerations
+GitHub’s secondary rate limit is roughly 80–100 write requests per minute. With 2 500 items the default sleeps (`0.5 s` between items, `0.3 s` between comments) should stay under the limit, but slow down the sleeps if you see `429` / `403` errors.
+
+Per-item API call costs (for 2663 items):
+
+1 POST /issues + ~2 POST /issues/{n}/comments + close_issue (if closed) = ~4 REST calls
+Per project × 2: addProjectV2ItemById + set iteration + set Priority + set Area + set issue type = ~10 GraphQL mutations
+~14 API calls per item × 2663 = ~37,000 calls
+
+GitHub's REST and GraphQL limits are both 5,000 requests/hour, so this run needs ~7.5 hours at full speed — well over your overnight window unless you throttle. Current sleep of 0.5s between items is way too aggressive and will trigger secondary rate limits. At ~2s between items the run takes ~1.5h in sleep alone, comfortably within limits.
+
+### Current gaps that will kill an overnight run:
+
+_handle_rate_limit doesn't handle HTTP 429 (secondary rate limit), only 403
+_graphql has zero rate-limit handling — GraphQL mutations are the majority of calls
+close_issue has no retry loop at all
+ADO client has zero retry logic — a single 429 from ADO crashes the whole run
+Inter-item sleep is only 0.5s (too fast — GitHub secondary limits kick in)
+
+### Changes made
+
+#### [clients/github_client.py](clients/github_client.py)
+
+| Fix | Where | Why |
+|---|---|---|
+| `_handle_rate_limit` now catches **HTTP 429** with `Retry-After` header | All REST callers | GitHub secondary rate limits return 429, not just 403 |
+| `_handle_rate_limit` handles **403 with `Retry-After`** (secondary limit) | All REST callers | GitHub's secondary limit can return 403 + `Retry-After` without "rate limit" in the body |
+| **Proactive quota check**: sleeps until reset when `X-RateLimit-Remaining < 50` | All REST callers | Prevents ever exhausting the quota mid-run |
+| `_graphql` now has a **retry loop** (429 → wait, 403 → wait, 5xx → exponential backoff) | All GraphQL mutations (project, issue type, parent link) | GraphQL calls are the majority of API calls and had zero retry logic |
+| `close_issue` now has a `while True` **retry loop** like `create_issue`/`add_comment` | Closing resolved items | Had no rate-limit recovery at all |
+
+#### [clients/ado_client.py](clients/ado_client.py)
+
+| Fix | Where |
+|---|---|
+| New `_ado_request()` helper: retries on **429 + Retry-After** and **5xx with exponential backoff** | `get_all_work_item_ids`, `get_work_items_batch`, `get_work_item_comments` |
+
+#### [migrate.py](migrate.py)
+
+| Change | Before → After | Reason |
+|---|---|---|
+| Inter-item sleep | 0.5s → **2s** | 2663 × ~12 calls = ~32k API calls total. At 0.5s that's ~17k calls/hr, 3× over GitHub's 5,000/hr limit |
+| Per-comment sleep | 0.3s → **1s** | Items with many comments were bursting too fast |
+Time estimate at new pacing
+~2,663 items × ~3s per item (2s sleep + ~1s processing) ≈ 2.2 hours — comfortably fits in a 4–5 hour overnight window even if some items trigger waits.
+If rate limit waits do trigger, the script pauses and resumes automatically — state.json already checkpoints every item, so the run is fully resumable if anything goes wrong.
