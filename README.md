@@ -60,7 +60,7 @@ ADO_PAT=your-ado-personal-access-token
 GH_TOKEN=your-github-personal-access-token
 
 # ADO display name → GitHub username mapping (JSON)
-ADO_GH_USER_MAP={"Luis Pandolfi":"luispandolfi","Brian Lagunas":"brianlagunas"}
+ADO_GH_USER_MAP={"Ivan Ivanov":"ivanivanov", "Petkan Petkov":"petkanpetkov" }
 ```
 
 See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md#configuration) for detailed configuration instructions, including how to build the `ADO_GH_USER_MAP`.
