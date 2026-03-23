@@ -699,3 +699,24 @@ If rate limit waits do trigger, the script pauses and resumes automatically — 
 ~2,663 items × ~3s per item (2s sleep + ~1s processing) ≈ 2.2 hours
 
 If rate limit waits do trigger, the script pauses and resumes automatically — state.json already checkpoints every item, so the run is fully resumable if anything goes wrong
+
+# Helper methods
+
+Each function is now runnable directly from the terminal. Usage:
+
+**No arguments needed**
+python clients/ado_client.py get_all_work_item_ids
+python clients/ado_client.py fetch_all_work_items
+python clients/ado_client.py count_work_items_by_type
+python clients/ado_client.py get_iterations
+python clients/ado_client.py get_all_areas
+python clients/ado_client.py get_all_iterations
+
+**Require --id**
+python clients/ado_client.py get_work_item_comments --id 12345
+python clients/ado_client.py discover_work_item_fields --id 12345
+
+**Require --ids (one or more)**
+python clients/ado_client.py get_work_items_batch --ids 1 2 3 4 5
+
+All results are printed as formatted JSON. count_work_items_by_type gets a human-readable table instead since it returns a nested dict that's more readable that way.
