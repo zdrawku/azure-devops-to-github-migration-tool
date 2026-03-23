@@ -2,10 +2,13 @@
 Creates GitHub milestones from the ADO iteration list.
 
 Usage:
-    python create_milestones.py
+    python setup/create_milestones.py
 """
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
-from github_client import create_milestone, update_milestone, list_milestones
+from clients.github_client import create_milestone, update_milestone, list_milestones
 
 MILESTONES = [
     {"name": "Release - Feb 2023",   "start_date": "2023-01-02", "finish_date": "2023-02-28"},

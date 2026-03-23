@@ -2,12 +2,14 @@
 Run this script ONCE before migration to set up labels and milestones
 in the GitHub repository.
 
-  python setup_github.py           # create labels + milestones
-  python setup_github.py verify    # check which required labels are missing
+  python setup/setup_github.py           # create labels + milestones
+  python setup/setup_github.py verify    # check which required labels are missing
 """
 import sys
-from github_client import create_label, create_milestone, list_labels
-from ado_client import get_iterations
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from clients.github_client import create_label, create_milestone, list_labels
+from clients.ado_client import get_iterations
 from config import (
     WORK_ITEM_TYPE_LABELS,
     PRIORITY_LABELS,

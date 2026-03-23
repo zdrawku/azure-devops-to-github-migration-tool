@@ -1,4 +1,7 @@
-from ado_client import get_all_areas, get_all_iterations
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from clients.ado_client import get_all_areas, get_all_iterations
 import json
 
 # Fetch the full trees

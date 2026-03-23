@@ -12,7 +12,7 @@ Programmatic usage from other scripts:
 """
 import sys
 import json
-from github_client import list_milestones
+from clients.github_client import list_milestones
 
 
 def build_milestone_map() -> dict[str, int]:

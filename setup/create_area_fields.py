@@ -3,8 +3,8 @@ Create an "Area" custom field (Single Select) on every GitHub ProjectV2
 in the Infragistics-BusinessTools organisation.
 
 Usage:
-    python create_area_fields.py          # all projects
-    $ python create_area_fields.py 1 5
+    python setup/create_area_fields.py          # all projects
+    $ python setup/create_area_fields.py 1 5
 
 Fetching projects for org 'Infragistics-BusinessTools' …
 Found 5 project(s).
@@ -21,6 +21,8 @@ Done.
 """
 
 import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import time
 import requests
 from config import GH_TOKEN, GH_REPO_OWNER

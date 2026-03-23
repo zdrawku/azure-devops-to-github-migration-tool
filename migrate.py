@@ -9,8 +9,8 @@ import time
 import os
 import sys
 from datetime import datetime, timezone
-from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type, get_parent_ado_id
-from github_client import create_issue, close_issue, add_comment, add_issue_to_project, set_project_item_iteration, set_project_item_single_select, set_issue_parent
+from clients.ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type, get_parent_ado_id
+from clients.github_client import create_issue, close_issue, add_comment, add_issue_to_project, set_project_item_iteration, set_project_item_single_select, set_issue_parent
 from mapper import build_issue_body, build_labels, should_close, build_comment_body, resolve_github_issue_type_name
 from milestone_map import build_milestone_map, resolve_milestone
 from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP, GH_PROJECT_NUMBERS, ADO_ITERATION_TO_PROJECT_ITERATION, ADO_PRIORITY_TO_PROJECT_PRIORITY

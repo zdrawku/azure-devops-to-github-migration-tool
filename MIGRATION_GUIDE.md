@@ -4,6 +4,29 @@ This document describes how Azure DevOps (ADO) work items are migrated to GitHub
 
 ---
 
+## Project Structure
+
+```
+ado-to-github-migration/
+├── clients/                    # API client modules
+│   ├── ado_client.py           #   Azure DevOps REST API helpers
+│   └── github_client.py        #   GitHub REST + GraphQL helpers
+├── setup/                      # One-time setup & utility scripts
+│   ├── setup_github.py         #   Create all required labels
+│   ├── create_milestones.py    #   Create GitHub milestones from ADO iterations
+│   ├── create_area_fields.py   #   Add 'Area' custom field to GitHub ProjectsV2
+│   └── fetch_areas_and_iterations.py  # Print ADO area/iteration trees (debug)
+├── config.py                   # All env-var config and label/state mappings
+├── mapper.py                   # ADO work item → GitHub issue field mapper
+├── milestone_map.py            # ADO iteration path → GitHub milestone number
+├── migrate.py                  # Main migration entry point
+├── state.json                  # Migration progress tracker (auto-generated)
+├── migration_errors.json       # Error ledger (auto-generated)
+└── requirements.txt
+```
+
+---
+
 ## Commands
 
 ### migrate.py
@@ -16,18 +39,31 @@ This document describes how Azure DevOps (ADO) work items are migrated to GitHub
 | `python migrate.py single <ADO_ID>` | **Single item migration** — creates a GitHub issue for one specific ADO work item, updates `state.json`, and returns the GitHub issue number |
 | `python migrate.py discover <ADO_ID>` | **Field discovery** — prints every ADO field reference name and value for a work item; useful for identifying custom fields |
 
-### setup_github.py
+### setup/setup_github.py
 
 | Command | Description |
 |---|---|
-| `python setup_github.py` | **Setup** — creates all required GitHub labels and milestones. Only labels that do not already exist in the repo are created; existing ones are reported and skipped. |
-| `python setup_github.py verify` | **Verify** — compares the labels the migration will apply against what is currently in the GitHub repo. Prints a clear Present / Missing / Extra report. Exits with code `1` if any required label is absent. |
+| `python setup/setup_github.py` | **Setup** — creates all required GitHub labels and milestones. Only labels that do not already exist in the repo are created; existing ones are reported and skipped. |
+| `python setup/setup_github.py verify` | **Verify** — compares the labels the migration will apply against what is currently in the GitHub repo. Prints a clear Present / Missing / Extra report. Exits with code `1` if any required label is absent. |
+
+### setup/create_milestones.py
+
+| Command | Description |
+|---|---|
+| `python setup/create_milestones.py` | Creates or updates GitHub milestones from the hardcoded ADO iteration list. Safe to re-run — existing milestones are updated, not duplicated. |
+
+### setup/create_area_fields.py
+
+| Command | Description |
+|---|---|
+| `python setup/create_area_fields.py` | Adds an `Area` Single Select custom field to all GitHub ProjectsV2 in the org. |
+| `python setup/create_area_fields.py 1 5` | Limits the operation to projects with those numbers. |
 
 ---
 
 ## Inspecting Areas & Iterations
 
-Two utility functions in `ado_client.py` let you fetch the full area-path and iteration trees directly from the ADO Classification Nodes API.
+Two utility functions in `clients/ado_client.py` let you fetch the full area-path and iteration trees directly from the ADO Classification Nodes API.
 
 | Function | REST Endpoint |
 |---|---|
@@ -39,7 +75,7 @@ Both return the raw ADO response dict with nested `children` lists. The `depth` 
 ### Usage
 
 ```python
-from ado_client import get_all_areas, get_all_iterations
+from clients.ado_client import get_all_areas, get_all_iterations
 import json
 
 # Fetch the full trees
