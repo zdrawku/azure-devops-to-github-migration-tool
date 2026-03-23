@@ -49,6 +49,14 @@ def create_milestone(title: str, description: str = "", due_on: str = None) -> i
     return r.json()["number"]
 
 
+def update_milestone(milestone_number: int, **fields) -> dict:
+    """Updates a milestone. Accepts any PATCH-able fields (description, due_on, etc.)."""
+    url = f"{GH_BASE_URL}/milestones/{milestone_number}"
+    r = requests.patch(url, json=fields, headers=_headers())
+    r.raise_for_status()
+    return r.json()
+
+
 def list_milestones() -> list[dict]:
     url = f"{GH_BASE_URL}/milestones?state=all&per_page=100"
     print(f"   [DEBUG] GET {url}")
@@ -65,6 +73,7 @@ def create_issue(
     body: str,
     labels: list[str],
     assignees: list[str],
+    milestone: int | None = None,
 ) -> dict:
     url = f"{GH_BASE_URL}/issues"
     payload = {
@@ -73,6 +82,8 @@ def create_issue(
         "labels": labels,
         "assignees": assignees,
     }
+    if milestone is not None:
+        payload["milestone"] = milestone
 
     print(f"   [DEBUG] POST {url}")
     print(f"   [DEBUG] Title: {title[:80]}")

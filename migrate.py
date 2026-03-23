@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type
 from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
+from milestone_map import build_milestone_map, resolve_milestone
 from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP
 
 STATE_FILE  = "state.json"
@@ -114,7 +115,7 @@ def iteration_to_sprint(iteration_path: str) -> str | None:
 
 # ── Migrate a single work item ────────────────────────────────────────────────
 
-def migrate_work_item(work_item: dict, state: dict) -> int:
+def migrate_work_item(work_item: dict, state: dict, ms_map: dict[str, int] | None = None) -> int:
     """
     Migrates one ADO work item to a GitHub issue.
     Returns the created GitHub issue number.
@@ -133,12 +134,17 @@ def migrate_work_item(work_item: dict, state: dict) -> int:
     gh_username = resolve_github_username(display_name)
     assignees = [gh_username] if gh_username else []
 
+    # Resolve milestone from ADO iteration path
+    iteration_path = work_item.get("fields", {}).get("System.IterationPath", "")
+    milestone = resolve_milestone(iteration_path, ms_map) if ms_map else None
+
     # Create the GitHub issue
     gh_issue = create_issue(
         title=f"[ADO #{ado_id}] {title}",
         body=body,
         labels=labels,
         assignees=assignees,
+        milestone=milestone,
     )
     gh_issue_number = gh_issue["number"]
 
@@ -268,6 +274,11 @@ def migrate():
         print(f"⚠️  {len(errors)} item(s) previously failed — they will be retried.")
     print()
 
+    # Build milestone mapping from GitHub
+    print("🗓️  Loading GitHub milestone mapping...")
+    ms_map = build_milestone_map()
+    print(f"   {len(ms_map)} milestone(s) mapped.\n")
+
     # Fetch all ADO work items
     all_items = fetch_all_work_items()
 
@@ -289,7 +300,7 @@ def migrate():
         print(f"[{idx}/{len(pending)}] Migrating ADO #{ado_id}: {title[:60]}...")
 
         try:
-            gh_issue_number = migrate_work_item(work_item, state)
+            gh_issue_number = migrate_work_item(work_item, state, ms_map)
             print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
             success_count += 1
             errors.pop(str(ado_id), None)  # Clear from error ledger on success

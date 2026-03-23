@@ -340,6 +340,8 @@ Milestones:
   }
 ]
 
+Milestone mapper function was created to map the ported issues to the appropriate Milestone.
+
 ---
 
 ## Work Item Type Mapping
