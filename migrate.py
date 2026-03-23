@@ -9,9 +9,42 @@ import os
 from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields
 from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
-from config import ADO_ORG, ADO_PROJECT
+from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP
 
 STATE_FILE = "state.json"
+
+# ── ADO name → GitHub username resolver ─────────────────────────────────────
+
+def resolve_github_username(display_name: str) -> str | None:
+    """
+    Fuzzy-match an ADO display name (e.g. 'Zdravko Kolev', 'Z Kolev', 'Zdravko K')
+    against the ADO_GH_USER_MAP keys and return the corresponding GitHub username.
+    Matches when both the first-name token and last-name token are satisfied
+    by either a full word match or a single-initial match.
+    """
+    if not display_name:
+        return None
+
+    display_parts = set(display_name.lower().split())
+
+    for full_name, gh_username in ADO_GH_USER_MAP.items():
+        name_parts = full_name.lower().split()
+        if len(name_parts) < 2:
+            continue
+        first, last = name_parts[0], name_parts[-1]
+
+        first_match = first in display_parts or any(
+            p == first[0] for p in display_parts if len(p) == 1
+        )
+        last_match = last in display_parts or any(
+            p == last[0] for p in display_parts if len(p) == 1
+        )
+
+        if first_match and last_match:
+            return gh_username
+
+    return None
+
 
 # ── State / Resume support ───────────────────────────────────────────────────
 
@@ -53,14 +86,13 @@ def migrate_work_item(work_item: dict, state: dict) -> int:
     # Build GitHub issue fields
     body        = build_issue_body(work_item, ADO_ORG, ADO_PROJECT)
     labels      = build_labels(work_item) + ["migrated-from-ado"]
-    # Assignee: map ADO uniqueName to GitHub username if possible
-    # ⚠️ Update this mapping with your team's real GitHub usernames
+    # Assignee: resolve ADO display name to GitHub username via ADO_GH_USER_MAP
     assigned_to = work_item.get("fields", {}).get("System.AssignedTo", {})
-    assignee_email = (
-        assigned_to.get("uniqueName", "") if isinstance(assigned_to, dict) else ""
+    display_name = (
+        assigned_to.get("displayName", "") if isinstance(assigned_to, dict) else ""
     )
-    # Simple: strip domain from email as a best-effort guess, or leave empty
-    assignees = []  # Populate with your own ADO email → GH username map
+    gh_username = resolve_github_username(display_name)
+    assignees = [gh_username] if gh_username else []
 
     # Create the GitHub issue
     gh_issue = create_issue(

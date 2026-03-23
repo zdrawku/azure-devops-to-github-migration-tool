@@ -59,6 +59,10 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
     created_date    = fields.get("System.CreatedDate", "")
     tags            = fields.get("System.Tags", "")
     state           = fields.get("System.State", "")
+    assigned_to     = fields.get("System.AssignedTo", {})
+    story_points    = fields.get("Microsoft.VSTS.Scheduling.StoryPoints")
+    risk            = fields.get("Microsoft.VSTS.Common.Risk", "")
+    value_area      = fields.get("Microsoft.VSTS.Common.ValueArea", "")
 
     # Detect attachments from work item relations
     relations = work_item.get("relations") or []
@@ -73,9 +77,17 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
         created_by.get("displayName", "Unknown") if isinstance(created_by, dict)
         else str(created_by)
     )
+    assigned_to_name = (
+        assigned_to.get("displayName", "") if isinstance(assigned_to, dict)
+        else str(assigned_to) if assigned_to else ""
+    )
+
+    header_line = f"> **Migrated from Azure DevOps** · [{wi_type} #{wi_id}]({ado_url})"
+    if assigned_to_name:
+        header_line += f" · **Assigned To:** {assigned_to_name}"
 
     lines = [
-        f"> **Migrated from Azure DevOps** · [{wi_type} #{wi_id}]({ado_url})",
+        header_line,
         "",
     ]
 
@@ -93,6 +105,30 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
 
     if acceptance:
         lines += ["## Acceptance Criteria", "", acceptance, ""]
+
+    # Planning section — shown when at least one of story points, priority, or risk is present
+    planning_rows = [
+        ("Story Points", str(story_points) if story_points is not None else ""),
+        ("Priority",     str(priority) if priority else ""),
+        ("Risk",         risk),
+    ]
+    planning_values = [(label, val) for label, val in planning_rows if val]
+    if planning_values:
+        lines += ["## Planning", "", "| Field | Value |", "|---|---|"]
+        for label, val in planning_values:
+            lines.append(f"| **{label}** | {val} |")
+        lines.append("")
+
+    # Classification section — shown when Value Area is present
+    if value_area:
+        lines += [
+            "## Classification",
+            "",
+            "| Field | Value |",
+            "|---|---|",
+            f"| **Value Area** | {value_area} |",
+            "",
+        ]
 
     # Effort section — only shown when at least one scheduling field is present
     effort_rows = [

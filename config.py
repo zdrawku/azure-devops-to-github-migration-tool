@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,6 +16,10 @@ GH_TOKEN       = os.getenv("GH_TOKEN")          # GitHub PAT (repo + issues scop
 GH_REPO_OWNER  = "Infragistics-BusinessTools"
 GH_REPO_NAME   = "Reveal"
 GH_BASE_URL    = f"https://api.github.com/repos/{GH_REPO_OWNER}/{GH_REPO_NAME}"
+
+# ── User mapping ────────────────────────────────────────────────────────────
+# ADO display name → GitHub username (loaded from ADO_GH_USER_MAP in .env)
+ADO_GH_USER_MAP: dict[str, str] = json.loads(os.getenv("ADO_GH_USER_MAP", "{}"))
 
 # ── Migration settings ───────────────────────────────────────────────────────
 # How many work items to fetch per page from ADO
