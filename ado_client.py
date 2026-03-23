@@ -111,3 +111,38 @@ def fetch_all_work_items() -> list[dict]:
 
     print(f"✅ Fetched {len(all_items)} work items from ADO.\n")
     return all_items
+
+
+def count_work_items_by_type() -> tuple[int, dict[str, dict[str, int]]]:
+    """
+    Queries ADO for all work item IDs, then fetches only the Type and State
+    fields to produce a breakdown without doing a full migration fetch.
+
+    Returns (total_count, {WorkItemType: {State: count}}).
+    """
+    from collections import defaultdict
+
+    print("🔍 Fetching work item IDs from Azure DevOps...")
+    all_ids = get_all_work_item_ids()
+    total   = len(all_ids)
+    print(f"   Found {total} work items. Fetching type/state breakdown...\n")
+
+    counts: dict = defaultdict(lambda: defaultdict(int))
+
+    for i in range(0, total, BATCH_SIZE):
+        batch_ids = all_ids[i: i + BATCH_SIZE]
+        url = f"{ADO_BASE_URL}/wit/workitemsbatch?api-version={ADO_API_VER}"
+        payload = {
+            "ids": batch_ids,
+            "fields": ["System.WorkItemType", "System.State"],
+            "errorPolicy": "omit",
+        }
+        response = requests.post(url, json=payload, headers=_headers())
+        response.raise_for_status()
+        for item in response.json().get("value", []):
+            fields  = item.get("fields", {})
+            wi_type = fields.get("System.WorkItemType", "Unknown")
+            state   = fields.get("System.State",        "Unknown")
+            counts[wi_type][state] += 1
+
+    return total, {k: dict(v) for k, v in counts.items()}

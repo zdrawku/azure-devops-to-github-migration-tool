@@ -8,7 +8,7 @@ import logging
 import time
 import os
 from datetime import datetime, timezone
-from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields
+from ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type
 from github_client import create_issue, close_issue, add_comment
 from mapper import build_issue_body, build_labels, should_close, build_comment_body
 from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP
@@ -325,6 +325,42 @@ def migrate():
     print("=" * 60)
 
 
+def count_items():
+    """
+    Queries ADO for the full work item count broken down by type and state,
+    then compares against state.json to show how many are still pending.
+    Nothing is created or modified.
+    """
+    print("=" * 64)
+    print("  ADO Work Item Count Preview")
+    print("=" * 64)
+    print()
+
+    total, counts = count_work_items_by_type()
+    migration_state = load_state()
+    already_migrated = len(migration_state)
+
+    print(f"  {'Work Item Type':<28} {'State':<22} {'Count':>6}")
+    print(f"  {'─'*28} {'─'*22} {'─'*6}")
+
+    type_totals: dict[str, int] = {}
+    for wi_type in sorted(counts):
+        type_total = sum(counts[wi_type].values())
+        type_totals[wi_type] = type_total
+        for state_name in sorted(counts[wi_type]):
+            n = counts[wi_type][state_name]
+            print(f"  {wi_type:<28} {state_name:<22} {n:>6}")
+        print(f"  {'':28} {'  subtotal':<22} {type_total:>6}")
+        print()
+
+    print(f"  {'─'*58}")
+    print(f"  {'TOTAL (all types)':<51} {total:>6}")
+    print(f"  {'Already migrated (state.json)':<51} {already_migrated:>6}")
+    print(f"  {'Pending':<51} {total - already_migrated:>6}")
+    print()
+    print("=" * 64)
+
+
 def discover(ado_id: int):
     """Print all field reference names and values for a given ADO work item."""
     print(f"\n🔍 All fields for ADO work item #{ado_id}:\n")
@@ -344,5 +380,7 @@ if __name__ == "__main__":
         migrate_test(int(sys.argv[2]))
     elif len(sys.argv) >= 3 and sys.argv[1] == "discover":
         discover(int(sys.argv[2]))
+    elif len(sys.argv) >= 2 and sys.argv[1] == "count":
+        count_items()
     else:
         migrate()

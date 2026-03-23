@@ -6,11 +6,21 @@ This document describes how Azure DevOps (ADO) work items are migrated to GitHub
 
 ## Commands
 
+### migrate.py
+
 | Command | Description |
 |---|---|
-| `python migrate.py test <ADO_ID>` | Dry-run: prints the GitHub issue that would be created for one work item — nothing is submitted |
-| `python migrate.py discover <ADO_ID>` | Prints every ADO field reference name and value for a work item — useful for identifying custom fields |
-| `python migrate.py` | Full migration: migrates all pending work items, resuming from `state.json` |
+| `python migrate.py` | **Full migration** — migrates all pending work items, resuming from `state.json` |
+| `python migrate.py count` | **Count preview** — queries ADO and prints a breakdown of all work items by type and state, plus how many are already migrated vs. still pending. Nothing is created. |
+| `python migrate.py test <ADO_ID>` | **Dry-run** — prints the GitHub issue that would be created for one work item; nothing is submitted |
+| `python migrate.py discover <ADO_ID>` | **Field discovery** — prints every ADO field reference name and value for a work item; useful for identifying custom fields |
+
+### setup_github.py
+
+| Command | Description |
+|---|---|
+| `python setup_github.py` | **Setup** — creates all required GitHub labels and milestones. Only labels that do not already exist in the repo are created; existing ones are reported and skipped. |
+| `python setup_github.py verify` | **Verify** — compares the labels the migration will apply against what is currently in the GitHub repo. Prints a clear Present / Missing / Extra report. Exits with code `1` if any required label is absent. |
 
 ---
 
@@ -87,7 +97,13 @@ Labels are derived automatically from the following ADO fields:
 
 ### Issue Closure
 
-A GitHub issue is automatically **closed** after creation if the ADO work item state is one of: `Resolved`, `Closed`, `Done`, `Removed`.
+A GitHub issue is automatically **closed** after creation based on the work item type:
+
+| ADO Type | Closed when state is… |
+|---|---|
+| `Bug` | `Closed` only |
+| `Task` (maps to `type: task` or `type: feature` in GitHub) | `Closed` or `Removed` |
+| All other types (Epic, User Story, etc.) | `Closed`, `Done`, `Removed`, or `Resolved` |
 
 ### Comments
 
@@ -168,43 +184,72 @@ When a work item has one or more attachments, the generated GitHub issue display
 2. Download the attachments from the **Attachments** tab.
 3. Follow the [Attachment Migration Guide](https://github.com/Infragistics-BusinessTools/Reveal/wiki/ADO-to-GitHub-Migration-Guide) (GitHub Wiki) to commit them into the repository and link them back to the issue.
 
-## Fail-safe logging (migrate.py)
+---
 
-Two new artifacts are written automatically during every run:
+## Fail-safe Logging
+
+Every full migration run (`python migrate.py`) produces two artefacts:
 
 | File | Purpose |
 |---|---|
-| `migration.log` | Human-readable timestamped log — one line per success (ADO #X → GH #Y), one line per failure with the full error message, plus run-start / run-end lines. Appended on every run, so the full history is preserved. |
-| `migration_errors.json` | Machine-readable JSON ledger of unresolved failures. Contains `{ ado_id: { title, error, timestamp } }`. An item is removed from this file automatically the next time it migrates successfully, so the file always reflects exactly what still needs attention. |
+| `migration.log` | Human-readable timestamped log. One line per success (`ADO #X → GH #Y`), one line per failure with the full error message, plus run-start / run-end summary lines. Appended on every run so the full history is preserved. |
+| `migration_errors.json` | Machine-readable JSON ledger of **unresolved** failures: `{ "ado_id": { "title", "error", "timestamp" } }`. An entry is automatically removed the next time that item migrates successfully, so the file always reflects exactly what still needs attention. |
 
-On each run the console now shows how many items previously failed so you know upfront that retries are queued.
+On each run the console prints how many items previously failed, so you know upfront that retries are queued.
 
-## Type-aware should_close() (mapper.py)
+---
 
-ADO type	Closes when state is…
-Bug	Closed only
-Task (→ task and feature/user-story in GitHub)	Closed or Removed
-Everything else (Epic, User Story, etc.)	Closed, Done, Removed, Resolved (original broad set)
+## Pre-migration Checklist
 
-## Pre-mass-migration checklist
-These are the things that can cost you the most time or are hardest to fix after the fact:
+Run these steps in order before starting the full migration.
 
-### Before you run
+### 1. Count and inspect the work item scope
 
-- Dry-run a representative sample. Run python migrate.py test <id> on at least one Bug, one Task/Feature, and one closed item of each type to validate body formatting, label creation, and should_close logic before touching 2 500 items.
-- Enumerate the exact item count first. Add a quick WIQL query run (the same one get_all_work_item_ids() uses) without actually migrating, and confirm the number. The query WHERE [System.TeamProject] = @project has no date or type filter — if the BacklogTools project has sub-projects or archived items you don't expect, they show up here.
-- GitHub label pre-creation. The migration calls create_issue with labels that may not exist yet. GitHub silently drops unknown labels on issue creation. Run python setup_github.py (or whatever creates labels) and verify every label in WORK_ITEM_TYPE_LABELS, PRIORITY_LABELS, SEVERITY_LABELS, TRIAGE_LABELS, and STATE_LABELS actually exists in the repo before the run.
-- Validate the assignee list. Call resolve_github_username() against a sample of real displayName values from your ADO data. If any name variant doesn't match, the issue is created without an assignee — no error is thrown. Worth checking: accented characters, middle names, or nicknames in ADO.
-- GitHub secondary rate limit. With 2 500 items × (1 create_issue + N comments + maybe 1 close) API calls, you will approach or hit GitHub's secondary rate limit (roughly 80–100 write requests per minute for the REST API). The current time.sleep(0.5) between items and time.sleep(0.3) between comments helps, but if comments are numerous, slow it down further. A 429 or 403 with "secondary rate limit" in the body will show up as a logged error, and the item will be retried on the next run.
-- state.json is your safety net — back it up. The file is the only record of ADO ID → GitHub issue number mappings. Copy it somewhere safe before the run. If you need to re-run for any reason, missing entries here will cause duplicate issues.
+```bash
+python migrate.py count
+```
 
-### During the run
+Prints the exact number of work items that will be migrated, broken down by type and state, cross-referenced with `state.json` to show how many are still pending. Verify the total matches your expectations — the WIQL query fetches **all** work items in the project with no type or date filter.
 
-- Keep the terminal in view. Errors are printed in real time. If you see a burst of ❌ lines (e.g. a GitHub outage or token expiry), kill the process — the state and error ledger are saved after every individual item, so you lose at most one item's progress.
-- Watch migration.log in a second terminal (Get-Content migration.log -Wait on PowerShell) for a timestamped stream.
+### 2. Create and verify GitHub labels
 
-### After the run
+```bash
+# Create all missing labels (safe to run repeatedly — skips labels that already exist)
+python setup_github.py
 
-- Check migration_errors.json. If it's non-empty, fix the root cause (wrong token, missing label, rate limit) and re-run — the failed items will be retried automatically.
-- Verify a random 5–10 issues on GitHub: confirm labels, closed state, comments, and the > Migrated from Azure DevOps header all look right.
-- The ADO items themselves are not touched by this script, so you can compare source and destination at any point.
+# Confirm every label the migration will apply is present in the repo
+python setup_github.py verify
+```
+
+`setup_github.py` compares `LABELS_TO_CREATE` against the live GitHub repo and only calls the API for labels that are genuinely absent. `verify` cross-references the labels that `mapper.py` emits against the repo and exits with code `1` if anything is missing, making it easy to add to a pre-flight script.
+
+### 3. Dry-run at least one item of each type
+
+```bash
+python migrate.py test <BUG_ID>
+python migrate.py test <TASK_ID>
+python migrate.py test <FEATURE_ID>
+python migrate.py test <CLOSED_ID>
+```
+
+Verify the rendered body, label list, assignee, and `WILL BE CLOSED` flag for each type before touching 2 500 items.
+
+### 4. Validate assignee name matching
+
+Check a few real `System.AssignedTo.displayName` values from your ADO data against `resolve_github_username()`. Names with accented characters, middle names, or nicknames may not match any entry in `ADO_GH_USER_MAP`. When a name does not match the issue is created without an assignee — no error is thrown.
+
+### 5. Back up state.json before running
+
+`state.json` is the only record of `ado_id → github_issue_number` mappings. Copy it somewhere safe. If it is lost or corrupted you have no way to detect duplicates on a re-run.
+
+### 6. During the run
+
+- Keep the terminal in view — errors are printed in real time. If you see a burst of ❌ lines (GitHub outage, token expiry), kill the process. State and the error ledger are saved after **every individual item**, so you lose at most one item’s progress.
+- Monitor `migration.log` in a second terminal: `Get-Content migration.log -Wait`
+- GitHub’s secondary rate limit is roughly 80–100 write requests per minute. With 2 500 items the default sleeps (`0.5 s` between items, `0.3 s` between comments) should stay under the limit, but slow down the sleeps if you see `429` / `403` errors.
+
+### 7. After the run
+
+- Check `migration_errors.json`. If it is non-empty, fix the root cause and re-run — failed items are retried automatically.
+- Spot-check 5–10 random issues on GitHub: confirm labels, closed state, comments, and the `> Migrated from Azure DevOps` header.
+- ADO work items are never modified by this script, so you can compare source and destination freely.

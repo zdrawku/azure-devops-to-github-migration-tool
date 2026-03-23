@@ -256,7 +256,7 @@ def build_labels(work_item: dict) -> list[str]:
     for tag in tags_str.split(";"):
         tag = tag.strip()
         if tag:
-            labels.append(f"ado-tag: {tag}")
+            labels.append(f"{tag}")
 
     return labels
 

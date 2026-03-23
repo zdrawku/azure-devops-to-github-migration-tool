@@ -96,6 +96,27 @@ def close_issue(issue_number: int):
     r.raise_for_status()
 
 
+def list_labels() -> list[str]:
+    """Returns the names of all labels that currently exist in the repo."""
+    names = []
+    page  = 1
+    while True:
+        r = requests.get(
+            f"{GH_BASE_URL}/labels",
+            params={"per_page": 100, "page": page},
+            headers=_headers(),
+        )
+        r.raise_for_status()
+        batch = r.json()
+        if not batch:
+            break
+        names.extend(label["name"] for label in batch)
+        if len(batch) < 100:
+            break
+        page += 1
+    return names
+
+
 def add_comment(issue_number: int, body: str):
     url = f"{GH_BASE_URL}/issues/{issue_number}/comments"
     while True:
