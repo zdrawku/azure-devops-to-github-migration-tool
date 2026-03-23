@@ -50,12 +50,21 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
     priority          = fields.get("Microsoft.VSTS.Common.Priority", "")
     severity          = fields.get("Microsoft.VSTS.Common.Severity", "")
     activity          = fields.get("Microsoft.VSTS.Common.Activity", "")
+    original_estimate = fields.get("Microsoft.VSTS.Scheduling.OriginalEstimate")
+    remaining_work    = fields.get("Microsoft.VSTS.Scheduling.RemainingWork")
+    completed_work    = fields.get("Microsoft.VSTS.Scheduling.CompletedWork")
     area            = fields.get("System.AreaPath", "")
     iteration       = fields.get("System.IterationPath", "")
     created_by      = fields.get("System.CreatedBy", {})
     created_date    = fields.get("System.CreatedDate", "")
     tags            = fields.get("System.Tags", "")
     state           = fields.get("System.State", "")
+
+    # Detect attachments from work item relations
+    relations = work_item.get("relations") or []
+    attachment_count = sum(
+        1 for r in relations if r.get("rel") == "AttachedFile"
+    )
 
     ado_url = (
         f"https://dev.azure.com/{ado_org}/{ado_project}/_workitems/edit/{wi_id}"
@@ -84,6 +93,31 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
 
     if acceptance:
         lines += ["## Acceptance Criteria", "", acceptance, ""]
+
+    # Effort section — only shown when at least one scheduling field is present
+    effort_rows = [
+        ("Original Estimate", original_estimate),
+        ("Remaining",         remaining_work),
+        ("Completed",         completed_work),
+    ]
+    effort_values = [(label, val) for label, val in effort_rows if val is not None]
+    if effort_values:
+        lines += ["## Effort (Hours)", "", "| | Hours |", "|---|---|"]  
+        for label, val in effort_values:
+            lines.append(f"| **{label}** | {val} |")
+        lines.append("")
+
+
+    if attachment_count:
+        wiki_url = "https://github.com/Infragistics-BusinessTools/Reveal/wiki/ADO-to-GitHub-Migration-Guide"
+        lines += [
+            f"> [!WARNING]",
+            f"> **Attachments not migrated** — this work item had **{attachment_count} attachment(s)** in Azure DevOps.",
+            f"> They could not be transferred automatically due to GitHub API limitations.",
+            f"> Please retrieve them manually from the [original ADO work item]({ado_url}).",
+            f"> See the [Attachment Migration Guide]({wiki_url}) for step-by-step instructions.",
+            "",
+        ]
 
     # Metadata table — build rows explicitly to avoid duplicates
     meta_rows = [

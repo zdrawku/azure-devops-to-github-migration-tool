@@ -136,3 +136,35 @@ All configuration lives in `.env` (loaded via `python-dotenv`):
 | `GH_TOKEN` | GitHub PAT with **repo** and **issues** scopes |
 
 Label and state mappings are defined in `config.py` (`PRIORITY_LABELS`, `SEVERITY_LABELS`, `TRIAGE_LABELS`, `STATE_LABELS`, `CLOSED_STATES`).
+
+---
+
+## Known Issues and Limitations
+
+### Attachments — Not Automatically Migrated
+
+Attachments cannot be migrated automatically. GitHub's REST API has no endpoint for uploading files directly to an issue's attachment container, so the standard migration approach requires a three-step manual process.
+
+**Why it can't be automated end-to-end**
+
+| Phase | System | Action | API Used |
+|---|---|---|---|
+| 1. Discovery | Azure DevOps | Identify attachment URLs | Query work item with `?$expand=relations`, filter for `AttachedFile` |
+| 2. Extraction | Azure DevOps | Download the binary | Authenticated `GET` to the attachment URL |
+| 3. Migration | GitHub | Upload & link | `PUT` the file into the repo via the Contents API, then append the resulting URL to the issue body |
+
+**What the migration script does instead**
+
+When a work item has one or more attachments, the generated GitHub issue displays a warning banner:
+
+> ⚠️ **Attachments not migrated** — this work item had N attachment(s) in Azure DevOps.  
+> They could not be transferred automatically due to GitHub API limitations.  
+> Please retrieve them manually from the original ADO work item.  
+> See the [Attachment Migration Guide](https://github.com/Infragistics-BusinessTools/Reveal/wiki/ADO-to-GitHub-Migration-Guide) for step-by-step instructions.
+
+**Manual steps**
+
+1. Open the original ADO work item using the link in the issue header.
+2. Download the attachments from the **Attachments** tab.
+3. Follow the [Attachment Migration Guide](https://github.com/Infragistics-BusinessTools/Reveal/wiki/ADO-to-GitHub-Migration-Guide) (GitHub Wiki) to commit them into the repository and link them back to the issue.
+

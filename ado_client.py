@@ -44,6 +44,7 @@ def get_work_items_batch(ids: list[int]) -> list[dict]:
     payload = {
         "ids": ids,
         "errorPolicy": "omit",
+        "$expand": "relations",
     }
     response = requests.post(url, json=payload, headers=_headers())
     if not response.ok:

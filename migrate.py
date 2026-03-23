@@ -233,31 +233,14 @@ def migrate():
 
 def discover(ado_id: int):
     """Print all field reference names and values for a given ADO work item."""
-    HIGHLIGHT_KEYWORDS = {"symptom", "repro", "expected", "result", "steps", "acceptance"}
-
-    fields = discover_work_item_fields(ado_id)
-
     print(f"\n🔍 All fields for ADO work item #{ado_id}:\n")
     print(f"  {'Reference Name':<60} Value")
-    print(f"  {'-'*59} -----")
-
-    highlighted = []
+    print(f"  {'-'*59} {'-----'}")
+    fields = discover_work_item_fields(ado_id)
     for f in fields:
-        ref  = f["referenceName"]
-        val  = str(f["value"] or "")[:80]
-        low  = ref.lower()
-        mark = ""
-        if any(kw in low for kw in HIGHLIGHT_KEYWORDS):
-            mark = "  ◀ CUSTOM FIELD"
-            highlighted.append(ref)
-        print(f"  {ref:<60} {val}{mark}")
-
-    print(f"\n✅ {len(fields)} fields found.")
-    if highlighted:
-        print(f"\n⭐ Likely custom fields matching your target labels:")
-        for ref in highlighted:
-            print(f"   {ref}")
-    print(f"\nCopy the reference names above into ado_client.py's fields list.\n")
+        val = str(f["value"] or "")[:80]
+        print(f"  {f['referenceName']:<60} {val}")
+    print(f"\n✅ {len(fields)} fields found. Copy the reference names you need into ado_client.py.\n")
 
 
 if __name__ == "__main__":
