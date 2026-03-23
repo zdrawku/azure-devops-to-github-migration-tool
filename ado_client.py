@@ -77,6 +77,70 @@ def get_iterations() -> list[dict]:
     return response.json().get("value", [])
 
 
+def get_all_areas(depth: int = 10) -> list[str]:
+    """
+    Fetches all area paths as a flat list of backslash-separated strings.
+
+    Example output::
+
+        ["BusinessTools", "BusinessTools\\Reveal", "BusinessTools\\Reveal\\Data Sources", ...]
+    """
+    url = (
+        f"{ADO_BASE_URL}/wit/classificationnodes/Areas"
+        f"?$depth={depth}&api-version={ADO_API_VER}"
+    )
+    response = requests.get(url, headers=_headers())
+    response.raise_for_status()
+
+    paths: list[str] = []
+
+    def _walk(node: dict, prefix: str = "") -> None:
+        name = node.get("name", "")
+        path = f"{prefix}\\{name}" if prefix else name
+        paths.append(path)
+        for child in node.get("children", []):
+            _walk(child, path)
+
+    _walk(response.json())
+    return paths
+
+
+def get_all_iterations(depth: int = 10) -> list[dict]:
+    """
+    Fetches all iterations as a flat list of dicts with name, start_date,
+    and finish_date.
+
+    Example output::
+
+        [{"name": "Release - Nov 2022", "start_date": "10/3/2022", "finish_date": "11/16/2022"}, ...]
+    """
+    url = (
+        f"{ADO_BASE_URL}/wit/classificationnodes/Iterations"
+        f"?$depth={depth}&api-version={ADO_API_VER}"
+    )
+    response = requests.get(url, headers=_headers())
+    response.raise_for_status()
+
+    iterations: list[dict] = []
+
+    def _walk(node: dict) -> None:
+        attrs = node.get("attributes", {})
+        start = attrs.get("startDate", "")
+        finish = attrs.get("finishDate", "")
+        # Only include leaf iterations that have dates
+        if start or finish:
+            iterations.append({
+                "name": node.get("name", ""),
+                "start_date": start[:10] if start else "",
+                "finish_date": finish[:10] if finish else "",
+            })
+        for child in node.get("children", []):
+            _walk(child)
+
+    _walk(response.json())
+    return iterations
+
+
 def discover_work_item_fields(work_item_id: int) -> list[dict]:
     """
     Fetches a single work item with ALL fields expanded and returns a sorted

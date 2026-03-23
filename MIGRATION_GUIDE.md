@@ -24,6 +24,324 @@ This document describes how Azure DevOps (ADO) work items are migrated to GitHub
 
 ---
 
+## Inspecting Areas & Iterations
+
+Two utility functions in `ado_client.py` let you fetch the full area-path and iteration trees directly from the ADO Classification Nodes API.
+
+| Function | REST Endpoint |
+|---|---|
+| `get_all_areas(depth=10)` | `GET .../wit/classificationnodes/Areas?$depth={depth}&api-version=7.1` |
+| `get_all_iterations(depth=10)` | `GET .../wit/classificationnodes/Iterations?$depth={depth}&api-version=7.1` |
+
+Both return the raw ADO response dict with nested `children` lists. The `depth` parameter controls how many levels of the tree are returned (default `10`).
+
+### Usage
+
+```python
+from ado_client import get_all_areas, get_all_iterations
+import json
+
+# Fetch the full trees
+areas      = get_all_areas()
+iterations = get_all_iterations()
+
+# Pretty-print
+print(json.dumps(areas, indent=2))
+print(json.dumps(iterations, indent=2))
+
+# Walk top-level children
+for node in areas.get("children", []):
+    print(node["name"])
+
+# Limit depth
+areas_shallow = get_all_areas(depth=2)
+```
+
+### Response Structure
+
+Each node in the tree contains at minimum:
+
+| Field | Description |
+|---|---|
+| `id` | Numeric node ID |
+| `identifier` | GUID |
+| `name` | Node display name (e.g. `"Sprint 42"`) |
+| `structureType` | `"area"` or `"iteration"` |
+| `hasChildren` | `true` if the node has sub-nodes |
+| `children` | Array of child nodes (present when `hasChildren` is `true` and `$depth` is large enough) |
+| `attributes` | For iterations: contains `startDate` and `finishDate` |
+
+
+End result:
+
+Area paths
+[
+  "BusinessTools",
+  "BusinessTools\Reveal",
+  "BusinessTools\Reveal\Data Sources",
+  "BusinessTools\Reveal\Data Sources\MS SQL Server",
+  "BusinessTools\Reveal\Data Sources\REST Service",
+  "BusinessTools\Reveal\Data Sources\OneDrive",
+  "BusinessTools\Reveal\Data Sources\Amazon Athena",
+  "BusinessTools\Reveal\Data Sources\Amazon Redshift",
+  "BusinessTools\Reveal\Data Sources\Box",
+  "BusinessTools\Reveal\Data Sources\Dropbox",
+  "BusinessTools\Reveal\Data Sources\Google Analytics",
+  "BusinessTools\Reveal\Data Sources\Google BigQuery",
+  "BusinessTools\Reveal\Data Sources\Google Drive",
+  "BusinessTools\Reveal\Data Sources\Google Sheets",
+  "BusinessTools\Reveal\Data Sources\Hubspot",
+  "BusinessTools\Reveal\Data Sources\In-Memory Data",
+  "BusinessTools\Reveal\Data Sources\Marketo",
+  "BusinessTools\Reveal\Data Sources\MS Analysis Services",
+  "BusinessTools\Reveal\Data Sources\MS Azure Synapse Analytics",
+  "BusinessTools\Reveal\Data Sources\MS Azure SQL Server",
+  "BusinessTools\Reveal\Data Sources\MS Dynamics CRM",
+  "BusinessTools\Reveal\Data Sources\MS Reporting Services (SSRS)",
+  "BusinessTools\Reveal\Data Sources\MySQL",
+  "BusinessTools\Reveal\Data Sources\Oracle",
+  "BusinessTools\Reveal\Data Sources\OData",
+  "BusinessTools\Reveal\Data Sources\PostgreSQL",
+  "BusinessTools\Reveal\Data Sources\QuickBooks",
+  "BusinessTools\Reveal\Data Sources\Salesforce",
+  "BusinessTools\Reveal\Data Sources\SharePoint",
+  "BusinessTools\Reveal\Data Sources\Sybase",
+  "BusinessTools\Reveal\Data Sources\Databricks",
+  "BusinessTools\Reveal\Data Sources\Elasticsearch",
+  "BusinessTools\Reveal\Data Sources\MongoDB",
+  "BusinessTools\Reveal\Controls",
+  "BusinessTools\Reveal\Controls\RevealView",
+  "BusinessTools\Reveal\Controls\DashboardThumbnailView",
+  "BusinessTools\Reveal\Visualizations",
+  "BusinessTools\Reveal\Visualizations\Area",
+  "BusinessTools\Reveal\Visualizations\Bar",
+  "BusinessTools\Reveal\Visualizations\Bubble",
+  "BusinessTools\Reveal\Visualizations\Candlestick",
+  "BusinessTools\Reveal\Visualizations\Choropleth",
+  "BusinessTools\Reveal\Visualizations\Circular Gauge",
+  "BusinessTools\Reveal\Visualizations\Column",
+  "BusinessTools\Reveal\Visualizations\Combo",
+  "BusinessTools\Reveal\Visualizations\Custom",
+  "BusinessTools\Reveal\Visualizations\Doughnut",
+  "BusinessTools\Reveal\Visualizations\Funnel",
+  "BusinessTools\Reveal\Visualizations\Grid",
+  "BusinessTools\Reveal\Visualizations\Image",
+  "BusinessTools\Reveal\Visualizations\KPI Target",
+  "BusinessTools\Reveal\Visualizations\KPI Time",
+  "BusinessTools\Reveal\Visualizations\Linear Gauge",
+  "BusinessTools\Reveal\Visualizations\Line",
+  "BusinessTools\Reveal\Visualizations\OHLC",
+  "BusinessTools\Reveal\Visualizations\Pie",
+  "BusinessTools\Reveal\Visualizations\Pivot",
+  "BusinessTools\Reveal\Visualizations\Radial",
+  "BusinessTools\Reveal\Visualizations\Scatter Map",
+  "BusinessTools\Reveal\Visualizations\Scatter",
+  "BusinessTools\Reveal\Visualizations\Sparkline",
+  "BusinessTools\Reveal\Visualizations\Spline",
+  "BusinessTools\Reveal\Visualizations\Spline Area",
+  "BusinessTools\Reveal\Visualizations\Stacked Area",
+  "BusinessTools\Reveal\Visualizations\Stacked Bar",
+  "BusinessTools\Reveal\Visualizations\Stacked Column",
+  "BusinessTools\Reveal\Visualizations\Step Area",
+  "BusinessTools\Reveal\Visualizations\Step Line",
+  "BusinessTools\Reveal\Visualizations\Text Box",
+  "BusinessTools\Reveal\Visualizations\Text View",
+  "BusinessTools\Reveal\Visualizations\Text",
+  "BusinessTools\Reveal\Visualizations\Time Series",
+  "BusinessTools\Reveal\Visualizations\Tree Map",
+  "BusinessTools\Reveal\Samples",
+  "BusinessTools\Reveal\Documentation",
+  "BusinessTools\Reveal\Export",
+  "BusinessTools\Slingshot",
+  "BusinessTools\Slingshot\Connectors",
+  "BusinessTools\Slingshot\Connectors\QuickBooks",
+  "BusinessTools\SharePlus",
+  "BusinessTools\Website Team",
+  "BusinessTools\Slingshot Server Team",
+  "BusinessTools\Data Source Team"
+]
+
+Milestones:
+[
+  {
+    "name": "Release - Feb 2023",
+    "start_date": "2023-01-02",
+    "finish_date": "2023-02-28"
+  },
+  {
+    "name": "Release - Dec 2022",
+    "start_date": "2022-11-16",
+    "finish_date": "2022-12-30"
+  },
+  {
+    "name": "Release - Nov 2022",
+    "start_date": "2022-10-03",
+    "finish_date": "2022-11-16"
+  },
+  {
+    "name": "Release - Apr 2023",
+    "start_date": "2023-03-01",
+    "finish_date": "2023-04-27"
+  },
+  {
+    "name": "Release - Jun 2023",
+    "start_date": "2023-04-28",
+    "finish_date": "2023-06-26"
+  },
+  {
+    "name": "Release - Aug 2023",
+    "start_date": "2023-06-27",
+    "finish_date": "2023-08-23"
+  },
+  {
+    "name": "Release - Oct 2023",
+    "start_date": "2023-08-24",
+    "finish_date": "2023-10-20"
+  },
+  {
+    "name": "Release - Dec 2023",
+    "start_date": "2023-10-23",
+    "finish_date": "2023-12-19"
+  },
+  {
+    "name": "Release - Feb 2024",
+    "start_date": "2023-12-20",
+    "finish_date": "2024-02-15"
+  },
+  {
+    "name": "Release - Apr 2024",
+    "start_date": "2024-02-16",
+    "finish_date": "2024-04-15"
+  },
+  {
+    "name": "Release - Jun 2024",
+    "start_date": "2024-04-16",
+    "finish_date": "2024-06-12"
+  },
+  {
+    "name": "Aug 2024 - Release",
+    "start_date": "2024-08-01",
+    "finish_date": "2024-08-31"
+  },
+  {
+    "name": "Oct 2024 - Release",
+    "start_date": "2024-10-01",
+    "finish_date": "2024-10-31"
+  },
+  {
+    "name": "Dec 2024 - Release",
+    "start_date": "2024-12-01",
+    "finish_date": "2024-12-31"
+  },
+  {
+    "name": "July 2024",
+    "start_date": "2024-07-01",
+    "finish_date": "2024-07-31"
+  },
+  {
+    "name": "Sept 2024",
+    "start_date": "2024-09-01",
+    "finish_date": "2024-09-30"
+  },
+  {
+    "name": "Nov 2024",
+    "start_date": "2024-11-01",
+    "finish_date": "2024-11-30"
+  },
+  {
+    "name": "Jan 2025",
+    "start_date": "2025-01-01",
+    "finish_date": "2025-01-31"
+  },
+  {
+    "name": "Feb 2025 - Release",
+    "start_date": "2025-02-01",
+    "finish_date": "2025-02-28"
+  },
+  {
+    "name": "March 2025",
+    "start_date": "2025-03-01",
+    "finish_date": "2025-03-31"
+  },
+  {
+    "name": "April 2025 - Release",
+    "start_date": "2025-04-01",
+    "finish_date": "2025-04-30"
+  },
+  {
+    "name": "May 2025",
+    "start_date": "2025-05-01",
+    "finish_date": "2025-05-31"
+  },
+  {
+    "name": "June 2025 - Release",
+    "start_date": "2025-06-01",
+    "finish_date": "2025-06-30"
+  },
+  {
+    "name": "July 2025",
+    "start_date": "2025-07-01",
+    "finish_date": "2025-07-31"
+  },
+  {
+    "name": "Aug 2025 - Release",
+    "start_date": "2025-08-01",
+    "finish_date": "2025-08-31"
+  },
+  {
+    "name": "Sept 2025",
+    "start_date": "2025-09-01",
+    "finish_date": "2025-09-30"
+  },
+  {
+    "name": "Oct 2025 - Release",
+    "start_date": "2025-10-01",
+    "finish_date": "2025-10-31"
+  },
+  {
+    "name": "Nov 2025",
+    "start_date": "2025-11-01",
+    "finish_date": "2025-11-30"
+  },
+  {
+    "name": "Dec 2025 - Release",
+    "start_date": "2025-12-01",
+    "finish_date": "2025-12-31"
+  },
+  {
+    "name": "Jan 2026",
+    "start_date": "2026-01-01",
+    "finish_date": "2026-01-31"
+  },
+  {
+    "name": "Feb 2026 - Release",
+    "start_date": "2026-02-01",
+    "finish_date": "2026-02-28"
+  },
+  {
+    "name": "Mar 2026",
+    "start_date": "2026-03-01",
+    "finish_date": "2026-03-31"
+  },
+  {
+    "name": "Apr 2026 - Release",
+    "start_date": "2026-04-01",
+    "finish_date": "2026-04-30"
+  },
+  {
+    "name": "May 2026",
+    "start_date": "2026-05-01",
+    "finish_date": "2026-05-31"
+  },
+  {
+    "name": "Jun 2026 - Release",
+    "start_date": "2026-06-01",
+    "finish_date": "2026-06-30"
+  }
+]
+
+---
+
 ## Work Item Type Mapping
 
 ADO's `System.WorkItemType` is used to determine the GitHub issue type label and is detected as follows:
