@@ -78,3 +78,24 @@ STATE_LABELS = {
 # ADO states that should result in a CLOSED GitHub issue (used as fallback for
 # work item types not explicitly listed in mapper.should_close)
 CLOSED_STATES = {"Resolved", "Closed", "Done", "Removed"}
+
+# ── GitHub ProjectV2 (org-level) ─────────────────────────────────────────────
+# Every migrated issue will be added to each of these org-level project numbers.
+GH_PROJECT_NUMBERS: list[int] = [1, 5]
+
+# Maps ADO IterationPath substrings → GitHub project iteration titles.
+# The first substring that appears anywhere in the ADO iteration path wins.
+# Extend this dict as new sprints are created.
+ADO_ITERATION_TO_PROJECT_ITERATION: dict[str, str] = {
+    "Mar 2026":           "March - 2026",
+    "Apr 2026 - Release": "April - 2026",
+}
+
+# Maps ADO Microsoft.VSTS.Common.Priority int values → GitHub project Priority option names.
+# These must match exactly the option names in your ProjectV2 Priority single-select field.
+ADO_PRIORITY_TO_PROJECT_PRIORITY: dict[int, str] = {
+    1: "P0",
+    2: "P1",
+    3: "P2",
+    4: "P3",
+}

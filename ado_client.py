@@ -160,6 +160,24 @@ def discover_work_item_fields(work_item_id: int) -> list[dict]:
     )
 
 
+def get_parent_ado_id(work_item: dict) -> int | None:
+    """
+    Returns the ADO ID of the parent work item, or None if there is no parent.
+    The parent link in ADO relations uses rel type 'System.LinkTypes.Hierarchy-Reverse'.
+    The URL in the relation looks like:
+        https://dev.azure.com/{org}/{project}/_apis/wit/workItems/{id}
+    """
+    for rel in (work_item.get("relations") or []):
+        if rel.get("rel") == "System.LinkTypes.Hierarchy-Reverse":
+            url = rel.get("url", "")
+            # Last path segment is the work item ID
+            try:
+                return int(url.rstrip("/").split("/")[-1])
+            except (ValueError, IndexError):
+                pass
+    return None
+
+
 def fetch_all_work_items() -> list[dict]:
     """Main entry point: fetches all work items in paginated batches."""
     print("🔍 Fetching all work item IDs from Azure DevOps...")
