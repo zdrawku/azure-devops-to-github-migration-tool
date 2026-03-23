@@ -694,3 +694,8 @@ Inter-item sleep is only 0.5s (too fast — GitHub secondary limits kick in)
 Time estimate at new pacing
 ~2,663 items × ~3s per item (2s sleep + ~1s processing) ≈ 2.2 hours — comfortably fits in a 4–5 hour overnight window even if some items trigger waits.
 If rate limit waits do trigger, the script pauses and resumes automatically — state.json already checkpoints every item, so the run is fully resumable if anything goes wrong.
+
+### Time estimate at new pacing
+~2,663 items × ~3s per item (2s sleep + ~1s processing) ≈ 2.2 hours
+
+If rate limit waits do trigger, the script pauses and resumes automatically — state.json already checkpoints every item, so the run is fully resumable if anything goes wrong
