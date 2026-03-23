@@ -4,7 +4,20 @@ in the Infragistics-BusinessTools organisation.
 
 Usage:
     python create_area_fields.py          # all projects
-    python create_area_fields.py 3 7 12   # only project numbers 3, 7, 12
+    $ python create_area_fields.py 1 5
+
+Fetching projects for org 'Infragistics-BusinessTools' …
+Found 5 project(s).
+
+Filtered to 2 project(s): {1, 5}
+
+▸ Project #5 – Reveal Project
+    ✅ Created 'Area' field  (id: PVTSSF_lADODULKS84BSjhrzhAEonA)
+
+▸ Project #1 – All Work Items Tracker
+    ✅ Created 'Area' field  (id: PVTSSF_lADODULKS84BST8HzhAEonE)
+
+Done.
 """
 
 import sys

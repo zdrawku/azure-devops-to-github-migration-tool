@@ -226,6 +226,11 @@ def migrate_work_item(
     ado_priority = work_item.get("fields", {}).get("Microsoft.VSTS.Common.Priority")
     project_priority = ADO_PRIORITY_TO_PROJECT_PRIORITY.get(ado_priority)
 
+    # Resolve ADO area path → GitHub project Area single-select option name
+    # System.AreaPath value (e.g. "BusinessTools\Reveal\Data Sources") maps
+    # directly to the option names created by create_area_fields.py
+    area_path = work_item.get("fields", {}).get("System.AreaPath")
+
     issue_node_id = gh_issue.get("node_id", "")
     for proj_num in GH_PROJECT_NUMBERS:
         try:
@@ -235,6 +240,8 @@ def migrate_work_item(
                     set_project_item_iteration(proj_node_id, item_id, project_iteration_title)
                 if project_priority:
                     set_project_item_single_select(proj_node_id, item_id, "Priority", project_priority)
+                if area_path:
+                    set_project_item_single_select(proj_node_id, item_id, "Area", area_path)
         except Exception as ex:
             print(f"   [WARN] Project #{proj_num}: {ex}")
 
