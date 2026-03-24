@@ -9,6 +9,15 @@ import time
 import os
 import sys
 from datetime import datetime, timezone
+
+# ── Windows UTF-8 console fix ─────────────────────────────────────────────────
+# Emoji literals in this file are stored as UTF-16 surrogate pairs which the
+# Windows console (cp1252 / cp850) cannot encode.  Reconfiguring stdout/stderr
+# to UTF-8 once at startup prevents UnicodeEncodeError on all print() calls.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 from clients.ado_client import fetch_all_work_items, get_all_work_item_ids, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type, get_parent_ado_id
 from clients.github_client import create_issue, close_issue, add_comment, add_issue_to_project, set_project_item_iteration, set_project_item_single_select, set_issue_parent, link_pr_to_issue
 from mapper import build_issue_body, build_labels, should_close, build_comment_body, resolve_github_issue_type_name, extract_dev_links

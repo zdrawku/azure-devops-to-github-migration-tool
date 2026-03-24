@@ -289,7 +289,7 @@ def _format_dev_links_section(dev_links: list[dict], ado_url: str) -> list[str]:
     link_count = len(dev_links)
     lines += [
         "> [!WARNING]",
-        f"> **Development links not fully migrated** — this work item had "
+        f"> **Development links MIGHT not be fully migrated, ensure this is manually checked.** — this work item had "
         f"**{link_count} development link(s)** in Azure DevOps.",
         f"> Please verify all links are properly reflected in GitHub by checking "
         f"the [original ADO work item]({ado_url}).",
