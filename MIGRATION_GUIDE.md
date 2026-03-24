@@ -20,6 +20,7 @@ ado-to-github-migration/
 ├── mapper.py                   # ADO work item → GitHub issue field mapper
 ├── milestone_map.py            # ADO iteration path → GitHub milestone number
 ├── migrate.py                  # Main migration entry point
+├── reporter.py                 # Migration progress reporter (see Reporting section)
 ├── state.json                  # Migration progress tracker (auto-generated)
 ├── migration_errors.json       # Error ledger (auto-generated)
 └── requirements.txt
@@ -35,8 +36,12 @@ ado-to-github-migration/
 |---|---|
 | `python migrate.py` | **Full migration** — migrates all pending work items, resuming from `state.json` |
 | `python migrate.py count` | **Count preview** — queries ADO and prints a breakdown of all work items by type and state, plus how many are already migrated vs. still pending. Nothing is created. |
+| `python migrate.py report` | **Progress report** — reads local state files and prints a full migration status report. No API calls. See [Reporting](#migration-progress-reporting) for details. |
+| `python migrate.py report --detailed` | **Detailed report** — same as above with full item-level lists for every issue category |
+| `python migrate.py report --fetch-totals` | **Report with totals** — adds ADO total count and percentage completion (requires ADO connection) |
 | `python migrate.py test <ADO_ID>` | **Dry-run** — prints the GitHub issue that would be created for one work item; nothing is submitted |
 | `python migrate.py single <ADO_ID>` | **Single item migration** — creates a GitHub issue for one specific ADO work item, updates `state.json`, and returns the GitHub issue number |
+| `python migrate.py multiple <N>` | **Batch migration** — migrates the next N not-yet-migrated items in ascending ADO ID order |
 | `python migrate.py discover <ADO_ID>` | **Field discovery** — prints every ADO field reference name and value for a work item; useful for identifying custom fields |
 
 ### setup/setup_github.py
@@ -757,9 +762,11 @@ All results are printed as formatted JSON. count_work_items_by_type gets a human
 
 ## Migrate the first 100 items
 
+```
 python migrate.py multiple 100   # migrates the oldest 100 not-yet-migrated items
 python migrate.py multiple 100   # next run picks up items 101-200
 python migrate.py multiple 100   # continues with 201-300, and so on
+```
 
 Notes:
 What happens under the hood:
@@ -771,8 +778,23 @@ What happens under the hood:
 - At the end it prints how many items are still remaining and reminds you to run the command again
 - The batch size is whatever number you pass, so python migrate.py multiple 500 would do 500 at a time, etc. python migrate.py (no - args) still runs the full migration as before.
 
+## Reporting Helper Methods
 
-## Implementind Development mapper/linker ensuring the linked PRs and branches from Azure DevOps are migrated into the GitHub issues
+```bash
+# Summary report (default — no API calls)
+python migrate.py report
+
+# Full detail — item-level lists for every issue section
+python migrate.py report --detailed
+
+# Include ADO total count and percentage bar (requires ADO_PAT)
+python migrate.py report --fetch-totals
+
+# Both flags combined
+python migrate.py report --detailed --fetch-totals
+```
+
+# Implementind Development mapper/linker ensuring the linked PRs and branches from Azure DevOps are migrated into the GitHub issues
 
 Changes made:
 
@@ -798,3 +820,168 @@ Added discover_github_connections() — scans work items and prints all GUIDs wi
 | 2d16b998…    | PRs / Commits            | 6 PRs, 3 commits     | ✅ Infragistics-BusinessTools/Shared   |
 | 0b0d6b44…    | PRs / Commits            | 2 PRs only           | ❓ Services, Slingshot, or Reveal.Sdk.AI|
 | f5f3ea1e…    | GitHub Issues (not PRs)  | 276 issue links      | ✅ RevealBi/Reveal.Sdk (body link only — cross-org, no Development sidebar) |
+
+---
+
+# Migration Progress Reporting
+
+The `reporter.py` module provides a structured, offline progress report based entirely on the local state files — no API calls are needed by default.
+
+### What the report covers
+
+| Section | Description |
+|---|---|
+| **Overall Progress** | Migrated count, total (optional), pending, and percentage completion |
+| **Batch Run History** | Each invocation's start/end timestamp, batch size, pending-at-start, and success/failure breakdown |
+| **Failed Items** | Items in `migration_errors.json` with their error messages, timestamps, and ADO titles |
+| **PR / Branch Link Issues** | All `git push` / Development-section links that could not be established, with the affected GitHub issue numbers |
+| **Parent / Hierarchy Link Issues** | Every parent→child relationship that failed, grouped by failure type |
+| **Action Checklist** | Concrete next steps for each category of detected issue |
+
+### Helper Commands
+
+```bash
+# Summary report (default — no API calls)
+python migrate.py report
+
+# Full detail — item-level lists for every issue section
+python migrate.py report --detailed
+
+# Include ADO total count and percentage bar (requires ADO_PAT)
+python migrate.py report --fetch-totals
+
+# Both flags combined
+python migrate.py report --detailed --fetch-totals
+```
+
+### Data sources
+
+The reporter reads three local files written automatically during every migration run:
+
+| File | Contents |
+|---|---|
+| `state.json` | `{ "ado_id": github_issue_number }` — every successfully migrated item |
+| `migration_errors.json` | `{ "ado_id": { "title", "error", "timestamp" } }` — items that raised an exception |
+| `migration.log` | Line-by-line event log used to extract batch history, PR link failures, and parent link failures |
+
+### Example output
+
+```
+================================================================
+  ADO → GitHub Migration Progress Report
+  Generated: 2026-03-24 08:00:00 UTC
+================================================================
+
+────────────────────────────────────────────────────────────────
+  OVERALL PROGRESS
+────────────────────────────────────────────────────────────────
+  Migrated  :    342
+  Total     :    950
+  Pending   :    608
+  Progress  : [███████████░░░░░░░░░░░░░░░░░░░] 36.0%
+  Failed    :      5  (in migration_errors.json)
+
+────────────────────────────────────────────────────────────────
+  BATCH RUN HISTORY  (3 run(s))
+────────────────────────────────────────────────────────────────
+  [ 1] Migration run
+        Start   : 2026-03-21 09:00:00
+        End     : 2026-03-21 09:45:12
+        Pending at start : 950 (already done: 0)
+        Result  : ✅ 200  ❌ 1
+
+  [ 2] Batch run (batch=100)
+        Start   : 2026-03-22 14:00:00
+        End     : 2026-03-22 14:22:08
+        Pending at start : 750 (already done: 200)
+        Result  : ✅ 100  ❌ 0
+
+  [ 3] Batch run (batch=100)
+        Start   : 2026-03-23 10:30:00
+        End     : 2026-03-23 10:55:33
+        Pending at start : 650 (already done: 300)
+        Result  : ✅ 42  ❌ 4
+
+────────────────────────────────────────────────────────────────
+  FAILED ITEMS  (5)
+────────────────────────────────────────────────────────────────
+  5 item(s) need attention. Run with --detailed to see the full list.
+  Quick view: open migration_errors.json
+
+────────────────────────────────────────────────────────────────
+  PR / BRANCH LINK ISSUES  (2)
+────────────────────────────────────────────────────────────────
+  These Development-section links could not be established:
+
+  2 PR link(s) failed. Run with --detailed to see URLs.
+
+  Affected GitHub issues: #117, #284
+
+────────────────────────────────────────────────────────────────
+  PARENT / HIERARCHY LINK ISSUES  (1)
+────────────────────────────────────────────────────────────────
+
+  [NEVER-MIGRATED]  Parent never migrated (children are unlinked)  (1 item(s))
+    Parent ADO IDs: #38901
+
+────────────────────────────────────────────────────────────────
+  ACTION CHECKLIST
+────────────────────────────────────────────────────────────────
+  ☐  Re-run failed items:
+       Review migration_errors.json, fix root causes, then re-run.
+       Individual items can be re-run with:
+         python migrate.py single <ADO_ID>
+  ☐  Fix PR / Development section links:
+       Check ADO_GITHUB_CONNECTION_MAP in config.py and ensure
+       all GitHub connection GUIDs are mapped to their repos.
+       Then re-run the affected items using migrate.py single.
+  ☐  Fix parent hierarchy links:
+       Some parent items were never migrated. Migrate them first
+       with 'python migrate.py single <PARENT_ADO_ID>', then
+       re-run the child items to establish the parent link.
+
+================================================================
+  State file  : state.json  (342 migrated)
+  Error file  : migration_errors.json  (5 failed)
+  Full log    : migration.log
+  Tip: Use --detailed for full item lists, --fetch-totals for ADO count.
+================================================================
+```
+
+### Interpreting the report
+
+**Overall Progress** — The migrated count always comes from `state.json`.  The percentage bar only appears when `--fetch-totals` is passed (adds one ADO API call).
+
+**Batch Run History** — Each block corresponds to one invocation of `migrate.py` (either `python migrate.py` or `python migrate.py multiple N`).  If the process was interrupted before it finished, the block shows `⚠  interrupted` with no end timestamp and zeroed success/failed counts.
+
+**Failed Items (summary mode)** — Shows the count only.  Use `--detailed` to see the ADO ID, title, timestamp, and full error message for every failed item.
+
+**Failed Items (detailed mode)** — Displays a table with every item in `migration_errors.json`.  After fixing the underlying cause, re-run with `python migrate.py single <ADO_ID>`.  Successful re-runs clear the entry from `migration_errors.json` automatically.
+
+**PR / Branch Link Issues** — Summary mode lists the affected GitHub issue numbers so you can navigate straight to them.  Detailed mode adds the exact PR URL and the timestamp from the log.  Root causes are usually an unmapped GitHub connection GUID — add the GUID to `ADO_GITHUB_CONNECTION_MAP` in `config.py`, then re-run the item.
+
+**Parent / Hierarchy Link Issues** — Grouped by failure category:
+
+| Category | Meaning | Fix |
+|---|---|---|
+| `NEVER-MIGRATED` | Parent ADO item has no matching GitHub issue | Migrate the parent first with `migrate.py single`, then re-run the child |
+| `FAILED` | The GraphQL mutation to set the parent link returned an error | Check `GH_TOKEN` has project-write scope; then re-run |
+| `AUTO-FAILED` | Auto-migration of the parent before the child raised an exception | Check `migration_errors.json` for the parent's error; fix and retry |
+| `NOT-FOUND` | Parent ADO item does not exist in ADO at all | No fix needed — the ADO data has an orphaned reference |
+| `DEFERRED-FAILED` | The deferred parent link (end-of-run resolution) failed | Check token scopes; then re-run just the child item |
+
+### Programmatic use
+
+`reporter.py` can also be imported directly:
+
+```python
+from reporter import collect_report_data, print_report
+
+report = collect_report_data(fetch_totals=False)
+print(f"Migrated: {report.migrated_count}")
+print(f"Failed:   {report.failed_count}")
+print(f"PR issues: {len(report.pr_link_issues)}")
+
+# Full formatted output
+print_report(report, detailed=True)
+```

@@ -788,5 +788,12 @@ if __name__ == "__main__":
         migrate_multiple(int(sys.argv[2]))
     elif len(sys.argv) >= 2 and sys.argv[1] == "count":
         count_items()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "report":
+        from reporter import generate_report
+        flags = sys.argv[2:]
+        generate_report(
+            detailed="--detailed" in flags,
+            fetch_totals="--fetch-totals" in flags,
+        )
     else:
         migrate()
