@@ -9,11 +9,11 @@ import time
 import os
 import sys
 from datetime import datetime, timezone
-from clients.ado_client import fetch_all_work_items, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type, get_parent_ado_id
-from clients.github_client import create_issue, close_issue, add_comment, add_issue_to_project, set_project_item_iteration, set_project_item_single_select, set_issue_parent
-from mapper import build_issue_body, build_labels, should_close, build_comment_body, resolve_github_issue_type_name
+from clients.ado_client import fetch_all_work_items, get_all_work_item_ids, get_work_item_comments, get_work_items_batch, discover_work_item_fields, count_work_items_by_type, get_parent_ado_id
+from clients.github_client import create_issue, close_issue, add_comment, add_issue_to_project, set_project_item_iteration, set_project_item_single_select, set_issue_parent, link_pr_to_issue
+from mapper import build_issue_body, build_labels, should_close, build_comment_body, resolve_github_issue_type_name, extract_dev_links
 from milestone_map import build_milestone_map, resolve_milestone
-from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP, GH_PROJECT_NUMBERS, ADO_ITERATION_TO_PROJECT_ITERATION, ADO_PRIORITY_TO_PROJECT_PRIORITY
+from config import ADO_ORG, ADO_PROJECT, ADO_GH_USER_MAP, GH_PROJECT_NUMBERS, ADO_ITERATION_TO_PROJECT_ITERATION, ADO_PRIORITY_TO_PROJECT_PRIORITY, GH_REPO_OWNER, GH_REPO_NAME
 
 STATE_FILE   = "state.json"
 NODE_ID_FILE = "state_node_ids.json"  # ado_id → github issue node_id (for parent linking)
@@ -194,7 +194,7 @@ def migrate_work_item(
 
     # Create the GitHub issue
     gh_issue = create_issue(
-        title=f"[ADO #{ado_id}] {title}",
+        title=f"{title}",
         body=body,
         labels=labels,
         assignees=assignees,
@@ -202,6 +202,39 @@ def migrate_work_item(
         issue_type_name=issue_type_name,
     )
     gh_issue_number = gh_issue["number"]
+
+    # ── Link GitHub PRs / branches from the ADO Development section ─────────
+    dev_links = extract_dev_links(work_item.get("relations") or [])
+    # Attempt to patch the PR body (adds "Refs owner/repo#N") for PRs inside
+    # the Infragistics-BusinessTools org — this populates GitHub's Development
+    # sidebar on the issue.  Cross-org PRs/issues (e.g. RevealBi/*) are shown
+    # in the body description only; GitHub's sidebar doesn't support cross-org
+    # references and the PAT has no write access there.
+    _same_org_prefix = f"https://github.com/{GH_REPO_OWNER}/".lower()
+    pr_urls_to_link = [
+        lnk["github_url"]
+        for lnk in dev_links
+        if lnk.get("github_url")
+        and lnk["github_url"].lower().startswith(_same_org_prefix)
+        and "/pull/" in lnk["github_url"].lower()  # issues can't be linked via PR body
+    ]
+    for pr_url in pr_urls_to_link:
+        try:
+            linked = link_pr_to_issue(pr_url, gh_issue_number)
+            if linked:
+                log.info(
+                    "  ↳ PR linked: %s → GH #%s", pr_url, gh_issue_number
+                )
+                print(f"   ↳ PR linked to GH #{gh_issue_number}: {pr_url}")
+            else:
+                log.warning(
+                    "  ↳ PR link FAILED: %s → GH #%s", pr_url, gh_issue_number
+                )
+        except Exception as _ex:
+            log.warning(
+                "  ↳ PR link exception: %s → GH #%s | %s", pr_url, gh_issue_number, _ex
+            )
+            print(f"   [WARN] Could not link PR {pr_url} to GH #{gh_issue_number}: {_ex}")
 
     # Migrate comments
     comments = get_work_item_comments(ado_id)
@@ -525,35 +558,15 @@ def migrate():
     ms_map = build_milestone_map()
     print(f"   {len(ms_map)} milestone(s) mapped.\n")
 
-    # Fetch all ADO work items
-    all_items = fetch_all_work_items()
+    # Fetch only new (not-yet-migrated) ADO work items.
+    # Passing already_migrated IDs as skip_ids means the WIQL query still
+    # returns the full count (for accurate reporting) but full details are
+    # only downloaded for items we haven't processed yet.
+    already_migrated_int = {int(k) for k in already_migrated}
+    all_items = fetch_all_work_items(skip_ids=already_migrated_int)
 
-    # Filter already migrated
-    pending = [
-        item for item in all_items
-        if str(item.get("id")) not in already_migrated
-    ]
-    # Build a lookup of all_items so we can log skipped items' parent info too
-    all_items_by_id = {item.get("id"): item for item in all_items}
-    for skipped_item in all_items:
-        sid = skipped_item.get("id")
-        if str(sid) in already_migrated:
-            gh_num = state.get(str(sid))
-            parent_ado_id = get_parent_ado_id(skipped_item)
-            if parent_ado_id:
-                parent_gh_num = state.get(str(parent_ado_id))
-                if parent_gh_num:
-                    log.info(
-                        "SKIPPED   ADO #%s → GH #%s (already migrated) | parent: ADO #%s → GH #%s (already migrated)",
-                        sid, gh_num, parent_ado_id, parent_gh_num,
-                    )
-                else:
-                    log.info(
-                        "SKIPPED   ADO #%s → GH #%s (already migrated) | parent: ADO #%s (not yet in GH)",
-                        sid, gh_num, parent_ado_id,
-                    )
-            else:
-                log.info("SKIPPED   ADO #%s → GH #%s (already migrated) | no parent", sid, gh_num)
+    # all_items contains only pending items now
+    pending = all_items
 
     print(f"🚀 {len(pending)} work items to migrate.\n")
     log.info("=== Migration run started — %d pending, %d already migrated ===", len(pending), len(already_migrated))
@@ -565,9 +578,6 @@ def migrate():
         ado_id = work_item.get("id")
         title  = work_item.get("fields", {}).get("System.Title", f"Untitled #{ado_id}")
 
-        # Log items that are skipped because they're already in state.json
-        # (These appear in `all_items` but were filtered out of `pending`;
-        #  we log them here only for items whose parent is relevant.)
         print(f"[{idx}/{len(pending)}] Migrating ADO #{ado_id}: {title[:60]}...")
 
         try:
@@ -647,6 +657,114 @@ def count_items():
     print("=" * 64)
 
 
+def migrate_multiple(batch_size: int):
+    """
+    Migrate the next ``batch_size`` not-yet-migrated ADO work items.
+
+    Items are processed in ADO ID order (ascending), so repeated calls
+    steadily walk through the full ADO backlog:
+
+        python migrate.py multiple 100   # migrates IDs 1-100 (skipping already done)
+        python migrate.py multiple 100   # migrates IDs 101-200 on the next call
+        ...                              # and so on until all items are migrated
+
+    Progress is checkpointed to state.json after every item, so the command
+    is safe to interrupt and resume.
+    """
+    print("=" * 60)
+    print(f"  ADO \u2192 GitHub Migration (next {batch_size} items)")
+    print("=" * 60)
+    print()
+
+    state    = load_state()
+    errors   = load_errors()
+    node_ids = load_node_ids()
+    already_migrated = set(str(k) for k in state.keys())
+    print(f"\ud83d\udcc2 Resuming: {len(already_migrated)} items already migrated.")
+    if errors:
+        print(f"\u26a0\ufe0f  {len(errors)} item(s) previously failed \u2014 they will be retried if they fall in this batch.")
+    print()
+
+    # Get all IDs in ascending order, filter to pending only
+    print("\ud83d\udd0d Fetching all work item IDs from Azure DevOps...")
+    all_ids = get_all_work_item_ids()          # already sorted ASC by the WIQL query
+    already_migrated_int = {int(k) for k in already_migrated}
+    pending_ids = [i for i in all_ids if i not in already_migrated_int]
+
+    if not pending_ids:
+        print("\u2705 Nothing to migrate \u2014 all ADO work items are already in GitHub.")
+        return
+
+    chunk = pending_ids[:batch_size]
+    print(f"   {len(all_ids)} total | {len(already_migrated_int)} already migrated | "
+          f"{len(pending_ids)} pending \u2014 migrating next {len(chunk)}.\n")
+    log.info(
+        "=== Batch run started (size=%d) \u2014 %d pending, %d already migrated ===",
+        batch_size, len(pending_ids), len(already_migrated_int),
+    )
+
+    # Fetch full details only for this chunk
+    print(f"\ud83d\udce5 Fetching work item details for {len(chunk)} item(s)...")
+    work_items = get_work_items_batch(chunk)
+    print()
+
+    # Build milestone map once
+    print("\ud83d\uddd3\ufe0f  Loading GitHub milestone mapping...")
+    ms_map = build_milestone_map()
+    print(f"   {len(ms_map)} milestone(s) mapped.\n")
+
+    success_count = 0
+    error_count   = 0
+
+    for idx, work_item in enumerate(work_items, start=1):
+        ado_id = work_item.get("id")
+        title  = work_item.get("fields", {}).get("System.Title", f"Untitled #{ado_id}")
+        print(f"[{idx}/{len(work_items)}] Migrating ADO #{ado_id}: {title[:60]}...")
+
+        try:
+            gh_issue_number = migrate_work_item(work_item, state, ms_map, node_ids)
+            print(f"   \u2705 Created GitHub Issue #{gh_issue_number}")
+            success_count += 1
+            errors.pop(str(ado_id), None)
+            save_errors(errors)
+            time.sleep(2)
+
+        except Exception as e:
+            error_msg = str(e)
+            print(f"   \u274c Error migrating ADO #{ado_id}: {error_msg}")
+            log.error("ADO #%s FAILED | %s | %s", ado_id, title[:80], error_msg)
+            errors[str(ado_id)] = {
+                "title": title,
+                "error": error_msg,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+            save_errors(errors)
+            error_count += 1
+            time.sleep(2)
+
+    log.info(
+        "=== Batch run complete \u2014 success=%d  failed=%d ===",
+        success_count, error_count,
+    )
+
+    _resolve_deferred_parent_links(node_ids)
+
+    remaining = len(pending_ids) - len(chunk)
+    print()
+    print("=" * 60)
+    print(f"  Batch complete!")
+    print(f"  \u2705 Succeeded : {success_count}")
+    print(f"  \u274c Failed    : {error_count}")
+    print(f"  \ud83d\udd04 Remaining : {remaining} item(s) still pending")
+    if remaining:
+        print(f"  Run 'python migrate.py multiple {batch_size}' again to continue.")
+    if errors:
+        print(f"  \u26a0\ufe0f  Unresolved failures : {ERRORS_FILE}")
+    print(f"  \ud83d\udcc4 State saved to      : {STATE_FILE}")
+    print(f"  \ud83d\udccb Full log            : {LOG_FILE}")
+    print("=" * 60)
+
+
 def discover(ado_id: int):
     """Print all field reference names and values for a given ADO work item."""
     print(f"\n🔍 All fields for ADO work item #{ado_id}:\n")
@@ -666,6 +784,8 @@ if __name__ == "__main__":
         migrate_single(int(sys.argv[2]))
     elif len(sys.argv) >= 3 and sys.argv[1] == "discover":
         discover(int(sys.argv[2]))
+    elif len(sys.argv) >= 3 and sys.argv[1] == "multiple":
+        migrate_multiple(int(sys.argv[2]))
     elif len(sys.argv) >= 2 and sys.argv[1] == "count":
         count_items()
     else:

@@ -21,6 +21,22 @@ GH_BASE_URL    = f"https://api.github.com/repos/{GH_REPO_OWNER}/{GH_REPO_NAME}"
 # ADO display name → GitHub username (loaded from ADO_GH_USER_MAP in .env)
 ADO_GH_USER_MAP: dict[str, str] = json.loads(os.getenv("ADO_GH_USER_MAP", "{}"))
 
+# ── GitHub connection GUID → repo mapping ────────────────────────────────────
+# ADO stores GitHub Development links as vstfs:///GitHub/PullRequest/{GUID}%2F{num}.
+# The GUID is the Azure DevOps service-connection ID for a GitHub repo.
+# Map each GUID (lowercase) → "owner/repo" so we can reconstruct GitHub URLs.
+# If a GUID is not listed here the migration falls back to a GitHub search by
+# PR number within the organisation (requires GH_TOKEN with org search access).
+#
+# How to find your GUIDs: run  python clients/ado_client.py discover_github_connections
+#
+# Example .env entry (JSON object as a single line):
+#   ADO_GITHUB_CONNECTION_MAP={"dbf634f2-2a6b-4792-a8ef-0a6f55ad10c8":"Infragistics-BusinessTools/Reveal","2d16b998-efb6-40f3-b3c5-b1b907efc1c1":"Infragistics-BusinessTools/Shared"}
+ADO_GITHUB_CONNECTION_MAP: dict[str, str] = {
+    k.lower(): v
+    for k, v in json.loads(os.getenv("ADO_GITHUB_CONNECTION_MAP", "{}")).items()
+}
+
 # ── Migration settings ───────────────────────────────────────────────────────
 # How many work items to fetch per page from ADO
 BATCH_SIZE = 200
@@ -31,6 +47,7 @@ WORK_ITEM_TYPE_LABELS = {
     "Task":             "task",
     "User Story":       "user-story",
     "Feature":          "feature",
+    "Feature Request":  "feature-request",
     "Epic":             "epic",
     "Product Backlog Item": "backlog",
     "Issue":            "ado-issue",
@@ -65,19 +82,26 @@ TRIAGE_LABELS = {
 
 # Map ADO states → GitHub label names
 STATE_LABELS = {
-    "Active":      "state: active",
-    "In Progress": "state: in-progress",
-    "Resolved":    "state: resolved",
-    "Closed":      "closed",   # will also close the GH issue
-    "Done":        "closed",   # will also close the GH issue
-    "Removed":     "state: removed",
-    "New":         "state: new",
-    "Open":        "state: open",
+    "Active":         "state: active",
+    "In Progress":    "state: in-progress",
+    "Resolved":       "state: resolved",
+    "Closed":         "closed",   # will also close the GH issue
+    "Done":           "closed",   # will also close the GH issue
+    "Removed":        "state: removed",
+    "New":            "state: new",
+    "Open":           "state: open",
+    # Additional states observed in this ADO project
+    "In Code Review": "state: in-code-review",
+    "In Test":        "state: in-test",
+    "Completed":      "state: completed",   # Feature Request / Test Suite terminal
+    "Declined":       "state: declined",    # Feature Request terminal
+    "Awaiting Test":  "state: awaiting-test",
+    "Design":         "state: design",      # Test Case
 }
 
 # ADO states that should result in a CLOSED GitHub issue (used as fallback for
 # work item types not explicitly listed in mapper.should_close)
-CLOSED_STATES = {"Resolved", "Closed", "Done", "Removed"}
+CLOSED_STATES = {"Resolved", "Closed", "Done", "Removed", "Completed", "Declined"}
 
 # ── GitHub ProjectV2 (org-level) ─────────────────────────────────────────────
 # Every migrated issue will be added to each of these org-level project numbers.

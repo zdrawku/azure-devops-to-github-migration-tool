@@ -206,15 +206,27 @@ def get_parent_ado_id(work_item: dict) -> int | None:
     return None
 
 
-def fetch_all_work_items() -> list[dict]:
-    """Main entry point: fetches all work items in paginated batches."""
+def fetch_all_work_items(skip_ids: set[int] | None = None) -> list[dict]:
+    """
+    Main entry point: fetches all work items in paginated batches.
+
+    ``skip_ids`` — optional set of ADO IDs (ints) whose full details should
+    NOT be fetched because they are already migrated.  The IDs are still
+    discovered via WIQL so the pending count is accurate, but no batch API
+    call is made for them.  This makes repeat / incremental runs fast.
+    """
     print("🔍 Fetching all work item IDs from Azure DevOps...")
     all_ids = get_all_work_item_ids()
     print(f"   Found {len(all_ids)} work items total.")
 
+    pending_ids = [i for i in all_ids if i not in (skip_ids or set())]
+    skipped = len(all_ids) - len(pending_ids)
+    if skipped:
+        print(f"   Skipping {skipped} already-migrated item(s) — fetching details for {len(pending_ids)} new item(s).")
+
     all_items = []
-    for i in range(0, len(all_ids), BATCH_SIZE):
-        batch_ids = all_ids[i: i + BATCH_SIZE]
+    for i in range(0, len(pending_ids), BATCH_SIZE):
+        batch_ids = pending_ids[i: i + BATCH_SIZE]
         print(f"   Fetching details for items {i + 1}–{i + len(batch_ids)}...")
         batch = get_work_items_batch(batch_ids)
         all_items.extend(batch)
@@ -258,6 +270,51 @@ def count_work_items_by_type() -> tuple[int, dict[str, dict[str, int]]]:
     return total, {k: dict(v) for k, v in counts.items()}
 
 
+def discover_github_connections(sample_size: int = 500) -> dict[str, list[int]]:
+    """
+    Scans a sample of work items for ArtifactLink relations that contain
+    vstfs:///GitHub/ URLs and extracts the embedded connection GUIDs.
+
+    Returns a dict mapping each GUID (lowercase) to a list of ADO work item IDs
+    that reference it — useful for populating ADO_GITHUB_CONNECTION_MAP in .env.
+
+    Usage::
+
+        python clients/ado_client.py discover_github_connections
+    """
+    import urllib.parse as _up
+    from collections import defaultdict
+
+    print(f"Scanning up to {sample_size} work items for GitHub connection GUIDs...")
+    all_ids = get_all_work_item_ids()
+    sample  = all_ids[:sample_size]
+
+    guid_to_items: dict[str, list[int]] = defaultdict(list)
+
+    for i in range(0, len(sample), BATCH_SIZE):
+        batch_ids = sample[i: i + BATCH_SIZE]
+        items = get_work_items_batch(batch_ids)
+        for item in items:
+            wi_id = item.get("id")
+            for rel in (item.get("relations") or []):
+                if rel.get("rel") != "ArtifactLink":
+                    continue
+                url = rel.get("url", "")
+                if "vstfs:///GitHub/" not in url:
+                    continue
+                # vstfs:///GitHub/PullRequest/{guid}%2F{num}
+                rest   = url[len("vstfs:///GitHub/"):]
+                parts  = rest.split("/", 1)
+                if len(parts) < 2:
+                    continue
+                encoded = parts[1]
+                decoded = _up.unquote(encoded)
+                guid    = decoded.split("/")[0].lower()
+                guid_to_items[guid].append(wi_id)
+
+    return dict(guid_to_items)
+
+
 # ---------------------------------------------------------------------------
 # Standalone CLI — run any public function directly for testing
 #
@@ -267,9 +324,10 @@ def count_work_items_by_type() -> tuple[int, dict[str, dict[str, int]]]:
 #   python clients/ado_client.py get_iterations
 #   python clients/ado_client.py get_all_areas
 #   python clients/ado_client.py get_all_iterations
-#   python clients/ado_client.py get_work_item_comments  --id 12345
-#   python clients/ado_client.py get_work_items_batch    --ids 1 2 3
-#   python clients/ado_client.py discover_work_item_fields --id 12345
+#   python clients/ado_client.py get_work_item_comments      --id 12345
+#   python clients/ado_client.py get_work_items_batch        --ids 1 2 3
+#   python clients/ado_client.py discover_work_item_fields   --id 12345
+#   python clients/ado_client.py discover_github_connections
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
     import argparse
@@ -291,6 +349,7 @@ if __name__ == "__main__":
             "get_work_item_comments",
             "get_work_items_batch",
             "discover_work_item_fields",
+            "discover_github_connections",
         ],
         help="Which function to execute.",
     )
@@ -346,6 +405,19 @@ if __name__ == "__main__":
             parser.error("--id is required for discover_work_item_fields")
         result = discover_work_item_fields(args.id)
         print(f"Fields for work item {args.id}: {len(result)}")
+
+    elif args.command == "discover_github_connections":
+        guid_map = discover_github_connections()
+        if not guid_map:
+            print("No GitHub ArtifactLink connections found in the scanned sample.")
+        else:
+            print(f"\nFound {len(guid_map)} unique GitHub connection GUID(s):")
+            for guid, wi_ids in sorted(guid_map.items()):
+                print(f"  {guid}  (seen in {len(wi_ids)} work item(s): {wi_ids[:5]})")
+            print()
+            print("Add to your .env as (fill in the owner/repo values):")
+            print("ADO_GITHUB_CONNECTION_MAP={" + ", ".join(f'"{g}": "owner/repo"' for g in sorted(guid_map)) + "}")
+        sys.exit(0)
 
     if result is not None:
         print(json.dumps(result, indent=2, default=str))

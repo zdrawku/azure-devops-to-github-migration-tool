@@ -700,6 +700,40 @@ If rate limit waits do trigger, the script pauses and resumes automatically — 
 
 If rate limit waits do trigger, the script pauses and resumes automatically — state.json already checkpoints every item, so the run is fully resumable if anything goes wrong
 
+# Gaps found — 23rd of March
+
+### config.py
+
+| Fix | Impact |
+|---|---|
+| Added `"Feature Request": "feature-request"` to `WORK_ITEM_TYPE_LABELS` | 58 items were unrecognised |
+| Added 6 missing states to `STATE_LABELS`: `In Code Review`, `In Test`, `Completed`, `Declined`, `Awaiting Test`, `Design` | 45 items had no state label |
+| Added `"Completed"` and `"Declined"` to `CLOSED_STATES` | 22 Feature Request / Test Suite items (`Completed`×16, `Declined`×9) would have stayed open |
+
+### mapper.py
+
+| Fix | Impact |
+|---|---|
+| `resolve_github_type` now looks up `WORK_ITEM_TYPE_LABELS` for all non-Bug/non-Task types instead of falling back to `"type: unknown"` | 592 items across User Story, Epic, Feature, Feature Request, Issue, Test Case, Test Plan, Test Suite |
+| Introduced `_GITHUB_ISSUE_TYPE_MAP` and updated `resolve_github_issue_type_name` to return correct GitHub native types (`Feature`/`Task`/`Bug`) for all ADO types | Same 592 items were all being stamped with native type `Bug` |
+
+### setup_github.py
+
+| Fix | Impact |
+|---|---|
+| Added `type: user-story` and `type: feature-request` to `LABELS_TO_CREATE` | `verify` command would have reported them as missing |
+| Added 6 new state labels to `LABELS_TO_CREATE` | Labels would silently fail to apply on GitHub if not pre-created |
+
+`tests/test_type_state_coverage.py` — new file with 70 tests covering all 30 observed (type, state) pairs, every mapping function, and label/setup consistency.
+
+# Incremental runs — two changes make repeat runs efficient:
+
+**ado_client.py** — fetch_all_work_items() now accepts an optional skip_ids set. The WIQL query still fetches all IDs (so totals are accurate), but the expensive batch-detail API calls are only made for IDs not in the set.
+
+**migrate.py** — migrate() now passes already_migrated IDs as skip_ids. On a repeat run a week later with, say, 50 new items, only those 50 items are downloaded from ADO instead of all 2666.
+
+**!! Running python migrate.py again at any point is fully safe !!**: state.json prevents duplicates, only genuinely new ADO work items get a GitHub issue created.
+
 # Helper methods
 
 Each function is now runnable directly from the terminal. Usage:
@@ -720,3 +754,47 @@ python clients/ado_client.py discover_work_item_fields --id 12345
 python clients/ado_client.py get_work_items_batch --ids 1 2 3 4 5
 
 All results are printed as formatted JSON. count_work_items_by_type gets a human-readable table instead since it returns a nested dict that's more readable that way.
+
+## Migrate the first 100 items
+
+python migrate.py multiple 100   # migrates the oldest 100 not-yet-migrated items
+python migrate.py multiple 100   # next run picks up items 101-200
+python migrate.py multiple 100   # continues with 201-300, and so on
+
+Notes:
+What happens under the hood:
+
+- All ADO IDs are fetched via WIQL (already sorted ascending by ID)
+- IDs already in state.json are filtered out
+- The first N of the remaining IDs form the batch — full details are fetched only for those N
+- Each item is migrated and checkpointed to state.json immediately, so you can interrupt mid-batch and the next call picks up exactly - where it left off
+- At the end it prints how many items are still remaining and reminds you to run the command again
+- The batch size is whatever number you pass, so python migrate.py multiple 500 would do 500 at a time, etc. python migrate.py (no - args) still runs the full migration as before.
+
+
+## Implementind Development mapper/linker ensuring the linked PRs and branches from Azure DevOps are migrated into the GitHub issues
+
+Changes made:
+
+**mapper.py**
+
+Added _resolve_vstfs_github_url() — parses the vstfs URL into (guid, prNumber), checks ADO_GITHUB_CONNECTION_MAP first, then falls back to the GitHub REST search API
+Added _search_gh_pr_in_org() — uses GET /search/issues?q=is:pr+org:…+{N} (REST, works with your token) and filters to exact number matches. If one repo has PR #N → resolved. If multiple repos have PR #N → warns and asks you to add the GUID to the config map
+Updated _parse_vstfs_github() to call the resolver and populate github_url
+Fixed extract_dev_links() to deduplicate links (avoids double-counting when a PR appears as both artifact + explicit hyperlink)
+config.py
+
+Added ADO_GITHUB_CONNECTION_MAP — loaded from .env, maps connection GUID → "owner/repo". Takes priority over search (faster + handles ambiguous PR numbers across repos)
+migrate.py
+
+Fixed the PR linker filter: was source == "hyperlink" (never matched artifact links) → now github_url is set and URL contains "pull"
+ado_client.py
+
+Added discover_github_connections() — scans work items and prints all GUIDs with a ready-to-paste .env snippet (run python ado_client.py discover_github_connections)
+
+| GUID         | Type                     | Usage                | Status                                 |
+|--------------|--------------------------|----------------------|----------------------------------------|
+| dbf634f2…    | PRs / Commits / Branches | 45 PRs, 37 commits   | ✅ Infragistics-BusinessTools/Reveal   |
+| 2d16b998…    | PRs / Commits            | 6 PRs, 3 commits     | ✅ Infragistics-BusinessTools/Shared   |
+| 0b0d6b44…    | PRs / Commits            | 2 PRs only           | ❓ Services, Slingshot, or Reveal.Sdk.AI|
+| f5f3ea1e…    | GitHub Issues (not PRs)  | 276 issue links      | ✅ RevealBi/Reveal.Sdk (body link only — cross-org, no Development sidebar) |

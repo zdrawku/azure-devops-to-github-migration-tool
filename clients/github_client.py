@@ -505,3 +505,85 @@ def set_issue_parent(child_issue_node_id: str, parent_issue_node_id: str):
     }
     """
     _graphql(mutation, {"parentId": parent_issue_node_id, "childId": child_issue_node_id})
+
+
+# ── Development-section PR linking ───────────────────────────────────────────
+
+def link_pr_to_issue(pr_url: str, issue_number: int) -> bool:
+    """
+    Links an existing GitHub Pull Request to a GitHub issue by appending a
+    ``Refs`` cross-reference to the PR's body.  GitHub uses this reference to
+    populate the **Development** section of the target issue.
+
+    Works for PRs in any repository, including cross-repo PRs within the same
+    organisation.  Cross-repo references use the ``owner/repo#number`` format.
+
+    Returns True if the PR was updated (or was already linked), False on any
+    error (missing permissions, PR not found, etc.).
+    """
+    import re as _re
+
+    # Parse the PR URL: https://github.com/{owner}/{repo}/pull/{number}
+    match = _re.match(
+        r"https://github\.com/([^/]+)/([^/]+)/pull/(\d+)",
+        pr_url.strip(),
+        _re.IGNORECASE,
+    )
+    if not match:
+        print(f"   [WARN] link_pr_to_issue: cannot parse PR URL '{pr_url}' — skipping.")
+        return False
+
+    pr_owner   = match.group(1)
+    pr_repo    = match.group(2)
+    pr_num     = int(match.group(3))
+
+    # Determine the reference text.
+    # Using "Closes" (a GitHub closing keyword) is the only way to make a PR
+    # appear in the issue's Development sidebar.  Plain "Refs" only creates a
+    # mention in the timeline and is NOT picked up by the sidebar.
+    # ⚠️  Side-effect: if a merged PR targets the default branch, GitHub may
+    # auto-close the linked issue when this keyword is processed.  For this
+    # migration the issue state was already set from ADO, so that is acceptable.
+    if pr_owner.lower() == GH_REPO_OWNER.lower() and pr_repo.lower() == GH_REPO_NAME.lower():
+        refs_text = f"Closes #{issue_number}"
+    else:
+        refs_text = f"Closes {GH_REPO_OWNER}/{GH_REPO_NAME}#{issue_number}"
+
+    pr_api_url = f"https://api.github.com/repos/{pr_owner}/{pr_repo}/pulls/{pr_num}"
+
+    # Fetch the current PR
+    while True:
+        r = requests.get(pr_api_url, headers=_headers())
+        if _handle_rate_limit(r):
+            continue
+        break
+
+    if not r.ok:
+        print(f"   [WARN] link_pr_to_issue: GET {pr_api_url} → {r.status_code}. Skipping.")
+        return False
+
+    pr_data       = r.json()
+    existing_body = pr_data.get("body") or ""
+
+    # Idempotent – don't add duplicate markers
+    if refs_text in existing_body:
+        return True
+
+    new_body = (
+        existing_body.rstrip()
+        + f"\n\n---\n_{refs_text} (linked during ADO → GitHub migration)_"
+    )
+
+    # Update the PR body
+    while True:
+        r = requests.patch(pr_api_url, json={"body": new_body}, headers=_headers())
+        if _handle_rate_limit(r):
+            continue
+        break
+
+    if not r.ok:
+        print(
+            f"   [WARN] link_pr_to_issue: PATCH {pr_api_url} → {r.status_code}: "
+            f"{r.text[:200]}"
+        )
+    return r.ok
