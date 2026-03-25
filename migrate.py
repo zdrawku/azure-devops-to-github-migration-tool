@@ -94,9 +94,32 @@ def load_errors() -> dict:
     return {}
 
 
-def save_errors(errors: dict):
+def save_errors(errors: dict, cleared: set[str] | None = None):
+    """
+    Persists the error ledger by merging ``errors`` with existing on-disk
+    content so that failures from previous runs survive across batch runs.
+
+    - New or updated entries in ``errors`` overwrite any stale on-disk ones.
+    - Entries on disk that are *not* in ``errors`` are preserved as-is.
+    - Entries whose ado_id string is in ``cleared`` are removed from the
+      merged result (use this when an item migrated successfully).
+    """
+    on_disk: dict = {}
+    if os.path.exists(ERRORS_FILE):
+        try:
+            with open(ERRORS_FILE) as f:
+                on_disk = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            on_disk = {}
+
+    # Merge: caller's in-memory entries take precedence over stale disk entries
+    merged = {**on_disk, **errors}
+    # Explicitly remove resolved items
+    for k in (cleared or set()):
+        merged.pop(str(k), None)
+
     with open(ERRORS_FILE, "w") as f:
-        json.dump(errors, f, indent=2)
+        json.dump(merged, f, indent=2)
 
 
 def load_state() -> dict:
@@ -265,8 +288,9 @@ def migrate_work_item(
             break
 
     # Resolve ADO priority → GitHub project priority option name
+    # Default to "P3" (Low) when the ADO field is absent or not in the map
     ado_priority = work_item.get("fields", {}).get("Microsoft.VSTS.Common.Priority")
-    project_priority = ADO_PRIORITY_TO_PROJECT_PRIORITY.get(ado_priority)
+    project_priority = ADO_PRIORITY_TO_PROJECT_PRIORITY.get(ado_priority, "P3")
 
     # Resolve ADO area path → GitHub project Area single-select option name
     # ADO values look like "BusinessTools\Reveal\Data Sources"; the GitHub
@@ -516,8 +540,7 @@ def migrate_single(ado_id: int):
         print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
         # Resolve any deferred parent links accumulated during auto-parent migration
         _resolve_deferred_parent_links(node_ids)
-        errors.pop(str(ado_id), None)  # Clear from error ledge on success
-        save_errors(errors)
+        save_errors(errors, cleared={str(ado_id)})  # merge + remove resolved entry
         print()
         print("="*60)
         print(f"  ✅ Migration successful!")
@@ -593,8 +616,7 @@ def migrate():
             gh_issue_number = migrate_work_item(work_item, state, ms_map, node_ids)
             print(f"   ✅ Created GitHub Issue #{gh_issue_number}")
             success_count += 1
-            errors.pop(str(ado_id), None)  # Clear from error ledger on success
-            save_errors(errors)
+            save_errors(errors, cleared={str(ado_id)})  # merge + remove resolved entry
             time.sleep(2)  # ~2s between items keeps us well under GitHub's 5 000 req/hr limit
 
         except Exception as e:
@@ -734,8 +756,7 @@ def migrate_multiple(batch_size: int):
             gh_issue_number = migrate_work_item(work_item, state, ms_map, node_ids)
             print(f"   \u2705 Created GitHub Issue #{gh_issue_number}")
             success_count += 1
-            errors.pop(str(ado_id), None)
-            save_errors(errors)
+            save_errors(errors, cleared={str(ado_id)})  # merge + remove resolved entry
             time.sleep(2)
 
         except Exception as e:

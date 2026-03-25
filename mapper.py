@@ -351,7 +351,7 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
     reason            = fields.get("System.Reason", "")
     triage            = fields.get("Microsoft.VSTS.Common.Triage", "")
     resolved_reason   = fields.get("Microsoft.VSTS.Common.ResolvedReason", "")
-    priority          = fields.get("Microsoft.VSTS.Common.Priority", "")
+    priority          = fields.get("Microsoft.VSTS.Common.Priority")  # None when unset
     severity          = fields.get("Microsoft.VSTS.Common.Severity", "")
     activity          = fields.get("Microsoft.VSTS.Common.Activity", "")
     original_estimate = fields.get("Microsoft.VSTS.Scheduling.OriginalEstimate")
@@ -412,9 +412,13 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
         lines += ["## Acceptance Criteria", "", acceptance, ""]
 
     # Planning section — shown when at least one of story points, priority, or risk is present
+    _priority_display = (
+        str(priority) if priority is not None
+        else "Low _(not specified in ADO — defaulted to Low)_"
+    )
     planning_rows = [
         ("Story Points", str(story_points) if story_points is not None else ""),
-        ("Priority",     str(priority) if priority else ""),
+        ("Priority",     _priority_display),
         ("Risk",         risk),
     ]
     planning_values = [(label, val) for label, val in planning_rows if val]
@@ -472,7 +476,7 @@ def build_issue_body(work_item: dict, ado_org: str, ado_project: str) -> str:
         # Planning
         ("Triage",         triage),
         ("Resolved Reason",resolved_reason),
-        ("Priority",       str(priority) if priority else ""),
+        ("Priority",       str(priority) if priority is not None else "Low _(not specified in ADO — defaulted to Low)_"),
         ("Severity",       severity),
         ("Activity",       activity),
         # ── Classification ────────────────────────────────────────────
@@ -513,32 +517,41 @@ def resolve_github_type(work_item: dict) -> str:
     """
     Returns the GitHub type label for a work item.
     Both real Tasks and User Stories appear as System.WorkItemType=Task in ADO.
-    Tasks have scheduling fields; User Stories / Features do not.
+
+    Classification rules for ADO "Task" items (evaluated in order):
+    1. Story Points set          → Feature (User Story masquerading as a Task)
+    2. Any Effort field present  → Task   (real task with hour tracking)
+    3. Neither                   → Task   (fail-safe: when ambiguous, prefer Task)
+
     All other types are looked up in WORK_ITEM_TYPE_LABELS.
+    Truly unrecognised types fall back to Task.
     """
     fields = work_item.get("fields", {})
     wi_type = fields.get("System.WorkItemType", "")
     if wi_type == "Bug":
         return "type: bug"
     if wi_type == "Task":
-        has_scheduling = any(
-            fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
-        )
-        return "type: task" if has_scheduling else "type: feature"
+        has_story_points = "Microsoft.VSTS.Scheduling.StoryPoints" in fields
+        if has_story_points:
+            return "type: feature"  # User Story in disguise
+        # Effort fields presence is a strong positive signal for a real Task
+        # (field key present in response = the process template includes it = real Task)
+        has_effort = any(f in fields for f in _TASK_SCHEDULING_FIELDS)
+        return "type: task"  # covers both has_effort=True and ambiguous cases
     # All other recognised types: look up in the central mapping
     label_suffix = WORK_ITEM_TYPE_LABELS.get(wi_type)
     if label_suffix:
         return f"type: {label_suffix}"
-    # Truly unknown type — fail-safe
-    return "type: unknown"
+    # Truly unknown type — fail-safe to Task
+    return "type: task"
 
 
 # Maps ADO work item types to GitHub native Issue Type names.
 # Only "Bug", "Task", and "Feature" are configured as native types in this repo.
 _GITHUB_ISSUE_TYPE_MAP: dict[str, str] = {
     "Bug":              "Bug",
-    "Task":             "Task",      # real Task (has scheduling fields)
-    # Task without scheduling → Feature (handled separately in the function)
+    "Task":             "Task",      # real Task (no Story Points; see resolve_github_issue_type_name)
+    # Task with Story Points → Feature (User Story in disguise; handled in the function)
     "User Story":       "Feature",
     "Feature":          "Feature",
     "Feature Request":  "Feature",
@@ -556,17 +569,27 @@ def resolve_github_issue_type_name(work_item: dict) -> str:
     """
     Returns the GitHub native Issue Type name for a work item.
     Expected values in this repo: Bug, Task, Feature.
+
+    Classification rules for ADO "Task" items (evaluated in order):
+    1. Story Points set          → Feature (User Story masquerading as a Task)
+    2. Any Effort field present  → Task   (real task with hour tracking)
+    3. Neither                   → Task   (fail-safe: when ambiguous, prefer Task)
+
+    Unrecognised ADO types fall back to Task.
     """
     fields = work_item.get("fields", {})
     wi_type = fields.get("System.WorkItemType", "")
     if wi_type == "Bug":
         return "Bug"
     if wi_type == "Task":
-        has_scheduling = any(
-            fields.get(f) is not None for f in _TASK_SCHEDULING_FIELDS
-        )
-        return "Task" if has_scheduling else "Feature"
-    return _GITHUB_ISSUE_TYPE_MAP.get(wi_type, "Feature")
+        has_story_points = "Microsoft.VSTS.Scheduling.StoryPoints" in fields
+        if has_story_points:
+            return "Feature"  # User Story in disguise
+        # Effort fields presence is a strong positive signal for a real Task
+        # (field key present in response = the process template includes it = real Task)
+        has_effort = any(f in fields for f in _TASK_SCHEDULING_FIELDS)
+        return "Task"  # covers both has_effort=True and ambiguous cases
+    return _GITHUB_ISSUE_TYPE_MAP.get(wi_type, "Task")
 
 
 def build_labels(work_item: dict) -> list[str]:
@@ -577,10 +600,9 @@ def build_labels(work_item: dict) -> list[str]:
     # GitHub type (Bug / Task / Feature)
     labels.append(resolve_github_type(work_item))
 
-    # Priority
+    # Priority — default to "priority: low" when the field is absent or unrecognised
     priority = fields.get("Microsoft.VSTS.Common.Priority")
-    if priority in PRIORITY_LABELS:
-        labels.append(PRIORITY_LABELS[priority])
+    labels.append(PRIORITY_LABELS.get(priority, "priority: low"))
 
     # Severity
     severity = fields.get("Microsoft.VSTS.Common.Severity", "")

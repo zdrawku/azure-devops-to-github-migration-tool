@@ -388,13 +388,25 @@ Milestone mapper function was created to map the ported issues to the appropriat
 
 ## Work Item Type Mapping
 
-ADO's `System.WorkItemType` is used to determine the GitHub issue type label and is detected as follows:
+ADO's `System.WorkItemType` is used to determine the GitHub issue type label and native Issue Type.
+For items where `System.WorkItemType = Task` the classifier uses a field-presence heuristic
+(evaluated top-to-bottom — first match wins):
 
-| ADO Type | Detection Rule | GitHub Label |
+| Priority | Signal | GitHub Type |
 |---|---|---|
-| `Bug` | `System.WorkItemType = Bug` | `type: bug` |
-| `Task` | `System.WorkItemType = Task` **and** any of the scheduling fields are non-null (`CompletedWork`, `OriginalEstimate`, `RemainingWork`) | `type: task` |
-| `Feature` (User Story) | `System.WorkItemType = Task` **and** none of the scheduling fields are present | `type: feature` |
+| 1 | `System.WorkItemType = Bug` | **Bug** |
+| 2 | `System.WorkItemType = Task` **and** `Microsoft.VSTS.Scheduling.StoryPoints` key is present in the ADO response (value may be null) | **Feature** — User Story masquerading as a Task |
+| 3 | `System.WorkItemType = Task` **and** any of `OriginalEstimate`, `RemainingWork`, or `CompletedWork` keys are present in the ADO response | **Task** — real task with hour-tracking fields |
+| 4 | `System.WorkItemType = Task` — no Story Points, no Effort fields | **Task** — fail-safe: ambiguous items default to Task |
+| 5 | Any other recognised ADO type (`User Story`, `Feature`, `Epic`, `Feature Request`, `Product Backlog Item`) | **Feature** |
+| 6 | Any other recognised ADO type (`Test Case`, `Test Plan`, `Test Suite`, `Impediment`) | **Task** |
+| 7 | `Issue` ADO type | **Bug** |
+| 8 | Completely unrecognised ADO type | **Task** — fail-safe |
+
+> **Field presence vs. value**: checks use `key in fields`, not `fields[key] is not None`.
+> A field returned by ADO with a `null` value still counts as "present" — this correctly
+> handles items where the Story Points or Effort fields exist on the work item template but
+> have never been filled in.
 
 ---
 
