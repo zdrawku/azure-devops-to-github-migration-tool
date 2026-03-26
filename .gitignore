@@ -8,3 +8,7 @@ env/
 venv/
 .env
 .DS_Store
+migration.log
+state.json
+state_node_ids.json
+migration_errors.json
