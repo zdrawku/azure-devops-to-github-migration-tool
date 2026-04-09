@@ -11,3 +11,5 @@ venv/
 migration.log
 state_node_ids.json
 migration_errors.json
+create_issues_state.json
+info/work-items-to-be-created.md
