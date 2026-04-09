@@ -13,6 +13,7 @@ This tool automates the migration of thousands of work items from Azure DevOps t
 ✅ Handling parent-child relationships (epics → issues)  
 ✅ Supporting resume-on-failure with automatic checkpointing  
 ✅ Implementing comprehensive rate-limit handling for safe overnight runs  
+✅ Creating new issues from free-text Markdown descriptions using repository issue templates  
 
 ## Features
 
@@ -23,6 +24,7 @@ This tool automates the migration of thousands of work items from Azure DevOps t
 - **Custom field mapping**: Supports ADO description, repro steps, symptom, expected result, acceptance criteria, and more
 - **Label automation**: Generates labels from work item type, priority, severity, triage status, state, and ADO tags
 - **Configurable**: All mappings (users, iterations, priorities, areas) live in `config.py` and `.env`
+- **Free-text issue creation**: `create_issues.py` creates issues from a structured Markdown file using the repo's own issue templates — no ADO required
 
 ## Prerequisites
 

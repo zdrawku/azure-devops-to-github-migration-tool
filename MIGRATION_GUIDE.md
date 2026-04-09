@@ -66,6 +66,58 @@ ado-to-github-migration/
 
 ---
 
+## Creating Issues from a Free-Text Description (create_issues.py)
+
+`create_issues.py` creates GitHub Issues directly from a structured Markdown file — without touching Azure DevOps. It is intended for new work items that were never in ADO (e.g. `info/work-items-to-be-created.md`).
+
+### How it works
+
+1. **Templates** — On the first run the script fetches all issue templates from `.github/ISSUE_TEMPLATE` in the repository and caches them in `template_cache.json`. Subsequent runs use the cache.
+2. **Parsing** — The input file is parsed for `### **Feature N: Title**` and `**Task N.M: Title**` headings. Each item's `Description` and `Relations` bullet is extracted.
+3. **Template matching** — Each item is matched to the closest template by type name (e.g. "Feature" → `feature.md`, "Task" → `task.md`). The description is slotted into the template's primary section (`## Description`, `## Summary`, etc.).
+4. **Issue creation** — Issues are created in the GitHub repository with the appropriate labels (from `WORK_ITEM_TYPE_LABELS` in `config.py`). Features are created before Tasks so parents exist when children are linked.
+5. **Project assignment** — Every created issue is added to the specified GitHub ProjectsV2.
+6. **Parent→child links** — After all issues are created, Task issues are linked as sub-issues of their parent Feature issue using the `addSubIssue` GraphQL mutation.
+
+### Commands
+
+| Command | Description |
+|---|---|
+| `python create_issues.py` | **Dry-run** — parses the input file and prints what would be created. Nothing is submitted. |
+| `python create_issues.py --execute` | **Create** — creates all pending issues, adds them to project #5, and wires parent→child links. |
+| `python create_issues.py --execute --file path/to/items.md` | Use a different input file. |
+| `python create_issues.py --execute --project 3` | Override the target project number (default: 5). |
+| `python create_issues.py --refresh-templates` | Force re-fetch issue templates from GitHub (ignores `template_cache.json`). |
+
+### Resume support
+
+Every successfully created issue is saved to `create_issues_state.json` immediately after creation. Re-running the command skips any item already in that file, making it safe to cancel and restart mid-run.
+
+### Input file format
+
+The parser recognises the following Markdown structure (matching `info/work-items-to-be-created.md`):
+
+```markdown
+### **Feature 1: My Feature Title**
+* **Description:** A one-paragraph description of the feature.
+* **Relations:** Parent of Tasks 1.1, 1.2
+
+**Task 1.1: My Task Title**
+* **Description:** A one-paragraph description of the task.
+* **Relations:** Child of Feature 1
+```
+
+Any other fields (e.g. `**Assignee:**`) are silently ignored — assignees can be set manually in GitHub after creation.
+
+### Generated files
+
+| File | Description |
+|---|---|
+| `template_cache.json` | Cached issue templates fetched from GitHub. Delete to force a re-fetch. |
+| `create_issues_state.json` | Tracks created issues by key (e.g. `"Feature 1"`, `"Task 1.1"`). Enables resume on failure. |
+
+---
+
 ## Inspecting Areas & Iterations
 
 Two utility functions in `clients/ado_client.py` let you fetch the full area-path and iteration trees directly from the ADO Classification Nodes API.

@@ -1,0 +1,23 @@
+{
+  "bug_report.md": {
+    "name": "Bug report",
+    "labels": [
+      "bug"
+    ],
+    "body": "## Description  \nA clear and concise description of what the bug is.\n\n## Steps to reproduce  \n\n1. Step 1\n2. Step 2\n3. ...\n\n## Result\nWhat is the actual result after following the steps to reproduce?\n\n## Expected behavior\nA clear and concise description of what you expected to happen.\n\n## Attachments  \nAttach a sample if available, and screenshots, if applicable."
+  },
+  "feature_request.md": {
+    "name": "Feature request",
+    "labels": [
+      ""
+    ],
+    "body": "**Is your feature request related to a problem? Please describe.**\nA clear and concise description of what the problem is. Ex. I'm always frustrated when [...]\n\n**Describe the solution you'd like**\nA clear and concise description of what you want to happen.\n\n**Describe alternatives you've considered**\nA clear and concise description of any alternative solutions or features you've considered.\n\n**Additional context**\nAdd any other context or screenshots about the feature request here."
+  },
+  "task-report.md": {
+    "name": "Task report",
+    "labels": [
+      ""
+    ],
+    "body": "## Description\nA clear and concise description of what the task is about."
+  }
+}
