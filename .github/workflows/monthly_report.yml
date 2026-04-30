@@ -10,6 +10,9 @@ on:
         description: "Target month (YYYY-MM). Leave empty for current month."
         required: false
         type: string
+  schedule:
+    # Run on the last day of each month at 18:00 UTC
+    - cron: "0 12 1-31 * *"
 
 permissions:
   contents: read
