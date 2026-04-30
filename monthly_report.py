@@ -12,17 +12,20 @@ Counts are produced via the GitHub Search API using the same syntax as the
 Usage:
     python monthly_report.py
     python monthly_report.py --month 2026-04
+    python monthly_report.py --html report.html
 """
 
 from __future__ import annotations
 
 import argparse
 import calendar
+import html as html_mod
+import json
 import os
 import sys
 import time
-from dataclasses import dataclass
-from datetime import date
+from dataclasses import asdict, dataclass, field
+from datetime import date, datetime, timezone
 
 import requests
 from dotenv import load_dotenv
@@ -70,8 +73,6 @@ def previous_month(mr: MonthRange) -> MonthRange:
 # GitHub Search
 # ──────────────────────────────────────────────────────────────────────────────
 def _token_for(repo: str) -> str:
-    # GH_TOKEN (org PAT) usually works for both public and private repos.
-    # Fall back to GH_TOKEN_PUBLIC_REVEAL only if the main token is missing.
     if repo == PUBLIC_REPO:
         tok = os.getenv("GH_TOKEN") or os.getenv("GH_TOKEN_PUBLIC_REVEAL")
     else:
@@ -108,56 +109,234 @@ def search_count(repo: str, query: str) -> int:
 # ──────────────────────────────────────────────────────────────────────────────
 # Metric helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def fmt_delta(curr: int, prev: int) -> str:
-    diff = curr - prev
-    sign = "+" if diff >= 0 else "-"
-    return f"{curr} ({sign}{abs(diff)})"
+@dataclass
+class Metric:
+    label: str
+    current: int = 0
+    previous: int = 0
+
+    @property
+    def delta(self) -> int:
+        return self.current - self.previous
+
+    def formatted(self) -> str:
+        sign = "+" if self.delta >= 0 else "-"
+        return f"{self.current} ({sign}{abs(self.delta)})"
 
 
-def count_with_compare(repo: str, base_query: str, curr: MonthRange, prev: MonthRange,
-                       date_field: str = "created") -> str:
+@dataclass
+class ReportSection:
+    title: str
+    url: str
+    curr_label: str
+    prev_label: str
+    metrics: list[Metric] = field(default_factory=list)
+    subsections: list[tuple[str, list[Metric]]] = field(default_factory=list)
+
+
+def collect_metric(repo: str, label: str, base_query: str,
+                   curr: MonthRange, prev: MonthRange,
+                   date_field: str = "created") -> Metric:
     c = search_count(repo, f"{base_query} {date_field}:{curr.query_range()}")
     p = search_count(repo, f"{base_query} {date_field}:{prev.query_range()}")
-    return fmt_delta(c, p)
+    return Metric(label=label, current=c, previous=p)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Report sections
+# Data collection
 # ──────────────────────────────────────────────────────────────────────────────
-def report_public_sdk(curr: MonthRange, prev: MonthRange) -> None:
-    print(f"\nReveal SDK Public Bugs (https://github.com/{PUBLIC_REPO}/issues):")
-    print(f"  Window: {curr.label}  (compared to {prev.label})")
+def collect_public_sdk(curr: MonthRange, prev: MonthRange) -> ReportSection:
+    section = ReportSection(
+        title="Reveal SDK Public Bugs",
+        url=f"https://github.com/{PUBLIC_REPO}/issues",
+        curr_label=curr.label,
+        prev_label=prev.label,
+    )
+    section.metrics = [
+        collect_metric(PUBLIC_REPO, "New bugs",               "type:Bug",     curr, prev, "created"),
+        collect_metric(PUBLIC_REPO, "Closed bugs",            "type:Bug",     curr, prev, "closed"),
+        collect_metric(PUBLIC_REPO, "New feature requests",   "type:Feature", curr, prev, "created"),
+        collect_metric(PUBLIC_REPO, "Closed feature requests","type:Feature", curr, prev, "closed"),
+    ]
+    return section
 
-    new_bugs     = count_with_compare(PUBLIC_REPO, "type:Bug",     curr, prev, "created")
-    closed_bugs  = count_with_compare(PUBLIC_REPO, "type:Bug",     curr, prev, "closed")
-    new_feats    = count_with_compare(PUBLIC_REPO, "type:Feature", curr, prev, "created")
-    closed_feats = count_with_compare(PUBLIC_REPO, "type:Feature", curr, prev, "closed")
 
-    print(f"  - New bugs              - {new_bugs}")
-    print(f"  - Closed bugs           - {closed_bugs}")
-    print(f"  - New feature requests  - {new_feats}")
-    print(f"  - Closed feature requests - {closed_feats}")
+def collect_private_reveal(curr: MonthRange, prev: MonthRange) -> ReportSection:
+    section = ReportSection(
+        title="Reveal Slingshot/Crash reports and bugs",
+        url=f"https://github.com/{PRIVATE_REPO}/issues",
+        curr_label=curr.label,
+        prev_label=prev.label,
+    )
+    section.metrics = [
+        collect_metric(PRIVATE_REPO, "New bugs since last month", "type:Bug", curr, prev, "created"),
+    ]
 
+    # Crash Reports (label:"Crash Report")
+    crash_q = 'type:Bug label:"Crash Report"'
+    crash_metric = collect_metric(PRIVATE_REPO, "New Crash Reports",
+                                  crash_q, curr, prev, "created")
+    section.metrics.append(crash_metric)
 
-def report_private_reveal(curr: MonthRange, prev: MonthRange) -> None:
-    print(f"\nReveal Slingshot/Crash reports and bugs "
-          f"(from https://github.com/{PRIVATE_REPO}/issues):")
-    print(f"  Window: {curr.label}  (compared to {prev.label})")
-
-    # New bugs (any Bug opened in window)
-    new_bugs = count_with_compare(PRIVATE_REPO, "type:Bug", curr, prev, "created")
-    print(f"  - New bugs since last month: {new_bugs}")
-
-    # New crash reports / Slingshot — comma in label list = OR semantics in GH search
-    crash_q = 'type:Bug label:"Crash Report","Slingshot"'
-    new_crash = count_with_compare(PRIVATE_REPO, crash_q, curr, prev, "created")
-    print(f"  - New Crash Reports since last month: {new_crash}")
-
-    # Per-platform breakdown — AND of crash label + platform label
+    crash_platform_metrics = []
     for platform in CRASH_PLATFORM_LABELS:
         q = f'{crash_q} label:"{platform}"'
-        line = count_with_compare(PRIVATE_REPO, q, curr, prev, "created")
-        print(f"      - {platform:<8} - {line}")
+        crash_platform_metrics.append(
+            collect_metric(PRIVATE_REPO, platform, q, curr, prev, "created")
+        )
+    section.subsections.append(("Crash Reports by platform", crash_platform_metrics))
+
+    # Slingshot bugs (label:Slingshot, excluding Crash Report)
+    slingshot_q = 'type:Bug label:Slingshot -label:"Crash Report"'
+    slingshot_metric = collect_metric(PRIVATE_REPO, "New Slingshot Bugs",
+                                     slingshot_q, curr, prev, "created")
+    section.metrics.append(slingshot_metric)
+
+    slingshot_platform_metrics = []
+    for platform in CRASH_PLATFORM_LABELS:
+        q = f'{slingshot_q} label:"{platform}"'
+        slingshot_platform_metrics.append(
+            collect_metric(PRIVATE_REPO, platform, q, curr, prev, "created")
+        )
+    section.subsections.append(("Slingshot Bugs by platform", slingshot_platform_metrics))
+    return section
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Text output
+# ──────────────────────────────────────────────────────────────────────────────
+def print_report(sections: list[ReportSection], curr: MonthRange, prev: MonthRange) -> None:
+    print(f"📊 Monthly Reveal issue report — {curr.label}")
+    print(f"   (comparison baseline: {prev.label})")
+
+    for sec in sections:
+        print(f"\n{sec.title} ({sec.url}):")
+        print(f"  Window: {sec.curr_label}  (compared to {sec.prev_label})")
+        for m in sec.metrics:
+            print(f"  - {m.label:<25} - {m.formatted()}")
+        for sub_title, sub_metrics in sec.subsections:
+            print(f"    {sub_title}:")
+            for m in sub_metrics:
+                print(f"      - {m.label:<8} - {m.formatted()}")
+    print()
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# HTML output
+# ──────────────────────────────────────────────────────────────────────────────
+def delta_badge(metric: Metric) -> str:
+    """Return an HTML badge for the delta."""
+    if metric.delta > 0:
+        cls = "badge up"
+        text = f"+{metric.delta}"
+    elif metric.delta < 0:
+        cls = "badge down"
+        text = f"{metric.delta}"
+    else:
+        cls = "badge neutral"
+        text = "0"
+    return f'<span class="{cls}">{html_mod.escape(text)}</span>'
+
+
+def generate_html(sections: list[ReportSection], curr: MonthRange, prev: MonthRange) -> str:
+    generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+    rows_html = ""
+    for sec in sections:
+        rows_html += f"""
+        <div class="card">
+          <h2><a href="{html_mod.escape(sec.url)}">{html_mod.escape(sec.title)}</a></h2>
+          <p class="subtitle">{sec.curr_label} vs {sec.prev_label}</p>
+          <table>
+            <thead><tr><th>Metric</th><th>Count</th><th>Δ</th></tr></thead>
+            <tbody>
+"""
+        for m in sec.metrics:
+            rows_html += f"              <tr><td>{html_mod.escape(m.label)}</td><td>{m.current}</td><td>{delta_badge(m)}</td></tr>\n"
+
+        for sub_title, sub_metrics in sec.subsections:
+            rows_html += f'              <tr class="sub-header"><td colspan="3">{html_mod.escape(sub_title)}</td></tr>\n'
+            for m in sub_metrics:
+                rows_html += f"              <tr class='sub'><td>{html_mod.escape(m.label)}</td><td>{m.current}</td><td>{delta_badge(m)}</td></tr>\n"
+
+        rows_html += """            </tbody>
+          </table>
+        </div>
+"""
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reveal Monthly Report — {html_mod.escape(curr.label)}</title>
+<style>
+  :root {{ --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
+           --muted: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff; }}
+  * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+          background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.5; }}
+  h1 {{ margin-bottom: .25rem; }}
+  .meta {{ color: var(--muted); margin-bottom: 2rem; font-size: .85rem; }}
+  .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+           padding: 1.5rem; margin-bottom: 1.5rem; }}
+  .card h2 {{ font-size: 1.1rem; margin-bottom: .25rem; }}
+  .card h2 a {{ color: var(--blue); text-decoration: none; }}
+  .card h2 a:hover {{ text-decoration: underline; }}
+  .subtitle {{ color: var(--muted); font-size: .85rem; margin-bottom: 1rem; }}
+  table {{ width: 100%; border-collapse: collapse; }}
+  th, td {{ text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--border); }}
+  th {{ color: var(--muted); font-weight: 600; font-size: .8rem; text-transform: uppercase; }}
+  tr.sub-header td {{ font-weight: 600; color: var(--muted); padding-top: 1rem; border-bottom: none; }}
+  tr.sub td:first-child {{ padding-left: 1.5rem; }}
+  .badge {{ display: inline-block; padding: .15rem .5rem; border-radius: 12px;
+            font-size: .8rem; font-weight: 600; }}
+  .badge.up {{ background: rgba(248,81,73,.15); color: var(--red); }}
+  .badge.down {{ background: rgba(63,185,80,.15); color: var(--green); }}
+  .badge.neutral {{ background: rgba(139,148,158,.15); color: var(--muted); }}
+  @media (max-width: 600px) {{ body {{ padding: 1rem; }} }}
+</style>
+</head>
+<body>
+  <h1>📊 Reveal Monthly Report — {html_mod.escape(curr.label)}</h1>
+  <p class="meta">Comparison baseline: {html_mod.escape(prev.label)} · Generated {generated}</p>
+  {rows_html}
+</body>
+</html>"""
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# JSON output
+# ──────────────────────────────────────────────────────────────────────────────
+def generate_json(sections: list[ReportSection], curr: MonthRange, prev: MonthRange) -> str:
+    generated = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    data = {
+        "generated": generated,
+        "curr": curr.label,
+        "prev": prev.label,
+        "sections": [
+            {
+                "title": sec.title,
+                "url": sec.url,
+                "metrics": [
+                    {"label": m.label, "current": m.current, "previous": m.previous, "delta": m.delta}
+                    for m in sec.metrics
+                ],
+                "subsections": [
+                    {
+                        "title": sub_title,
+                        "metrics": [
+                            {"label": m.label, "current": m.current, "previous": m.previous, "delta": m.delta}
+                            for m in sub_metrics
+                        ],
+                    }
+                    for sub_title, sub_metrics in sec.subsections
+                ],
+            }
+            for sec in sections
+        ],
+    }
+    return json.dumps(data, indent=2)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -177,18 +356,36 @@ def parse_month(value: str | None) -> MonthRange:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--month", help="Target month as YYYY-MM (default: last month)")
+    ap.add_argument("--month", help="Target month as YYYY-MM (default: current month)")
+    ap.add_argument("--html", metavar="FILE", help="Write HTML report to FILE")
+    ap.add_argument("--json", metavar="FILE", help="Write JSON data to FILE (for GitHub Pages)")
     args = ap.parse_args()
 
     curr = parse_month(args.month)
     prev = previous_month(curr)
 
-    print(f"📊 Monthly Reveal issue report — {curr.label}")
-    print(f"   (comparison baseline: {prev.label})")
+    sections = [
+        collect_public_sdk(curr, prev),
+        collect_private_reveal(curr, prev),
+    ]
 
-    report_public_sdk(curr, prev)
-    report_private_reveal(curr, prev)
-    print()
+    print_report(sections, curr, prev)
+
+    if args.html:
+        html_content = generate_html(sections, curr, prev)
+        out_path = os.path.abspath(args.html)
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        print(f"✅ HTML report written to {args.html}")
+
+    if args.json:
+        json_content = generate_json(sections, curr, prev)
+        out_path = os.path.abspath(args.json)
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(json_content)
+        print(f"✅ JSON data written to {args.json}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,57 @@
+name: Deploy Report Page → GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**']
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Target month (YYYY-MM). Leave empty for current month."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests python-dotenv
+
+      - name: Generate data.json
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN_PUBLIC_REVEAL: ${{ secrets.GH_TOKEN_PUBLIC_REVEAL }}
+        run: |
+          MONTH_ARG=""
+          if [[ -n "${{ inputs.month }}" ]]; then
+            MONTH_ARG="--month ${{ inputs.month }}"
+          fi
+          python monthly_report.py $MONTH_ARG --json docs/data.json
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
