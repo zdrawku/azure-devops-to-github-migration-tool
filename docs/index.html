@@ -6,56 +6,62 @@
 <title>Reveal Monthly Report</title>
 <style>
   :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
-           --muted: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff;
-           --btn: #238636; --btn-hover: #2ea043; }
+          --muted: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff;
+          --btn: #238636; --btn-hover: #2ea043; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-         background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.6; }
-  h1 { margin-bottom: .5rem; }
-  .meta { color: var(--muted); margin-bottom: 1.5rem; font-size: .85rem; }
-  .controls { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-  button { background: var(--btn); color: #fff; border: none; border-radius: 6px;
-           padding: .6rem 1.4rem; font-size: .95rem; font-weight: 600; cursor: pointer; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: var(--bg); color: var(--text);
+         display: flex; flex-direction: column; padding: 1rem 1.5rem; gap: .5rem; }
+
+  /* ── top bar ── */
+  .topbar { display: flex; align-items: baseline; gap: 1.5rem; flex-shrink: 0; }
+  .topbar h1 { font-size: 1rem; font-weight: 700; white-space: nowrap; }
+  .meta { color: var(--muted); font-size: .75rem; }
+  button { background: var(--btn); color: #fff; border: none; border-radius: 5px;
+           padding: .35rem 1rem; font-size: .8rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
   button:hover:not(:disabled) { background: var(--btn-hover); }
-  button:disabled { opacity: .5; cursor: not-allowed; }
-  #output { display: none; }
-  #output.visible { display: block; }
-  .report-header { margin-bottom: 1.5rem; }
-  .report-header h2 { font-size: 1.15rem; }
-  .report-header .baseline { color: var(--muted); font-size: .85rem; }
-  .section { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
-             padding: 1.5rem; margin-bottom: 1.25rem; }
-  .section h3 { font-size: 1rem; margin-bottom: .25rem; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  #status { color: var(--muted); font-size: .75rem; }
+
+  /* ── grid fills remaining height ── */
+  #output { display: none; flex: 1; overflow: hidden; }
+  #output.visible { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+
+  .section { background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+             padding: .75rem 1rem; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+  .section h3 { font-size: .8rem; font-weight: 700; margin-bottom: .15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .section h3 a { color: var(--blue); text-decoration: none; }
   .section h3 a:hover { text-decoration: underline; }
-  .section .window { color: var(--muted); font-size: .8rem; margin-bottom: 1rem; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: .45rem .75rem; border-bottom: 1px solid var(--border); }
-  th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; }
+  .window { color: var(--muted); font-size: .7rem; margin-bottom: .5rem; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+  th, td { text-align: left; padding: .25rem .5rem; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: .68rem; text-transform: uppercase; }
   tr:last-child td { border-bottom: none; }
-  tr.sub-hdr td { font-weight: 600; color: var(--muted); padding-top: .9rem; border-bottom: none; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
-  tr.sub td:first-child { padding-left: 1.5rem; color: var(--muted); }
-  .badge { display: inline-block; padding: .15rem .5rem; border-radius: 12px;
-           font-size: .78rem; font-weight: 600; }
+  tr.sub-hdr td { font-weight: 700; color: var(--muted); padding-top: .6rem; border-bottom: none;
+                  font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; }
+  tr.sub td:first-child { padding-left: 1rem; color: var(--muted); }
+
+  .badge { display: inline-block; padding: .1rem .35rem; border-radius: 10px; font-size: .7rem; font-weight: 700; }
   .badge.up   { background: rgba(248,81,73,.15);   color: var(--red); }
   .badge.down { background: rgba(63,185,80,.15);   color: var(--green); }
   .badge.zero { background: rgba(139,148,158,.15); color: var(--muted); }
-  .spinner { display: inline-block; width: 15px; height: 15px; border: 2px solid var(--border);
+
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border);
              border-top-color: var(--blue); border-radius: 50%;
              animation: spin .6s linear infinite; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .error-msg { color: var(--red); margin-top: 1rem; }
-  @media (max-width: 600px) { body { padding: 1rem; } }
+  .error-msg { color: var(--red); font-size: .85rem; }
 </style>
 </head>
 <body>
 
-<h1>📊 Reveal Monthly Report</h1>
-<p class="meta">Data is generated by the CI workflow and served as <code>data.json</code>.</p>
-
-<div class="controls">
-  <button id="btn" onclick="loadReport()">Reload</button>
+<div class="topbar">
+  <h1>📊 Reveal Monthly Report</h1>
+  <button id="btn" onclick="loadReport()">Generate Monthly Report</button>
   <span id="status"></span>
+  <span class="meta" id="generated"></span>
 </div>
 
 <div id="output"></div>
@@ -67,7 +73,7 @@ function badge(delta) {
   return `<span class="badge zero">±0</span>`;
 }
 
-function renderSection(sec) {
+function renderSection(sec, curr, prev) {
   let rows = '';
   for (const m of sec.metrics) {
     rows += `<tr><td>${m.label}</td><td>${m.current}</td><td>${badge(m.delta)}</td></tr>\n`;
@@ -78,12 +84,11 @@ function renderSection(sec) {
       rows += `<tr class="sub"><td>${m.label}</td><td>${m.current}</td><td>${badge(m.delta)}</td></tr>\n`;
     }
   }
-  return `
-  <div class="section">
-    <h3><a href="${sec.url}">${sec.title}</a></h3>
-    <p class="window">Window: ${sec.curr ?? ''} &nbsp;·&nbsp; compared to previous month</p>
+  return `<div class="section">
+    <h3><a href="${sec.url}" title="${sec.title}">${sec.title}</a></h3>
+    <p class="window">${curr} vs ${prev}</p>
     <table>
-      <thead><tr><th>Metric</th><th>Count</th><th>vs prev month</th></tr></thead>
+      <thead><tr><th>Metric</th><th>#</th><th>vs prev</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>`;
@@ -93,33 +98,25 @@ async function loadReport() {
   const btn = document.getElementById('btn');
   const status = document.getElementById('status');
   const output = document.getElementById('output');
+  const gen = document.getElementById('generated');
 
   btn.disabled = true;
-  status.innerHTML = '<span class="spinner"></span> Loading…';
+  status.innerHTML = '<span class="spinner"></span>';
   output.className = '';
   output.innerHTML = '';
+  gen.textContent = '';
 
   try {
     const r = await fetch('./data.json', { cache: 'no-cache' });
-    if (!r.ok) throw new Error(`Could not load data.json (HTTP ${r.status}). Has the workflow run yet?`);
+    if (!r.ok) throw new Error(`data.json not found (HTTP ${r.status}) — has the workflow run yet?`);
     const data = await r.json();
 
     const ts = new Date(data.generated).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+    gen.textContent = `${data.curr} vs ${data.prev} · generated ${ts}`;
 
-    let html = `<div class="report-header">
-      <h2>📊 Monthly Reveal issue report — ${data.curr}</h2>
-      <p class="baseline">Comparison baseline: ${data.prev} &nbsp;·&nbsp; Generated ${ts}</p>
-    </div>`;
-
-    for (const sec of data.sections) {
-      // Attach curr label to section for window display
-      sec.curr = data.curr;
-      html += renderSection(sec);
-    }
-
-    output.innerHTML = html;
+    output.innerHTML = data.sections.map(sec => renderSection(sec, data.curr, data.prev)).join('');
     output.className = 'visible';
-    status.innerHTML = '✅ Done';
+    status.innerHTML = '';
   } catch (e) {
     output.innerHTML = `<p class="error-msg">❌ ${e.message}</p>`;
     output.className = 'visible';
@@ -131,3 +128,4 @@ async function loadReport() {
 </script>
 </body>
 </html>
+
