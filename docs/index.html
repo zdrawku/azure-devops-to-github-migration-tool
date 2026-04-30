@@ -4,73 +4,68 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reveal Monthly Report</title>
+
+<!-- Ignite UI Web Components: dark indigo theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/themes/dark/indigo.css">
+
+<!-- Ignite UI Web Components: register needed components -->
+<script type="module">
+  import { defineComponents, IgcButtonComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent } from 'https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/+esm';
+  defineComponents(IgcButtonComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent);
+</script>
+
 <style>
-  :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
-          --muted: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff;
-          --btn: #238636; --btn-hover: #2ea043; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; overflow: hidden; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-         background: var(--bg); color: var(--text);
-         display: flex; flex-direction: column; padding: 1rem 1.5rem; gap: .5rem; }
+  html, body { height: 100%; }
+  body { background: var(--ig-surface-500); color: var(--ig-gray-900);
+         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         display: flex; flex-direction: column; padding: 1rem 1.5rem; gap: .75rem; }
 
-  /* ── top bar ── */
-  .topbar { display: flex; align-items: baseline; gap: 1.5rem; flex-shrink: 0; }
+  .topbar { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; flex-wrap: wrap; }
   .topbar h1 { font-size: 1rem; font-weight: 700; white-space: nowrap; }
-  .meta { color: var(--muted); font-size: .75rem; }
-  button { background: var(--btn); color: #fff; border: none; border-radius: 5px;
-           padding: .35rem 1rem; font-size: .8rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
-  button:hover:not(:disabled) { background: var(--btn-hover); }
-  button:disabled { opacity: .45; cursor: not-allowed; }
-  #status { color: var(--muted); font-size: .75rem; }
+  .meta { color: var(--ig-gray-500); font-size: .75rem; }
+  #status { display: flex; align-items: center; gap: .5rem; color: var(--ig-gray-500); font-size: .75rem; }
 
-  /* ── grid fills remaining height ── */
-  #output { display: none; flex: 1; overflow: hidden; }
+  #output { display: none; height: auto; }
   #output.visible { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
 
-  .section { background: var(--card); border: 1px solid var(--border); border-radius: 6px;
-             padding: .75rem 1rem; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
-  .section h3 { font-size: .8rem; font-weight: 700; margin-bottom: .15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .section h3 a { color: var(--blue); text-decoration: none; }
-  .section h3 a:hover { text-decoration: underline; }
-  .window { color: var(--muted); font-size: .7rem; margin-bottom: .5rem; }
+  igc-card { --ig-size: 1; overflow: hidden; }
+  .card-title { font-size: .85rem; font-weight: 700; margin-bottom: .15rem; }
+  .card-title a { color: var(--ig-primary-300); text-decoration: none; }
+  .card-title a:hover { text-decoration: underline; }
+  .window { color: var(--ig-gray-500); font-size: .7rem; margin-bottom: .5rem; }
 
   table { width: 100%; border-collapse: collapse; font-size: .78rem; }
-  th, td { text-align: left; padding: .25rem .5rem; border-bottom: 1px solid var(--border); }
-  th { color: var(--muted); font-weight: 600; font-size: .68rem; text-transform: uppercase; }
+  th, td { text-align: left; padding: .25rem .5rem; border-bottom: 1px solid var(--ig-gray-200); }
+  th { color: var(--ig-gray-500); font-weight: 600; font-size: .68rem; text-transform: uppercase; }
   tr:last-child td { border-bottom: none; }
-  tr.sub-hdr td { font-weight: 700; color: var(--muted); padding-top: .6rem; border-bottom: none;
+  tr.sub-hdr td { font-weight: 700; color: var(--ig-gray-500); padding-top: .6rem; border-bottom: none;
                   font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; }
-  tr.sub td:first-child { padding-left: 1rem; color: var(--muted); }
+  tr.sub td:first-child { padding-left: 1rem; color: var(--ig-gray-500); }
 
-  .badge { display: inline-block; padding: .1rem .35rem; border-radius: 10px; font-size: .7rem; font-weight: 700; }
-  .badge.up   { background: rgba(248,81,73,.15);   color: var(--red); }
-  .badge.down { background: rgba(63,185,80,.15);   color: var(--green); }
-  .badge.zero { background: rgba(139,148,158,.15); color: var(--muted); }
+  .delta-up   { color: var(--ig-error-500); font-weight: 700; font-size: .75rem; }
+  .delta-down { color: var(--ig-success-500); font-weight: 700; font-size: .75rem; }
+  .delta-zero { color: var(--ig-gray-500); font-weight: 700; font-size: .75rem; }
 
-  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border);
-             border-top-color: var(--blue); border-radius: 50%;
-             animation: spin .6s linear infinite; vertical-align: middle; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error-msg { color: var(--red); font-size: .85rem; }
+  .error-msg { color: var(--ig-error-500); font-size: .85rem; padding: 1rem; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <h1>📊 Reveal Monthly Report</h1>
-  <button id="btn" onclick="loadReport()">Generate Monthly Report</button>
+  <igc-button id="btn" onclick="loadReport()">Generate Monthly Report</igc-button>
   <span id="status"></span>
   <span class="meta" id="generated"></span>
 </div>
 
 <div id="output"></div>
 
-<script>
+<script type="module">
 function badge(delta) {
-  if (delta > 0) return `<span class="badge up">+${delta}</span>`;
-  if (delta < 0) return `<span class="badge down">${delta}</span>`;
-  return `<span class="badge zero">±0</span>`;
+  if (delta > 0) return `<span class="delta-up">+${delta}</span>`;
+  if (delta < 0) return `<span class="delta-down">${delta}</span>`;
+  return `<span class="delta-zero">±0</span>`;
 }
 
 function renderSection(sec, curr, prev) {
@@ -84,24 +79,28 @@ function renderSection(sec, curr, prev) {
       rows += `<tr class="sub"><td>${m.label}</td><td>${m.current}</td><td>${badge(m.delta)}</td></tr>\n`;
     }
   }
-  return `<div class="section">
-    <h3><a href="${sec.url}" title="${sec.title}">${sec.title}</a></h3>
-    <p class="window">${curr} vs ${prev}</p>
-    <table>
-      <thead><tr><th>Metric</th><th>#</th><th>vs prev</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-  </div>`;
+  return `<igc-card>
+    <igc-card-header>
+      <h3 slot="title" class="card-title"><a href="${sec.url}">${sec.title}</a></h3>
+      <h5 slot="subtitle" class="window">${curr} vs ${prev}</h5>
+    </igc-card-header>
+    <igc-card-content>
+      <table>
+        <thead><tr><th>Metric</th><th>#</th><th>vs prev</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </igc-card-content>
+  </igc-card>`;
 }
 
-async function loadReport() {
+window.loadReport = async function() {
   const btn = document.getElementById('btn');
   const status = document.getElementById('status');
   const output = document.getElementById('output');
   const gen = document.getElementById('generated');
 
   btn.disabled = true;
-  status.innerHTML = '<span class="spinner"></span>';
+  status.innerHTML = '<igc-circular-progress indeterminate style="--ig-size:1;width:20px;height:20px;"></igc-circular-progress> Loading…';
   output.className = '';
   output.innerHTML = '';
   gen.textContent = '';
@@ -124,7 +123,7 @@ async function loadReport() {
   } finally {
     btn.disabled = false;
   }
-}
+};
 </script>
 </body>
 </html>
