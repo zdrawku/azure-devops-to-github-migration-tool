@@ -1,0 +1,134 @@
+{
+  "generated": "2026-05-03T08:44:15Z",
+  "curr": "2026-05",
+  "prev": "2026-04",
+  "sections": [
+    {
+      "title": "Reveal SDK Public Bugs",
+      "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "metrics": [
+        {
+          "label": "New bugs",
+          "current": 1,
+          "previous": 7,
+          "delta": -6
+        },
+        {
+          "label": "Closed bugs",
+          "current": 0,
+          "previous": 6,
+          "delta": -6
+        },
+        {
+          "label": "New feature requests",
+          "current": 0,
+          "previous": 5,
+          "delta": -5
+        },
+        {
+          "label": "Closed feature requests",
+          "current": 0,
+          "previous": 1,
+          "delta": -1
+        }
+      ],
+      "subsections": []
+    },
+    {
+      "title": "Reveal Slingshot/Crash reports and bugs",
+      "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "metrics": [
+        {
+          "label": "New bugs since last month",
+          "current": 1,
+          "previous": 50,
+          "delta": -49
+        },
+        {
+          "label": "New Crash Reports",
+          "current": 0,
+          "previous": 4,
+          "delta": -4
+        },
+        {
+          "label": "New Slingshot Bugs",
+          "current": 1,
+          "previous": 6,
+          "delta": -5
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Crash Reports by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 1,
+              "delta": -1
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 2,
+              "delta": -2
+            },
+            {
+              "label": "Mac",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 1,
+              "delta": -1
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "title": "Slingshot Bugs by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 4,
+              "delta": -4
+            },
+            {
+              "label": "Mac",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
