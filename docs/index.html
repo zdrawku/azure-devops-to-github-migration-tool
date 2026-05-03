@@ -10,8 +10,8 @@
 
 <!-- Ignite UI Web Components: register needed components -->
 <script type="module">
-  import { defineComponents, IgcButtonComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent } from 'https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/+esm';
-  defineComponents(IgcButtonComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent);
+  import { defineComponents, IgcSelectComponent, IgcSelectItemComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent } from 'https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/+esm';
+  defineComponents(IgcSelectComponent, IgcSelectItemComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent);
 </script>
 
 <style>
@@ -25,6 +25,7 @@
   .topbar h1 { font-size: 1rem; font-weight: 700; white-space: nowrap; }
   .meta { color: var(--ig-gray-500); font-size: .75rem; }
   #status { display: flex; align-items: center; gap: .5rem; color: var(--ig-gray-500); font-size: .75rem; }
+  igc-select { --ig-size: 2; min-width: 180px; }
 
   #output { display: none; height: auto; }
   #output.visible { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
@@ -56,7 +57,7 @@
 
 <div class="topbar">
   <h1>📊 Reveal Monthly Report</h1>
-  <igc-button id="btn" onclick="loadReport()">Get the Monthly Report</igc-button>
+  <igc-select id="monthSelect" label="Period" placeholder="Loading…"></igc-select>
   <span id="status"></span>
   <span class="meta" id="generated"></span>
 </div>
@@ -64,6 +65,11 @@
 <div id="output"></div>
 
 <script type="module">
+function formatMonth(yyyymm) {
+  const [y, m] = yyyymm.split('-');
+  return new Date(+y, +m - 1, 1).toLocaleString(undefined, { month: 'long', year: 'numeric' });
+}
+
 function badge(delta) {
   if (delta > 0) return `<span class="delta-up">+${delta}</span>`;
   if (delta < 0) return `<span class="delta-down">${delta}</span>`;
@@ -95,21 +101,19 @@ function renderSection(sec, curr, prev) {
   </igc-card>`;
 }
 
-window.loadReport = async function() {
-  const btn = document.getElementById('btn');
+async function loadReport(month) {
   const status = document.getElementById('status');
   const output = document.getElementById('output');
   const gen = document.getElementById('generated');
 
-  btn.disabled = true;
   status.innerHTML = '<igc-circular-progress indeterminate style="--ig-size:1;width:20px;height:20px;"></igc-circular-progress> Loading…';
   output.className = '';
   output.innerHTML = '';
   gen.textContent = '';
 
   try {
-    const r = await fetch('./data.json', { cache: 'no-cache' });
-    if (!r.ok) throw new Error(`data.json not found (HTTP ${r.status}) — has the workflow run yet?`);
+    const r = await fetch(`./data-${month}.json`, { cache: 'no-cache' });
+    if (!r.ok) throw new Error(`data-${month}.json not found (HTTP ${r.status})`);
     const data = await r.json();
 
     const ts = new Date(data.generated).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
@@ -122,10 +126,47 @@ window.loadReport = async function() {
     output.innerHTML = `<p class="error-msg">❌ ${e.message}</p>`;
     output.className = 'visible';
     status.innerHTML = '';
-  } finally {
-    btn.disabled = false;
   }
-};
+}
+
+async function init() {
+  await customElements.whenDefined('igc-select');
+  const select = document.getElementById('monthSelect');
+  const status = document.getElementById('status');
+
+  try {
+    const r = await fetch('./manifest.json', { cache: 'no-cache' });
+    if (!r.ok) throw new Error(`manifest.json not found (HTTP ${r.status})`);
+    const manifest = await r.json();
+
+    if (!manifest.months || manifest.months.length === 0) {
+      select.placeholder = 'No reports yet';
+      return;
+    }
+
+    // Populate newest-first
+    [...manifest.months].reverse().forEach(m => {
+      const item = document.createElement('igc-select-item');
+      item.value = m;
+      item.textContent = formatMonth(m);
+      select.appendChild(item);
+    });
+
+    select.addEventListener('igcChange', () => {
+      if (select.value) loadReport(select.value);
+    });
+
+    // Auto-select and load latest month
+    requestAnimationFrame(() => {
+      select.value = manifest.latest;
+      loadReport(manifest.latest);
+    });
+  } catch (e) {
+    status.textContent = `❌ ${e.message}`;
+  }
+}
+
+init();
 </script>
 </body>
 </html>

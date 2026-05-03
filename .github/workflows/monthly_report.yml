@@ -3,7 +3,7 @@ name: Deploy Report Page → GitHub Pages
 on:
   push:
     branches: [master]
-    paths: ['docs/**']
+    paths: ['docs/index.html']   # HTML/style changes only — data commits use [skip ci]
   workflow_dispatch:
     inputs:
       month:
@@ -11,11 +11,11 @@ on:
         required: false
         type: string
   schedule:
-    # Run on the last day of each month at 18:00 UTC
-    - cron: "0 12 1-31 * *"
+    # 01:00 UTC on 1st of each month → previous (now complete) month's data
+    - cron: "0 1 1 * *"
 
 permissions:
-  contents: read
+  contents: write  # needed to commit per-month data files
   pages: write
   id-token: write
 
@@ -31,6 +31,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
@@ -39,16 +41,39 @@ jobs:
       - name: Install dependencies
         run: pip install requests python-dotenv
 
-      - name: Generate data.json
+      - name: Generate data for month
+        if: github.event_name != 'push'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_TOKEN_PUBLIC_REVEAL: ${{ secrets.GH_TOKEN_PUBLIC_REVEAL }}
         run: |
-          MONTH_ARG=""
-          if [[ -n "${{ inputs.month }}" ]]; then
-            MONTH_ARG="--month ${{ inputs.month }}"
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            MONTH=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
+          elif [[ -n "${{ inputs.month }}" ]]; then
+            MONTH="${{ inputs.month }}"
+          else
+            MONTH=$(date -u +%Y-%m)
           fi
-          python monthly_report.py $MONTH_ARG --json docs/data.json
+          echo "Generating report for month: $MONTH"
+          echo "MONTH=$MONTH" >> "$GITHUB_ENV"
+          python monthly_report.py --month "$MONTH" --json "docs/data-${MONTH}.json"
+
+      - name: Update manifest
+        if: github.event_name != 'push'
+        run: python update_manifest.py "${{ env.MONTH }}"
+
+      - name: Commit data files
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data-*.json docs/manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: report data for ${{ env.MONTH }} [skip ci]"
+            git push
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
