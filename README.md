@@ -325,12 +325,5 @@ python -m http.server 8080
 
 Then open `http://localhost:8080` in a browser. The dropdown should populate with April and May, May pre-selected and loading automatically.
 
-**3. Once happy — commit only the data + manifest, not index.html changes that are already committed**
-
-```bash
-git add docs/data-2026-04.json docs/data-2026-05.json docs/manifest.json
-git commit -m "chore: backfill report data for 2026-04 and 2026-05 [skip ci]"
-git push
-```
-
-The `[skip ci]` tag prevents the push-triggered workflow run (which would only re-deploy the page, wasting a Pages deployment). After this commit, manually trigger the workflow once via **Actions → Run workflow** (leave month blank) to do a clean deploy that picks up the new files.
+After making a commit, manually trigger the workflow once via **Actions → Run workflow** (leave month blank) to do a clean deploy that picks up the new files.
+![alt text](image.png)
