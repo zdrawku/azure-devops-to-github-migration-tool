@@ -277,3 +277,60 @@ This project is part of the Infragistics-BusinessTools/Reveal repository.
 - ProjectV2 field mapping (iteration, priority, area, issue type)
 - Resumable migration with state.json checkpointing
 - Comprehensive error logging
+
+## Monthly Report Dashboard
+A GitHub Pages–hosted dashboard that tracks monthly metrics for the Reveal repositories.
+
+### Features
+
+- **Multi-month historical reports**: Each month's data is preserved as a JSON file (`data-YYYY-MM.json`), allowing you to browse and compare reports across time
+- **Interactive dropdown**: Select any available month from the period selector to instantly view that month's metrics
+- **Automatic monthly generation**: The workflow runs on the 1st of each month at 01:00 UTC to generate the previous (now complete) month's report
+- **Two repositories tracked**:
+  - **Reveal SDK** (public): Bugs and feature requests
+  - **Reveal** (private): All bugs, Crash Reports (by platform), and Slingshot bugs (by platform)
+- **Delta metrics**: Each metric shows the count for the current month and a delta badge indicating change vs. the previous month
+
+### Usage
+
+Visit the GitHub Pages site (URL in repo settings) and:
+1. Use the **Period** dropdown to select a month
+2. The report loads automatically, showing side-by-side metrics for the selected month vs. its predecessor
+3. Click metric titles to jump to the filtered GitHub issue search
+
+### How to test locally?
+Two things to test: the Python data generation, and the HTML page.
+
+**1. Generate test data locally**
+
+Run the script for each month you want to backfill (needs your .env with `GH_TOKEN`):
+
+```bash
+python monthly_report.py --month 2026-04 --json docs/data-2026-04.json
+python monthly_report.py --month 2026-05 --json docs/data-2026-05.json
+python update_manifest.py 2026-04
+python update_manifest.py 2026-05
+```
+
+This produces `docs/data-2026-04.json`, `docs/data-2026-05.json`, and updates manifest.json exactly as the workflow would.
+
+**2. Serve the page locally**
+
+The HTML uses `fetch()` so it needs an HTTP server —  won't work. With Python:
+
+```bash
+cd docs
+python -m http.server 8080
+```
+
+Then open `http://localhost:8080` in a browser. The dropdown should populate with April and May, May pre-selected and loading automatically.
+
+**3. Once happy — commit only the data + manifest, not index.html changes that are already committed**
+
+```bash
+git add docs/data-2026-04.json docs/data-2026-05.json docs/manifest.json
+git commit -m "chore: backfill report data for 2026-04 and 2026-05 [skip ci]"
+git push
+```
+
+The `[skip ci]` tag prevents the push-triggered workflow run (which would only re-deploy the page, wasting a Pages deployment). After this commit, manually trigger the workflow once via **Actions → Run workflow** (leave month blank) to do a clean deploy that picks up the new files.

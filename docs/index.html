@@ -8,6 +8,9 @@
 <!-- Ignite UI Web Components: dark indigo theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/themes/dark/indigo.css">
 
+<!-- ApexCharts for doughnut -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3/dist/apexcharts.min.js"></script>
+
 <!-- Ignite UI Web Components: register needed components -->
 <script type="module">
   import { defineComponents, IgcSelectComponent, IgcSelectItemComponent, IgcCardComponent, IgcBadgeComponent, IgcCircularProgressComponent } from 'https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/+esm';
@@ -27,8 +30,39 @@
   #status { display: flex; align-items: center; gap: .5rem; color: var(--ig-gray-500); font-size: .75rem; }
   igc-select { --ig-size: 2; min-width: 180px; }
 
-  #output { display: none; height: auto; }
-  #output.visible { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  #output { display: none; flex-direction: column; gap: .75rem; }
+  #output.visible { display: flex; }
+
+  /* Summary KPI cards row */
+  .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .kpi-card { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
+              border-radius: 8px; padding: 1rem 1.25rem; }
+  .kpi-card .kpi-title { font-size: .7rem; font-weight: 700; text-transform: uppercase;
+                          letter-spacing: .04em; color: var(--ig-gray-600); margin-bottom: .25rem; }
+  .kpi-card .kpi-value { font-size: 2.5rem; font-weight: 700; line-height: 1.1; margin-bottom: .75rem; }
+  .kpi-card .kpi-value--historical { color: var(--ig-gray-400); font-size: 2rem; }
+  .kpi-card .kpi-row { display: flex; justify-content: space-between; align-items: baseline;
+                        padding: .2rem 0; font-size: .78rem; }
+  .kpi-card .kpi-row .kpi-label { font-weight: 600; }
+  .kpi-card .kpi-row .kpi-detail { color: var(--ig-gray-500); font-size: .72rem; }
+  .kpi-card .kpi-note { color: var(--ig-gray-500); font-size: .7rem; margin-top: .6rem;
+                         border-top: 1px solid var(--ig-gray-200); padding-top: .5rem; }
+  .kpi-card .kpi-note code { background: var(--ig-gray-100); padding: .1rem .3rem;
+                              border-radius: 3px; font-size: .68rem; }
+
+  .delta-up   { color: var(--ig-error-500); font-weight: 700; font-size: .78rem; }
+  .delta-down { color: var(--ig-success-500); font-weight: 700; font-size: .78rem; }
+  .delta-zero { color: var(--ig-gray-500); font-weight: 700; font-size: .78rem; }
+
+  /* Bottom row: chart + detail cards side by side, wrapping on overflow */
+  .bottom-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-start; }
+  .bottom-row .chart-section { flex: 1 1 280px; min-width: 260px; }
+  .bottom-row igc-card { flex: 1 1 320px; min-width: 280px; }
+
+  /* Chart section */
+  .chart-section { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
+                   border-radius: 8px; padding: 1rem 1.25rem; }
+  .chart-section h3 { font-size: .85rem; font-weight: 700; margin-bottom: .5rem; }
 
   igc-card { --ig-size: 1; overflow: hidden; }
   igc-card-header { padding: .75rem 1rem .25rem; }
@@ -46,11 +80,11 @@
                   font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; }
   tr.sub td:first-child { padding-left: 1rem; color: var(--ig-gray-500); }
 
-  .delta-up   { color: var(--ig-error-500); font-weight: 700; font-size: .75rem; }
-  .delta-down { color: var(--ig-success-500); font-weight: 700; font-size: .75rem; }
-  .delta-zero { color: var(--ig-gray-500); font-weight: 700; font-size: .75rem; }
-
   .error-msg { color: var(--ig-error-500); font-size: .85rem; padding: 1rem; }
+
+  @media (max-width: 768px) {
+    .summary-row { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -74,6 +108,62 @@ function badge(delta) {
   if (delta > 0) return `<span class="delta-up">+${delta}</span>`;
   if (delta < 0) return `<span class="delta-down">${delta}</span>`;
   return `<span class="delta-zero">±0</span>`;
+}
+
+function formatMonthLabel(yyyymm, isCurrent) {
+  const [y, m] = yyyymm.split('-');
+  const d = new Date(+y, +m - 1, 1);
+  const name = d.toLocaleString(undefined, { month: 'long' });
+  return isCurrent ? `${name} (so far)` : name;
+}
+
+function renderSummaryCard(card, currLabel, prevLabel, isLatest) {
+  const headline = isLatest
+    ? `<div class="kpi-value">${card.total_open}</div>`
+    : `<div class="kpi-value kpi-value--historical" title="Open count not available for historical months">—</div>`;
+  return `<div class="kpi-card">
+    <div class="kpi-title">${card.title}</div>
+    ${headline}
+    <div class="kpi-row">
+      <span><span class="kpi-label">${formatMonthLabel(currLabel, true)}</span><br>
+        <span class="kpi-detail">${card.curr_added} added · ${card.curr_closed} closed</span></span>
+      ${badge(card.curr_delta)}
+    </div>
+    <div class="kpi-row">
+      <span><span class="kpi-label">${formatMonthLabel(prevLabel, false)}</span><br>
+        <span class="kpi-detail">${card.prev_added} added · ${card.prev_closed} closed</span></span>
+      ${badge(card.prev_delta)}
+    </div>
+    <div class="kpi-note">${card.note}</div>
+  </div>`;
+}
+
+function renderChart(crashByPlatform) {
+  const hasData = crashByPlatform.some(p => p.count > 0);
+  if (!hasData) return '<div class="chart-section"><h3>Crash reports by platform</h3><p style="color:var(--ig-gray-500);font-size:.8rem;">No open crash reports</p></div>';
+  return `<div class="chart-section">
+    <h3>Crash reports by platform</h3>
+    <div id="crashChart"></div>
+  </div>`;
+}
+
+function mountChart(crashByPlatform) {
+  const hasData = crashByPlatform.some(p => p.count > 0);
+  if (!hasData) return;
+  const el = document.getElementById('crashChart');
+  if (!el) return;
+  const options = {
+    chart: { type: 'donut', height: 280, background: 'transparent' },
+    series: crashByPlatform.map(p => p.count),
+    labels: crashByPlatform.map(p => p.label),
+    colors: ['#4fc3f7', '#7e57c2', '#66bb6a', '#ffa726', '#ef5350'],
+    legend: { position: 'right', fontSize: '13px', labels: { colors: '#ccc' } },
+    dataLabels: { enabled: false },
+    stroke: { show: false },
+    plotOptions: { pie: { donut: { size: '60%' } } },
+    theme: { mode: 'dark' },
+  };
+  new ApexCharts(el, options).render();
 }
 
 function renderSection(sec, curr, prev) {
@@ -101,6 +191,8 @@ function renderSection(sec, curr, prev) {
   </igc-card>`;
 }
 
+let latestMonth = null;
+
 async function loadReport(month) {
   const status = document.getElementById('status');
   const output = document.getElementById('output');
@@ -119,9 +211,35 @@ async function loadReport(month) {
     const ts = new Date(data.generated).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
     gen.textContent = `${data.curr} vs ${data.prev} · generated ${ts}`;
 
-    output.innerHTML = data.sections.map(sec => renderSection(sec, data.curr, data.prev)).join('');
+    let html = '';
+
+    // Summary KPI row (if data has summary)
+    const isLatest = month === latestMonth;
+    if (data.summary) {
+      html += `<div class="summary-row">
+        ${renderSummaryCard(data.summary.bugs, data.curr, data.prev, isLatest)}
+        ${renderSummaryCard(data.summary.crash_reports, data.curr, data.prev, isLatest)}
+        ${renderSummaryCard(data.summary.all_slingshot, data.curr, data.prev, isLatest)}
+      </div>`;
+
+    }
+
+    // Bottom row: chart + detail section cards
+    html += `<div class="bottom-row">`;
+    if (data.summary && data.summary.crash_by_platform) {
+      html += renderChart(data.summary.crash_by_platform);
+    }
+    html += data.sections.map(sec => renderSection(sec, data.curr, data.prev)).join('');
+    html += `</div>`;
+
+    output.innerHTML = html;
     output.className = 'visible';
     status.innerHTML = '';
+
+    // Mount chart after DOM is updated
+    if (data.summary && data.summary.crash_by_platform) {
+      mountChart(data.summary.crash_by_platform);
+    }
   } catch (e) {
     output.innerHTML = `<p class="error-msg">❌ ${e.message}</p>`;
     output.className = 'visible';
@@ -157,6 +275,7 @@ async function init() {
     });
 
     // Auto-select and load latest month
+    latestMonth = manifest.latest;
     requestAnimationFrame(() => {
       select.value = manifest.latest;
       loadReport(manifest.latest);

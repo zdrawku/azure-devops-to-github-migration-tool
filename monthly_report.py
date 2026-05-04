@@ -37,7 +37,7 @@ SEARCH_URL = "https://api.github.com/search/issues"
 PUBLIC_REPO  = "RevealBi/Reveal.Sdk"
 PRIVATE_REPO = "Infragistics-BusinessTools/Reveal"
 
-CRASH_PLATFORM_LABELS = ["Web", "WPF", "Mac", "iOS", "Android"]
+CRASH_PLATFORM_LABELS = ["Web", "WPF", "MacOS", "iOS", "Android"]
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -203,6 +203,96 @@ def collect_private_reveal(curr: MonthRange, prev: MonthRange) -> ReportSection:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Summary / Dashboard metrics
+# ──────────────────────────────────────────────────────────────────────────────
+@dataclass
+class SummaryCard:
+    title: str
+    total_open: int
+    note: str
+    curr_added: int
+    curr_closed: int
+    curr_delta: int
+    prev_added: int
+    prev_closed: int
+    prev_delta: int
+
+
+@dataclass
+class PlatformCount:
+    label: str
+    count: int
+
+
+def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
+    """Collect dashboard summary: open counts + monthly added/closed for 3 KPI cards."""
+
+    # Bugs excluding crash reports (open now)
+    bugs_open = search_count(PRIVATE_REPO, 'is:open label:Slingshot type:Bug -label:"Crash Report"')
+    bugs_curr_added = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" created:{curr.query_range()}')
+    bugs_curr_closed = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" closed:{curr.query_range()}')
+    bugs_prev_added = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" created:{prev.query_range()}')
+    bugs_prev_closed = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" closed:{prev.query_range()}')
+
+    bugs_card = SummaryCard(
+        title="BUGS (EXCLUDING CRASH REPORTS)",
+        total_open=bugs_open,
+        note='Combines bug and type: bug labels',
+        curr_added=bugs_curr_added, curr_closed=bugs_curr_closed,
+        curr_delta=bugs_curr_added - bugs_curr_closed,
+        prev_added=bugs_prev_added, prev_closed=bugs_prev_closed,
+        prev_delta=bugs_prev_added - bugs_prev_closed,
+    )
+
+    # Crash reports (open now)
+    crash_open = search_count(PRIVATE_REPO, 'is:open type:Bug label:"Crash Report"')
+    crash_curr_added = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" created:{curr.query_range()}')
+    crash_curr_closed = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" closed:{curr.query_range()}')
+    crash_prev_added = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" created:{prev.query_range()}')
+    crash_prev_closed = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" closed:{prev.query_range()}')
+
+    crash_card = SummaryCard(
+        title="CRASH REPORTS",
+        total_open=crash_open,
+        note='Issues tagged Crash Report',
+        curr_added=crash_curr_added, curr_closed=crash_curr_closed,
+        curr_delta=crash_curr_added - crash_curr_closed,
+        prev_added=crash_prev_added, prev_closed=crash_prev_closed,
+        prev_delta=crash_prev_added - crash_prev_closed,
+    )
+
+    # All open slingshot issues
+    all_open = search_count(PRIVATE_REPO, 'is:open label:Slingshot')
+    all_curr_added = search_count(PRIVATE_REPO, f'label:Slingshot created:{curr.query_range()}')
+    all_curr_closed = search_count(PRIVATE_REPO, f'label:Slingshot closed:{curr.query_range()}')
+    all_prev_added = search_count(PRIVATE_REPO, f'label:Slingshot created:{prev.query_range()}')
+    all_prev_closed = search_count(PRIVATE_REPO, f'label:Slingshot closed:{prev.query_range()}')
+
+    all_card = SummaryCard(
+        title="ALL OPEN SLINGSHOT ISSUES",
+        total_open=all_open,
+        note='Includes bugs, crash reports, features, etc.',
+        curr_added=all_curr_added, curr_closed=all_curr_closed,
+        curr_delta=all_curr_added - all_curr_closed,
+        prev_added=all_prev_added, prev_closed=all_prev_closed,
+        prev_delta=all_prev_added - all_prev_closed,
+    )
+
+    # Crash reports by platform (currently open)
+    crash_by_platform = []
+    for platform in CRASH_PLATFORM_LABELS:
+        count = search_count(PRIVATE_REPO, f'is:open type:Bug label:"Crash Report" label:"{platform}"')
+        crash_by_platform.append(PlatformCount(label=platform, count=count))
+
+    return {
+        "bugs": asdict(bugs_card),
+        "crash_reports": asdict(crash_card),
+        "all_slingshot": asdict(all_card),
+        "crash_by_platform": [asdict(p) for p in crash_by_platform],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # Text output
 # ──────────────────────────────────────────────────────────────────────────────
 def print_report(sections: list[ReportSection], curr: MonthRange, prev: MonthRange) -> None:
@@ -308,12 +398,14 @@ def generate_html(sections: list[ReportSection], curr: MonthRange, prev: MonthRa
 # ──────────────────────────────────────────────────────────────────────────────
 # JSON output
 # ──────────────────────────────────────────────────────────────────────────────
-def generate_json(sections: list[ReportSection], curr: MonthRange, prev: MonthRange) -> str:
+def generate_json(sections: list[ReportSection], curr: MonthRange, prev: MonthRange,
+                   summary: dict | None = None) -> str:
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     data = {
         "generated": generated,
         "curr": curr.label,
         "prev": prev.label,
+        "summary": summary,
         "sections": [
             {
                 "title": sec.title,
@@ -369,6 +461,8 @@ def main() -> None:
         collect_private_reveal(curr, prev),
     ]
 
+    summary = collect_summary(curr, prev)
+
     print_report(sections, curr, prev)
 
     if args.html:
@@ -380,7 +474,7 @@ def main() -> None:
         print(f"✅ HTML report written to {args.html}")
 
     if args.json:
-        json_content = generate_json(sections, curr, prev)
+        json_content = generate_json(sections, curr, prev, summary=summary)
         out_path = os.path.abspath(args.json)
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:

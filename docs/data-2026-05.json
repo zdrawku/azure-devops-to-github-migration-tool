@@ -1,7 +1,64 @@
 {
-  "generated": "2026-05-03T08:57:45Z",
+  "generated": "2026-05-04T06:56:13Z",
   "curr": "2026-05",
   "prev": "2026-04",
+  "summary": {
+    "bugs": {
+      "title": "BUGS (EXCLUDING CRASH REPORTS)",
+      "total_open": 71,
+      "note": "Combines bug and type: bug labels",
+      "curr_added": 1,
+      "curr_closed": 0,
+      "curr_delta": 1,
+      "prev_added": 6,
+      "prev_closed": 5,
+      "prev_delta": 1
+    },
+    "crash_reports": {
+      "title": "CRASH REPORTS",
+      "total_open": 15,
+      "note": "Issues tagged Crash Report",
+      "curr_added": 1,
+      "curr_closed": 0,
+      "curr_delta": 1,
+      "prev_added": 4,
+      "prev_closed": 4,
+      "prev_delta": 0
+    },
+    "all_slingshot": {
+      "title": "ALL OPEN SLINGSHOT ISSUES",
+      "total_open": 100,
+      "note": "Includes bugs, crash reports, features, etc.",
+      "curr_added": 2,
+      "curr_closed": 0,
+      "curr_delta": 2,
+      "prev_added": 10,
+      "prev_closed": 12,
+      "prev_delta": -2
+    },
+    "crash_by_platform": [
+      {
+        "label": "Web",
+        "count": 3
+      },
+      {
+        "label": "WPF",
+        "count": 3
+      },
+      {
+        "label": "MacOS",
+        "count": 6
+      },
+      {
+        "label": "iOS",
+        "count": 1
+      },
+      {
+        "label": "Android",
+        "count": 1
+      }
+    ]
+  },
   "sections": [
     {
       "title": "Reveal SDK Public Bugs",
@@ -40,15 +97,15 @@
       "metrics": [
         {
           "label": "New bugs since last month",
-          "current": 1,
+          "current": 2,
           "previous": 50,
-          "delta": -49
+          "delta": -48
         },
         {
           "label": "New Crash Reports",
-          "current": 0,
+          "current": 1,
           "previous": 4,
-          "delta": -4
+          "delta": -3
         },
         {
           "label": "New Slingshot Bugs",
@@ -74,7 +131,7 @@
               "delta": -2
             },
             {
-              "label": "Mac",
+              "label": "MacOS",
               "current": 0,
               "previous": 0,
               "delta": 0
@@ -109,10 +166,10 @@
               "delta": -4
             },
             {
-              "label": "Mac",
+              "label": "MacOS",
               "current": 0,
-              "previous": 0,
-              "delta": 0
+              "previous": 1,
+              "delta": -1
             },
             {
               "label": "iOS",
