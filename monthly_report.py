@@ -147,7 +147,7 @@ def collect_metric(repo: str, label: str, base_query: str,
 # ──────────────────────────────────────────────────────────────────────────────
 def collect_public_sdk(curr: MonthRange, prev: MonthRange) -> ReportSection:
     section = ReportSection(
-        title="Reveal SDK Public Bugs",
+        title="Reveal SDK (Public) — Bugs & Features",
         url=f"https://github.com/{PUBLIC_REPO}/issues",
         curr_label=curr.label,
         prev_label=prev.label,
@@ -163,13 +163,13 @@ def collect_public_sdk(curr: MonthRange, prev: MonthRange) -> ReportSection:
 
 def collect_private_reveal(curr: MonthRange, prev: MonthRange) -> ReportSection:
     section = ReportSection(
-        title="Reveal Slingshot/Crash reports and bugs",
+        title="Reveal (Private) — Slingshot & Crash Reports",
         url=f"https://github.com/{PRIVATE_REPO}/issues",
         curr_label=curr.label,
         prev_label=prev.label,
     )
     section.metrics = [
-        collect_metric(PRIVATE_REPO, "New bugs since last month", "type:Bug", curr, prev, "created"),
+        collect_metric(PRIVATE_REPO, "All new bugs (any label)", "type:Bug", curr, prev, "created"),
     ]
 
     # Crash Reports (label:"Crash Report")
@@ -216,6 +216,7 @@ class SummaryCard:
     prev_added: int
     prev_closed: int
     prev_delta: int
+    always_show_headline: bool = False
 
 
 @dataclass
@@ -235,9 +236,9 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
     bugs_prev_closed = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" closed:{prev.query_range()}')
 
     bugs_card = SummaryCard(
-        title="BUGS (EXCLUDING CRASH REPORTS)",
+        title="SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
         total_open=bugs_open,
-        note='Combines bug and type: bug labels',
+        note='label:Slingshot -label:"Crash Report" · Reveal private repo',
         curr_added=bugs_curr_added, curr_closed=bugs_curr_closed,
         curr_delta=bugs_curr_added - bugs_curr_closed,
         prev_added=bugs_prev_added, prev_closed=bugs_prev_closed,
@@ -252,9 +253,9 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
     crash_prev_closed = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" closed:{prev.query_range()}')
 
     crash_card = SummaryCard(
-        title="CRASH REPORTS",
+        title="SLINGSHOT CRASH REPORTS",
         total_open=crash_open,
-        note='Issues tagged Crash Report',
+        note='label:"Crash Report" · Reveal private repo',
         curr_added=crash_curr_added, curr_closed=crash_curr_closed,
         curr_delta=crash_curr_added - crash_curr_closed,
         prev_added=crash_prev_added, prev_closed=crash_prev_closed,
@@ -271,11 +272,28 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
     all_card = SummaryCard(
         title="ALL OPEN SLINGSHOT ISSUES",
         total_open=all_open,
-        note='Includes bugs, crash reports, features, etc.',
+        note='label:Slingshot · all types (bugs, crash reports, features…)',
         curr_added=all_curr_added, curr_closed=all_curr_closed,
         curr_delta=all_curr_added - all_curr_closed,
         prev_added=all_prev_added, prev_closed=all_prev_closed,
         prev_delta=all_prev_added - all_prev_closed,
+    )
+
+    # All bugs in private repo regardless of label (new this month is the KPI)
+    all_priv_curr_added = search_count(PRIVATE_REPO, f'type:Bug created:{curr.query_range()}')
+    all_priv_curr_closed = search_count(PRIVATE_REPO, f'type:Bug closed:{curr.query_range()}')
+    all_priv_prev_added = search_count(PRIVATE_REPO, f'type:Bug created:{prev.query_range()}')
+    all_priv_prev_closed = search_count(PRIVATE_REPO, f'type:Bug closed:{prev.query_range()}')
+
+    all_private_bugs_card = SummaryCard(
+        title="ALL NEW BUGS · REVEAL (PRIVATE)",
+        total_open=all_priv_curr_added,
+        note='type:Bug · all labels · new this month vs prev month',
+        curr_added=all_priv_curr_added, curr_closed=all_priv_curr_closed,
+        curr_delta=all_priv_curr_added - all_priv_curr_closed,
+        prev_added=all_priv_prev_added, prev_closed=all_priv_prev_closed,
+        prev_delta=all_priv_prev_added - all_priv_prev_closed,
+        always_show_headline=True,
     )
 
     # Crash reports by platform (currently open)
@@ -288,6 +306,7 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         "bugs": asdict(bugs_card),
         "crash_reports": asdict(crash_card),
         "all_slingshot": asdict(all_card),
+        "all_private_bugs": asdict(all_private_bugs_card),
         "crash_by_platform": [asdict(p) for p in crash_by_platform],
     }
 

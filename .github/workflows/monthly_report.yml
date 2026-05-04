@@ -3,7 +3,10 @@ name: Deploy Report Page → GitHub Pages
 on:
   push:
     branches: [master]
-    paths: ['docs/index.html']   # HTML/style changes only — data commits use [skip ci]
+    paths:
+      - 'docs/index.html'
+      - 'docs/data-*.json'
+      - 'docs/manifest.json'
   workflow_dispatch:
     inputs:
       month:
@@ -71,7 +74,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: report data for ${{ env.MONTH }} [skip ci]"
+            git commit -m "chore: report data for ${{ env.MONTH }}"
             git push
           fi
 

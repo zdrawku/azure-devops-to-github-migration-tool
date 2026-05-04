@@ -34,7 +34,7 @@
   #output.visible { display: flex; }
 
   /* Summary KPI cards row */
-  .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .summary-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: .75rem; }
   .kpi-card { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
               border-radius: 8px; padding: 1rem 1.25rem; }
   .kpi-card .kpi-title { font-size: .7rem; font-weight: 700; text-transform: uppercase;
@@ -82,7 +82,7 @@
 
   .error-msg { color: var(--ig-error-500); font-size: .85rem; padding: 1rem; }
 
-  @media (max-width: 768px) {
+  @media (max-width: 520px) {
     .summary-row { grid-template-columns: 1fr; }
   }
 </style>
@@ -118,7 +118,8 @@ function formatMonthLabel(yyyymm, isCurrent) {
 }
 
 function renderSummaryCard(card, currLabel, prevLabel, isLatest) {
-  const headline = isLatest
+  const showHeadline = isLatest || card.always_show_headline;
+  const headline = showHeadline
     ? `<div class="kpi-value">${card.total_open}</div>`
     : `<div class="kpi-value kpi-value--historical" title="Open count not available for historical months">—</div>`;
   return `<div class="kpi-card">
@@ -166,6 +167,12 @@ function mountChart(crashByPlatform) {
   new ApexCharts(el, options).render();
 }
 
+function repoSlug(url) {
+  // Extract "owner/repo" from a github.com URL
+  const m = url.match(/github\.com\/([^/]+\/[^/]+)/);
+  return m ? m[1] : url;
+}
+
 function renderSection(sec, curr, prev) {
   let rows = '';
   for (const m of sec.metrics) {
@@ -180,7 +187,7 @@ function renderSection(sec, curr, prev) {
   return `<igc-card>
     <igc-card-header>
       <h3 slot="title" class="card-title"><a href="${sec.url}">${sec.title}</a></h3>
-      <h5 slot="subtitle" class="window">${curr} vs ${prev}</h5>
+      <h5 slot="subtitle" class="window">${repoSlug(sec.url)} · ${curr} vs ${prev}</h5>
     </igc-card-header>
     <igc-card-content>
       <table>
@@ -220,6 +227,7 @@ async function loadReport(month) {
         ${renderSummaryCard(data.summary.bugs, data.curr, data.prev, isLatest)}
         ${renderSummaryCard(data.summary.crash_reports, data.curr, data.prev, isLatest)}
         ${renderSummaryCard(data.summary.all_slingshot, data.curr, data.prev, isLatest)}
+        ${data.summary.all_private_bugs ? renderSummaryCard(data.summary.all_private_bugs, data.curr, data.prev, isLatest) : ''}
       </div>`;
 
     }

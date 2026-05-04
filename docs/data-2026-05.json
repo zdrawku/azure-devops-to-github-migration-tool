@@ -1,40 +1,55 @@
 {
-  "generated": "2026-05-04T06:56:13Z",
+  "generated": "2026-05-04T08:49:35Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
     "bugs": {
-      "title": "BUGS (EXCLUDING CRASH REPORTS)",
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
       "total_open": 71,
-      "note": "Combines bug and type: bug labels",
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
       "curr_closed": 0,
       "curr_delta": 1,
       "prev_added": 6,
       "prev_closed": 5,
-      "prev_delta": 1
+      "prev_delta": 1,
+      "always_show_headline": false
     },
     "crash_reports": {
-      "title": "CRASH REPORTS",
+      "title": "SLINGSHOT CRASH REPORTS",
       "total_open": 15,
-      "note": "Issues tagged Crash Report",
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
       "curr_closed": 0,
       "curr_delta": 1,
       "prev_added": 4,
       "prev_closed": 4,
-      "prev_delta": 0
+      "prev_delta": 0,
+      "always_show_headline": false
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 100,
-      "note": "Includes bugs, crash reports, features, etc.",
+      "total_open": 101,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 3,
+      "curr_closed": 0,
+      "curr_delta": 3,
+      "prev_added": 10,
+      "prev_closed": 12,
+      "prev_delta": -2,
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 2,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
       "curr_added": 2,
       "curr_closed": 0,
       "curr_delta": 2,
-      "prev_added": 10,
-      "prev_closed": 12,
-      "prev_delta": -2
+      "prev_added": 50,
+      "prev_closed": 25,
+      "prev_delta": 25,
+      "always_show_headline": true
     },
     "crash_by_platform": [
       {
@@ -61,7 +76,7 @@
   },
   "sections": [
     {
-      "title": "Reveal SDK Public Bugs",
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
       "metrics": [
         {
@@ -92,11 +107,11 @@
       "subsections": []
     },
     {
-      "title": "Reveal Slingshot/Crash reports and bugs",
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
       "metrics": [
         {
-          "label": "New bugs since last month",
+          "label": "All new bugs (any label)",
           "current": 2,
           "previous": 50,
           "delta": -48
