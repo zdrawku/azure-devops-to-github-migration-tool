@@ -63,6 +63,7 @@
   .chart-section { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
                    border-radius: 8px; padding: 1rem 1.25rem; }
   .chart-section h3 { font-size: .85rem; font-weight: 700; margin-bottom: .5rem; }
+  #crashChart { width: 100%; height: 280px; }
 
   igc-card { --ig-size: 1; overflow: hidden; }
   igc-card-header { padding: .75rem 1rem .25rem; }
@@ -154,7 +155,7 @@ function mountChart(crashByPlatform) {
   const el = document.getElementById('crashChart');
   if (!el) return;
   const options = {
-    chart: { type: 'donut', height: 280, background: 'transparent' },
+    chart: { type: 'donut', height: el.clientHeight || 280, width: '100%', background: 'transparent' },
     series: crashByPlatform.map(p => p.count),
     labels: crashByPlatform.map(p => p.label),
     colors: ['#4fc3f7', '#7e57c2', '#66bb6a', '#ffa726', '#ef5350'],
@@ -244,9 +245,9 @@ async function loadReport(month) {
     output.className = 'visible';
     status.innerHTML = '';
 
-    // Mount chart after DOM is updated
+    // Mount chart after DOM is updated and layout is flushed
     if (data.summary && data.summary.crash_by_platform) {
-      mountChart(data.summary.crash_by_platform);
+      requestAnimationFrame(() => mountChart(data.summary.crash_by_platform));
     }
   } catch (e) {
     output.innerHTML = `<p class="error-msg">❌ ${e.message}</p>`;
