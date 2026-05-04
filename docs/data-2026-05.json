@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-03T09:05:14Z",
+  "generated": "2026-05-04T07:03:01Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "sections": [
@@ -40,15 +40,15 @@
       "metrics": [
         {
           "label": "New bugs since last month",
-          "current": 1,
+          "current": 2,
           "previous": 50,
-          "delta": -49
+          "delta": -48
         },
         {
           "label": "New Crash Reports",
-          "current": 0,
+          "current": 1,
           "previous": 4,
-          "delta": -4
+          "delta": -3
         },
         {
           "label": "New Slingshot Bugs",
