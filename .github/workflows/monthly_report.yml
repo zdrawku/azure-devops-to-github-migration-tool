@@ -14,8 +14,8 @@ on:
         required: false
         type: string
   schedule:
-    # 01:00 UTC on 1st of each month → previous (now complete) month's data
-    - cron: "0 1 1 * *"
+    # 11:00 UTC (13:00 EET / 14:00 EEST – Bulgaria) every day
+    - cron: "0 11 * * *"
 
 permissions:
   contents: write  # needed to commit per-month data files
