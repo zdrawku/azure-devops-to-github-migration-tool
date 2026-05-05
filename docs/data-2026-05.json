@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-04T08:49:35Z",
+  "generated": "2026-05-05T11:54:04Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
@@ -41,11 +41,11 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 2,
+      "total_open": 3,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 2,
-      "curr_closed": 0,
-      "curr_delta": 2,
+      "curr_added": 3,
+      "curr_closed": 3,
+      "curr_delta": 0,
       "prev_added": 50,
       "prev_closed": 25,
       "prev_delta": 25,
@@ -112,9 +112,9 @@
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 2,
+          "current": 3,
           "previous": 50,
-          "delta": -48
+          "delta": -47
         },
         {
           "label": "New Crash Reports",
