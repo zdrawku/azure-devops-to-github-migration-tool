@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-20T11:59:20Z",
+  "generated": "2026-05-21T12:05:23Z",
   "curr": "2026-04",
   "prev": "2026-03",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 71,
+      "total_open": 72,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 7,
       "curr_closed": 5,
@@ -29,7 +29,7 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 98,
+      "total_open": 99,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 11,
       "curr_closed": 12,
