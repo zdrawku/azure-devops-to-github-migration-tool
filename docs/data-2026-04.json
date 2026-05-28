@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-25T12:10:41Z",
+  "generated": "2026-05-28T12:10:19Z",
   "curr": "2026-04",
   "prev": "2026-03",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 72,
+      "total_open": 73,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 7,
       "curr_closed": 5,
@@ -29,7 +29,7 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 98,
+      "total_open": 99,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 11,
       "curr_closed": 12,
@@ -41,11 +41,11 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 50,
+      "total_open": 53,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 50,
+      "curr_added": 53,
       "curr_closed": 25,
-      "curr_delta": 25,
+      "curr_delta": 28,
       "prev_added": 1211,
       "prev_closed": 854,
       "prev_delta": 357,
@@ -112,9 +112,9 @@
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 50,
+          "current": 53,
           "previous": 1211,
-          "delta": -1161
+          "delta": -1158
         },
         {
           "label": "New Crash Reports",
