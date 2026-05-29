@@ -1,23 +1,23 @@
 {
-  "generated": "2026-05-28T12:10:19Z",
+  "generated": "2026-05-29T12:05:48Z",
   "curr": "2026-04",
   "prev": "2026-03",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 73,
+      "total_open": 74,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 7,
       "curr_closed": 5,
       "curr_delta": 2,
-      "prev_added": 207,
+      "prev_added": 208,
       "prev_closed": 138,
-      "prev_delta": 69,
+      "prev_delta": 70,
       "always_show_headline": false
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 12,
+      "total_open": 11,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 4,
       "curr_closed": 4,
@@ -34,9 +34,9 @@
       "curr_added": 11,
       "curr_closed": 12,
       "curr_delta": -1,
-      "prev_added": 291,
+      "prev_added": 292,
       "prev_closed": 191,
-      "prev_delta": 100,
+      "prev_delta": 101,
       "always_show_headline": false
     },
     "all_private_bugs": {
@@ -58,7 +58,7 @@
       },
       {
         "label": "WPF",
-        "count": 3
+        "count": 2
       },
       {
         "label": "MacOS",
@@ -125,8 +125,8 @@
         {
           "label": "New Slingshot Bugs",
           "current": 7,
-          "previous": 207,
-          "delta": -200
+          "previous": 208,
+          "delta": -201
         }
       ],
       "subsections": [
