@@ -1,15 +1,15 @@
 {
-  "generated": "2026-05-26T14:47:15Z",
+  "generated": "2026-06-01T12:54:05Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 72,
+      "total_open": 74,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 3,
+      "curr_added": 4,
       "curr_closed": 2,
-      "curr_delta": 1,
+      "curr_delta": 2,
       "prev_added": 7,
       "prev_closed": 5,
       "prev_delta": 2,
@@ -17,11 +17,11 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 12,
+      "total_open": 11,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
-      "curr_closed": 3,
-      "curr_delta": -2,
+      "curr_closed": 4,
+      "curr_delta": -3,
       "prev_added": 4,
       "prev_closed": 4,
       "prev_delta": 0,
@@ -29,10 +29,10 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 98,
+      "total_open": 99,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 5,
-      "curr_closed": 6,
+      "curr_added": 6,
+      "curr_closed": 7,
       "curr_delta": -1,
       "prev_added": 11,
       "prev_closed": 12,
@@ -41,10 +41,10 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 28,
+      "total_open": 33,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 28,
-      "curr_closed": 17,
+      "curr_added": 33,
+      "curr_closed": 22,
       "curr_delta": 11,
       "prev_added": 53,
       "prev_closed": 25,
@@ -58,7 +58,7 @@
       },
       {
         "label": "WPF",
-        "count": 3
+        "count": 2
       },
       {
         "label": "MacOS",
@@ -87,21 +87,21 @@
         },
         {
           "label": "Closed bugs",
-          "current": 0,
+          "current": 1,
           "previous": 6,
-          "delta": -6
+          "delta": -5
         },
         {
           "label": "New feature requests",
-          "current": 1,
+          "current": 2,
           "previous": 5,
-          "delta": -4
+          "delta": -3
         },
         {
           "label": "Closed feature requests",
-          "current": 1,
+          "current": 2,
           "previous": 1,
-          "delta": 0
+          "delta": 1
         }
       ],
       "subsections": []
@@ -112,9 +112,9 @@
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 28,
+          "current": 33,
           "previous": 53,
-          "delta": -25
+          "delta": -20
         },
         {
           "label": "New Crash Reports",
@@ -124,9 +124,9 @@
         },
         {
           "label": "New Slingshot Bugs",
-          "current": 3,
+          "current": 4,
           "previous": 7,
-          "delta": -4
+          "delta": -3
         }
       ],
       "subsections": [
