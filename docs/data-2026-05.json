@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-03T12:34:31Z",
+  "generated": "2026-06-04T12:01:56Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
@@ -29,7 +29,7 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 98,
+      "total_open": 97,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 6,
       "curr_closed": 7,
