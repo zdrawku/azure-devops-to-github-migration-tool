@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-10T12:07:19Z",
+  "generated": "2026-06-11T12:23:09Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
@@ -17,7 +17,7 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 10,
+      "total_open": 9,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
       "curr_closed": 4,
@@ -29,7 +29,7 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 97,
+      "total_open": 95,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 6,
       "curr_closed": 7,
@@ -58,7 +58,7 @@
       },
       {
         "label": "WPF",
-        "count": 2
+        "count": 1
       },
       {
         "label": "MacOS",
