@@ -379,6 +379,18 @@
           "current_refs": {}
         },
         {
+          "label": "Closed bugs",
+          "current": 1,
+          "previous": 6,
+          "delta": -5
+        },
+        {
+          "label": "New feature requests",
+          "current": 2,
+          "previous": 5,
+          "delta": -3
+        },
+        {
           "label": "Closed feature requests",
           "current": 2,
           "previous": 1,
