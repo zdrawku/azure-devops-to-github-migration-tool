@@ -26,6 +26,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timezone
+from urllib.parse import quote_plus
 
 import requests
 from dotenv import load_dotenv
@@ -106,6 +107,56 @@ def search_count(repo: str, query: str) -> int:
     raise RuntimeError(f"Search failed after retries: {full_q}")
 
 
+def search_issue_refs(repo: str, base_query: str, period: MonthRange,
+                      date_field: str, limit: int = 8) -> dict:
+    """Return issue references and a "view all" search URL for the given period query."""
+    period_query = f"{base_query} {date_field}:{period.query_range()}"
+    full_q = f"repo:{repo} is:issue {period_query}"
+    headers = {
+        "Authorization": f"Bearer {_token_for(repo)}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    params = {
+        "q": full_q,
+        "per_page": max(1, min(limit, 100)),
+        "sort": "updated" if date_field == "closed" else "created",
+        "order": "desc",
+    }
+
+    payload = None
+    for attempt in range(5):
+        r = requests.get(SEARCH_URL, headers=headers, params=params, timeout=30)
+        if r.status_code == 403 and "rate limit" in r.text.lower():
+            wait = int(r.headers.get("Retry-After", 30))
+            print(f"⏳ Rate limited. Waiting {wait}s…")
+            time.sleep(wait)
+            continue
+        if r.status_code == 422:
+            raise RuntimeError(f"Invalid search query: {full_q}\n{r.text}")
+        r.raise_for_status()
+        payload = r.json()
+        break
+
+    if payload is None:
+        raise RuntimeError(f"Search failed after retries: {full_q}")
+
+    web_search_q = f"is:issue {period_query}"
+    refs = [
+        {
+            "number": i.get("number"),
+            "title": i.get("title"),
+            "url": i.get("html_url"),
+        }
+        for i in payload.get("items", [])
+    ]
+    return {
+        "total": payload.get("total_count", 0),
+        "issues": refs,
+        "search_url": f"https://github.com/{repo}/issues?q={quote_plus(web_search_q)}",
+    }
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Metric helpers
 # ──────────────────────────────────────────────────────────────────────────────
@@ -114,6 +165,7 @@ class Metric:
     label: str
     current: int = 0
     previous: int = 0
+    current_refs: dict = field(default_factory=dict)
 
     @property
     def delta(self) -> int:
@@ -142,6 +194,14 @@ def collect_metric(repo: str, label: str, base_query: str,
     return Metric(label=label, current=c, previous=p)
 
 
+def collect_metric_with_refs(repo: str, label: str, base_query: str,
+                             curr: MonthRange, prev: MonthRange,
+                             date_field: str = "created", ref_limit: int = 6) -> Metric:
+    metric = collect_metric(repo, label, base_query, curr, prev, date_field)
+    metric.current_refs = search_issue_refs(repo, base_query, curr, date_field, limit=ref_limit)
+    return metric
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Data collection
 # ──────────────────────────────────────────────────────────────────────────────
@@ -153,8 +213,8 @@ def collect_public_sdk(curr: MonthRange, prev: MonthRange) -> ReportSection:
         prev_label=prev.label,
     )
     section.metrics = [
-        collect_metric(PUBLIC_REPO, "New bugs",               "type:Bug",     curr, prev, "created"),
-        collect_metric(PUBLIC_REPO, "Closed bugs",            "type:Bug",     curr, prev, "closed"),
+        collect_metric_with_refs(PUBLIC_REPO, "New bugs",     "type:Bug",     curr, prev, "created", ref_limit=6),
+        collect_metric_with_refs(PUBLIC_REPO, "Closed bugs",  "type:Bug",     curr, prev, "closed", ref_limit=6),
         collect_metric(PUBLIC_REPO, "New feature requests",   "type:Feature", curr, prev, "created"),
         collect_metric(PUBLIC_REPO, "Closed feature requests","type:Feature", curr, prev, "closed"),
     ]
@@ -216,6 +276,8 @@ class SummaryCard:
     prev_added: int
     prev_closed: int
     prev_delta: int
+    curr_added_refs: dict = field(default_factory=dict)
+    curr_closed_refs: dict = field(default_factory=dict)
     always_show_headline: bool = False
 
 
@@ -243,6 +305,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_delta=bugs_curr_added - bugs_curr_closed,
         prev_added=bugs_prev_added, prev_closed=bugs_prev_closed,
         prev_delta=bugs_prev_added - bugs_prev_closed,
+        curr_added_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:Slingshot -label:"Crash Report"', curr, "created"),
+        curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:Slingshot -label:"Crash Report"', curr, "closed"),
     )
 
     # Crash reports (open now)
@@ -260,6 +324,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_delta=crash_curr_added - crash_curr_closed,
         prev_added=crash_prev_added, prev_closed=crash_prev_closed,
         prev_delta=crash_prev_added - crash_prev_closed,
+        curr_added_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:"Crash Report"', curr, "created"),
+        curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:"Crash Report"', curr, "closed"),
     )
 
     # All open slingshot issues
@@ -277,6 +343,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_delta=all_curr_added - all_curr_closed,
         prev_added=all_prev_added, prev_closed=all_prev_closed,
         prev_delta=all_prev_added - all_prev_closed,
+        curr_added_refs=search_issue_refs(PRIVATE_REPO, 'label:Slingshot', curr, "created"),
+        curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'label:Slingshot', curr, "closed"),
     )
 
     # All bugs in private repo regardless of label (new this month is the KPI)
@@ -293,6 +361,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_delta=all_priv_curr_added - all_priv_curr_closed,
         prev_added=all_priv_prev_added, prev_closed=all_priv_prev_closed,
         prev_delta=all_priv_prev_added - all_priv_prev_closed,
+        curr_added_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug', curr, "created"),
+        curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug', curr, "closed"),
         always_show_headline=True,
     )
 
@@ -430,7 +500,13 @@ def generate_json(sections: list[ReportSection], curr: MonthRange, prev: MonthRa
                 "title": sec.title,
                 "url": sec.url,
                 "metrics": [
-                    {"label": m.label, "current": m.current, "previous": m.previous, "delta": m.delta}
+                    {
+                        "label": m.label,
+                        "current": m.current,
+                        "previous": m.previous,
+                        "delta": m.delta,
+                        "current_refs": m.current_refs,
+                    }
                     for m in sec.metrics
                 ],
                 "subsections": [

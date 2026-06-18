@@ -14,8 +14,8 @@ on:
         required: false
         type: string
   schedule:
-    # 01:00 UTC on 1st of each month → previous (now complete) month's data
-    - cron: "0 1 1 * *"
+    # 01:00 UTC every Monday -> keep current month (so far) report fresh
+    - cron: "0 1 * * 1"
 
 permissions:
   contents: write  # needed to commit per-month data files
@@ -44,26 +44,30 @@ jobs:
       - name: Install dependencies
         run: pip install requests python-dotenv
 
-      - name: Generate data for month
+      - name: Resolve target month
         if: github.event_name != 'push'
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_TOKEN_PUBLIC_REVEAL: ${{ secrets.GH_TOKEN_PUBLIC_REVEAL }}
+        id: month
         run: |
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            MONTH=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
+            MONTH=$(date -u +%Y-%m)
           elif [[ -n "${{ inputs.month }}" ]]; then
             MONTH="${{ inputs.month }}"
           else
             MONTH=$(date -u +%Y-%m)
           fi
           echo "Generating report for month: $MONTH"
-          echo "MONTH=$MONTH" >> "$GITHUB_ENV"
-          python monthly_report.py --month "$MONTH" --json "docs/data-${MONTH}.json"
+          echo "month=$MONTH" >> "$GITHUB_OUTPUT"
+
+      - name: Generate data for month
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN_PUBLIC_REVEAL: ${{ secrets.GH_TOKEN_PUBLIC_REVEAL }}
+        run: python monthly_report.py --month "${{ steps.month.outputs.month }}" --json "docs/data-${{ steps.month.outputs.month }}.json"
 
       - name: Update manifest
         if: github.event_name != 'push'
-        run: python update_manifest.py "${{ env.MONTH }}"
+        run: python update_manifest.py "${{ steps.month.outputs.month }}"
 
       - name: Commit data files
         if: github.event_name != 'push'
@@ -74,7 +78,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: report data for ${{ env.MONTH }}"
+            git commit -m "chore: report data for ${{ steps.month.outputs.month }}"
             git push
           fi
 

@@ -285,7 +285,7 @@ A GitHub Pages–hosted dashboard that tracks monthly metrics for the Reveal rep
 
 - **Multi-month historical reports**: Each month's data is preserved as a JSON file (`data-YYYY-MM.json`), allowing you to browse and compare reports across time
 - **Interactive dropdown**: Select any available month from the period selector to instantly view that month's metrics
-- **Automatic monthly generation**: The workflow runs on the 1st of each month at 01:00 UTC to generate the previous (now complete) month's report
+- **Automatic rolling generation**: The workflow runs weekly at 01:00 UTC and refreshes the current month report (month-to-date), compared to the previous month
 - **Two repositories tracked**:
   - **Reveal SDK** (public): Bugs and feature requests
   - **Reveal** (private): All bugs, Crash Reports (by platform), and Slingshot bugs (by platform)
@@ -297,6 +297,17 @@ Visit the GitHub Pages site (URL in repo settings) and:
 1. Use the **Period** dropdown to select a month
 2. The report loads automatically, showing side-by-side metrics for the selected month vs. its predecessor
 3. Click metric titles to jump to the filtered GitHub issue search
+
+### Customizing font size
+
+All text on the dashboard scales from a single CSS variable at the top of `docs/index.html`. To resize the entire UI, change the one `font-size` value on `:root`:
+
+```css
+/* docs/index.html — top of <style> */
+:root { font-size: 15px; }  /* increase for larger text, decrease for denser layout */
+```
+
+Every `em`-based size on the page (KPI values, table text, labels, notes) inherits this value automatically, so no other changes are needed.
 
 ### How to test locally?
 Two things to test: the Python data generation, and the HTML page.
@@ -314,6 +325,8 @@ python update_manifest.py 2026-05
 
 This produces `docs/data-2026-04.json`, `docs/data-2026-05.json`, and updates manifest.json exactly as the workflow would.
 
+To test the current rolling period behavior, also generate the current month file and update the manifest for it.
+
 **2. Serve the page locally**
 
 The HTML uses `fetch()` so it needs an HTTP server —  won't work. With Python:
@@ -323,7 +336,7 @@ cd docs
 python -m http.server 8080
 ```
 
-Then open `http://localhost:8080` in a browser. The dropdown should populate with April and May, May pre-selected and loading automatically.
+Then open `http://localhost:8080` in a browser. The dropdown should populate with all available months, with the latest one pre-selected and loaded automatically.
 
 After making a commit, manually trigger the workflow once via **Actions → Run workflow** (leave month blank) to do a clean deploy that picks up the new files.
 ![alt text](image.png)

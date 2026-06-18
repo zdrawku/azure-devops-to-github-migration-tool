@@ -1,68 +1,316 @@
 {
-  "generated": "2026-05-04T08:49:35Z",
+  "generated": "2026-06-18T09:05:39Z",
   "curr": "2026-05",
   "prev": "2026-04",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 71,
+      "total_open": 74,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 1,
-      "curr_closed": 0,
-      "curr_delta": 1,
-      "prev_added": 6,
+      "curr_added": 4,
+      "curr_closed": 2,
+      "curr_delta": 2,
+      "prev_added": 7,
       "prev_closed": 5,
-      "prev_delta": 1,
+      "prev_delta": 2,
+      "curr_added_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 3492,
+            "title": "Percent Fraction Digits = 0 affects Y-axis auto bounds",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3492"
+          },
+          {
+            "number": 3462,
+            "title": "Excel workbook with namespace-prefixed sheets loads with 0 sheets and leaves UI in infinite loader",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3462"
+          },
+          {
+            "number": 3377,
+            "title": "Composite chart crashes on hover when combining stacked and non-stacked series",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3377"
+          },
+          {
+            "number": 3333,
+            "title": "Gauge turns gray when value is over max",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3333"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-05-01..2026-05-31"
+      },
+      "curr_closed_refs": {
+        "total": 2,
+        "issues": [
+          {
+            "number": 3377,
+            "title": "Composite chart crashes on hover when combining stacked and non-stacked series",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3377"
+          },
+          {
+            "number": 3333,
+            "title": "Gauge turns gray when value is over max",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3333"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-05-01..2026-05-31"
+      },
       "always_show_headline": false
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 15,
+      "total_open": 9,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
-      "curr_closed": 0,
-      "curr_delta": 1,
+      "curr_closed": 4,
+      "curr_delta": -3,
       "prev_added": 4,
       "prev_closed": 4,
       "prev_delta": 0,
+      "curr_added_refs": {
+        "total": 1,
+        "issues": [
+          {
+            "number": 3335,
+            "title": "NSInvalidArgumentException - *** -[__NSArrayM insertObject:atIndex:]: object cannot be nil",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3335"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-05-01..2026-05-31"
+      },
+      "curr_closed_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 3090,
+            "title": "Slingshot crash when modifying date global filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3090"
+          },
+          {
+            "number": 3327,
+            "title": "Showing Chart Tooltip causes and Error in getSeriesValuePosition - Editing a dashboard that has a Combo Chart",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3327"
+          },
+          {
+            "number": 1787,
+            "title": "[8 times] SIGSEGV - RPExprNativeParser parseExpression",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1787"
+          },
+          {
+            "number": 2741,
+            "title": "NSInvalidArgumentExceptio RPConnectors RPRestApiConfigurationCubeAdapter getCube:ds:dsItem:handler:errorHandler",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2741"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-05-01..2026-05-31"
+      },
       "always_show_headline": false
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 101,
+      "total_open": 95,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 3,
-      "curr_closed": 0,
-      "curr_delta": 3,
-      "prev_added": 10,
+      "curr_added": 6,
+      "curr_closed": 7,
+      "curr_delta": -1,
+      "prev_added": 11,
       "prev_closed": 12,
-      "prev_delta": -2,
+      "prev_delta": -1,
+      "curr_added_refs": {
+        "total": 6,
+        "issues": [
+          {
+            "number": 3492,
+            "title": "Percent Fraction Digits = 0 affects Y-axis auto bounds",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3492"
+          },
+          {
+            "number": 3462,
+            "title": "Excel workbook with namespace-prefixed sheets loads with 0 sheets and leaves UI in infinite loader",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3462"
+          },
+          {
+            "number": 3377,
+            "title": "Composite chart crashes on hover when combining stacked and non-stacked series",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3377"
+          },
+          {
+            "number": 3336,
+            "title": "Slingshot: support creating Data Agents from within Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3336"
+          },
+          {
+            "number": 3335,
+            "title": "NSInvalidArgumentException - *** -[__NSArrayM insertObject:atIndex:]: object cannot be nil",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3335"
+          },
+          {
+            "number": 3333,
+            "title": "Gauge turns gray when value is over max",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3333"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-05-01..2026-05-31"
+      },
+      "curr_closed_refs": {
+        "total": 7,
+        "issues": [
+          {
+            "number": 3090,
+            "title": "Slingshot crash when modifying date global filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3090"
+          },
+          {
+            "number": 3027,
+            "title": "Slingsot: TikTok Ads Connector",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3027"
+          },
+          {
+            "number": 3327,
+            "title": "Showing Chart Tooltip causes and Error in getSeriesValuePosition - Editing a dashboard that has a Combo Chart",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3327"
+          },
+          {
+            "number": 3377,
+            "title": "Composite chart crashes on hover when combining stacked and non-stacked series",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3377"
+          },
+          {
+            "number": 3333,
+            "title": "Gauge turns gray when value is over max",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3333"
+          },
+          {
+            "number": 1787,
+            "title": "[8 times] SIGSEGV - RPExprNativeParser parseExpression",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1787"
+          },
+          {
+            "number": 2741,
+            "title": "NSInvalidArgumentExceptio RPConnectors RPRestApiConfigurationCubeAdapter getCube:ds:dsItem:handler:errorHandler",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2741"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-05-01..2026-05-31"
+      },
       "always_show_headline": false
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 2,
+      "total_open": 33,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 2,
-      "curr_closed": 0,
-      "curr_delta": 2,
-      "prev_added": 50,
+      "curr_added": 33,
+      "curr_closed": 22,
+      "curr_delta": 11,
+      "prev_added": 53,
       "prev_closed": 25,
-      "prev_delta": 25,
+      "prev_delta": 28,
+      "curr_added_refs": {
+        "total": 33,
+        "issues": [
+          {
+            "number": 3522,
+            "title": "Transposed fields are not working",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3522"
+          },
+          {
+            "number": 3502,
+            "title": "XMLA-to-tabular data spec conversion missing selected date filter values",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3502"
+          },
+          {
+            "number": 3492,
+            "title": "Percent Fraction Digits = 0 affects Y-axis auto bounds",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3492"
+          },
+          {
+            "number": 3490,
+            "title": "Fix legacy test \"Test_SDK_MSSQLServer_Bug_22627_SelectDS_DSItem_DifferentOrder\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3490"
+          },
+          {
+            "number": 3489,
+            "title": "Fix legacy test \"Test_SDK_Formatting_Datetime_CalculatedFields\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3489"
+          },
+          {
+            "number": 3481,
+            "title": "GA4 first click in Filter By doesn't set filter correctly",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3481"
+          },
+          {
+            "number": 3480,
+            "title": "Review Themes tests from the Jasmine framework",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3480"
+          },
+          {
+            "number": 3473,
+            "title": "Issue with highlight filters: not applied the first time",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3473"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-05-01..2026-05-31"
+      },
+      "curr_closed_refs": {
+        "total": 22,
+        "issues": [
+          {
+            "number": 2756,
+            "title": "Add Visualization Filter button is still enabled even after all the filters are added",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2756"
+          },
+          {
+            "number": 3090,
+            "title": "Slingshot crash when modifying date global filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3090"
+          },
+          {
+            "number": 3481,
+            "title": "GA4 first click in Filter By doesn't set filter correctly",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3481"
+          },
+          {
+            "number": 3502,
+            "title": "XMLA-to-tabular data spec conversion missing selected date filter values",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3502"
+          },
+          {
+            "number": 3306,
+            "title": "[BUG]: Percent does not display correctly when using format (1234)% for negative",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3306"
+          },
+          {
+            "number": 3172,
+            "title": "Investigate the failures in the test \"Test36198_BarFilterHighlight\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3172"
+          },
+          {
+            "number": 3374,
+            "title": "Keyboard Focus improvements for Export Modal",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3374"
+          },
+          {
+            "number": 3371,
+            "title": "Clean focus manager registered elements when a new dashboard is loaded",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3371"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-05-01..2026-05-31"
+      },
       "always_show_headline": true
     },
     "crash_by_platform": [
       {
         "label": "Web",
-        "count": 3
+        "count": 1
       },
       {
         "label": "WPF",
-        "count": 3
+        "count": 1
       },
       {
         "label": "MacOS",
-        "count": 6
+        "count": 4
       },
       {
         "label": "iOS",
@@ -81,27 +329,56 @@
       "metrics": [
         {
           "label": "New bugs",
-          "current": 1,
+          "current": 2,
           "previous": 7,
-          "delta": -6
+          "delta": -5,
+          "current_refs": {
+            "total": 2,
+            "issues": [
+              {
+                "number": 653,
+                "title": "[BUG]: Sublevels do not expand in Pivot charts when hierarchy values are identical",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/653"
+              },
+              {
+                "number": 651,
+                "title": "[BUG]: Unable to sort columns in some report visualizations",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/651"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-05-01..2026-05-31"
+          }
         },
         {
           "label": "Closed bugs",
-          "current": 0,
+          "current": 1,
           "previous": 6,
-          "delta": -6
+          "delta": -5,
+          "current_refs": {
+            "total": 1,
+            "issues": [
+              {
+                "number": 648,
+                "title": "[BUG]: Percent does not display correctly when using format (1234)% for negative",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/648"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-05-01..2026-05-31"
+          }
         },
         {
           "label": "New feature requests",
-          "current": 0,
+          "current": 2,
           "previous": 5,
-          "delta": -5
+          "delta": -3,
+          "current_refs": {}
         },
         {
           "label": "Closed feature requests",
-          "current": 0,
+          "current": 2,
           "previous": 1,
-          "delta": -1
+          "delta": 1,
+          "current_refs": {}
         }
       ],
       "subsections": []
@@ -112,21 +389,24 @@
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 2,
-          "previous": 50,
-          "delta": -48
+          "current": 33,
+          "previous": 53,
+          "delta": -20,
+          "current_refs": {}
         },
         {
           "label": "New Crash Reports",
           "current": 1,
           "previous": 4,
-          "delta": -3
+          "delta": -3,
+          "current_refs": {}
         },
         {
           "label": "New Slingshot Bugs",
-          "current": 1,
-          "previous": 6,
-          "delta": -5
+          "current": 4,
+          "previous": 7,
+          "delta": -3,
+          "current_refs": {}
         }
       ],
       "subsections": [

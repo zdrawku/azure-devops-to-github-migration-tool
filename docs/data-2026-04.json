@@ -1,53 +1,376 @@
 {
-  "generated": "2026-05-04T06:51:54Z",
+  "generated": "2026-06-18T09:03:05Z",
   "curr": "2026-04",
   "prev": "2026-03",
   "summary": {
     "bugs": {
-      "title": "BUGS (EXCLUDING CRASH REPORTS)",
-      "total_open": 71,
-      "note": "Combines bug and type: bug labels",
-      "curr_added": 6,
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
+      "total_open": 74,
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 7,
       "curr_closed": 5,
-      "curr_delta": 1,
-      "prev_added": 207,
+      "curr_delta": 2,
+      "prev_added": 208,
       "prev_closed": 138,
-      "prev_delta": 69
+      "prev_delta": 70,
+      "curr_added_refs": {
+        "total": 7,
+        "issues": [
+          {
+            "number": 3225,
+            "title": "Dashboard & Excel CSV not Matching",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3225"
+          },
+          {
+            "number": 3214,
+            "title": "LinkedIn data source connection is failing",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3214"
+          },
+          {
+            "number": 3184,
+            "title": "Authentication of Dashboards Through MacOS Hangs on Credential Flow",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3184"
+          },
+          {
+            "number": 3165,
+            "title": "Cant Change Color on Fixed Line Picker",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3165"
+          },
+          {
+            "number": 3148,
+            "title": "Date Range Is Missing Error, But is Present",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3148"
+          },
+          {
+            "number": 3147,
+            "title": "Can't Edit Date Range Need to Remove And Readd",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3147"
+          },
+          {
+            "number": 3145,
+            "title": "(Slingshot) Edit Data Source is not working",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3145"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-04-01..2026-04-30"
+      },
+      "curr_closed_refs": {
+        "total": 5,
+        "issues": [
+          {
+            "number": 3214,
+            "title": "LinkedIn data source connection is failing",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3214"
+          },
+          {
+            "number": 2203,
+            "title": "MacOS crash in BaseVisualization when opening dashboard from Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2203"
+          },
+          {
+            "number": 2875,
+            "title": "Doughnut chart - tooltips missing on some slices (pie, funnel)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2875"
+          },
+          {
+            "number": 3085,
+            "title": "EvoWebSiteStandalone.Controllers.WebAPI.CredentialsController\",\"lvl\":\"Error\",\"ticks\":639100502832324091,\"msg\":\"Action finished (.UnauthorizedServiceException)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3085"
+          },
+          {
+            "number": 703,
+            "title": "Average Frequency & Reach in LinkedIn Ads Not Working",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/703"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-04-01..2026-04-30"
+      },
+      "always_show_headline": false
     },
     "crash_reports": {
-      "title": "CRASH REPORTS",
-      "total_open": 15,
-      "note": "Issues tagged Crash Report",
+      "title": "SLINGSHOT CRASH REPORTS",
+      "total_open": 9,
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 4,
       "curr_closed": 4,
       "curr_delta": 0,
       "prev_added": 56,
       "prev_closed": 42,
-      "prev_delta": 14
+      "prev_delta": 14,
+      "curr_added_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 3327,
+            "title": "Showing Chart Tooltip causes and Error in getSeriesValuePosition - Editing a dashboard that has a Combo Chart",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3327"
+          },
+          {
+            "number": 3177,
+            "title": "Crash Report: NullReferenceException occurring inside Infragistics.RPEditorFilterFieldCell.SetDateAggregatable(Boolean value)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3177"
+          },
+          {
+            "number": 3176,
+            "title": "Crash Report: Infragistics.NativeColorUtility.ConvertHexStringToColorInt(String hexColor)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3176"
+          },
+          {
+            "number": 3144,
+            "title": "Signal Exception WidgetHeaderView setFocusToMainElement",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3144"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-04-01..2026-04-30"
+      },
+      "curr_closed_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 3177,
+            "title": "Crash Report: NullReferenceException occurring inside Infragistics.RPEditorFilterFieldCell.SetDateAggregatable(Boolean value)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3177"
+          },
+          {
+            "number": 3176,
+            "title": "Crash Report: Infragistics.NativeColorUtility.ConvertHexStringToColorInt(String hexColor)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3176"
+          },
+          {
+            "number": 1826,
+            "title": "[2 times] TypeError: Cannot read properties of undefined (reading 'split')",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1826"
+          },
+          {
+            "number": 1701,
+            "title": "[3 times] Cannot read properties of null (reading 'dataSourceId')     at Class.createDataSourcesWithDatabase",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1701"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-04-01..2026-04-30"
+      },
+      "always_show_headline": false
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 100,
-      "note": "Includes bugs, crash reports, features, etc.",
-      "curr_added": 10,
+      "total_open": 95,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 11,
       "curr_closed": 12,
-      "curr_delta": -2,
-      "prev_added": 291,
+      "curr_delta": -1,
+      "prev_added": 292,
       "prev_closed": 191,
-      "prev_delta": 100
+      "prev_delta": 101,
+      "curr_added_refs": {
+        "total": 11,
+        "issues": [
+          {
+            "number": 3327,
+            "title": "Showing Chart Tooltip causes and Error in getSeriesValuePosition - Editing a dashboard that has a Combo Chart",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3327"
+          },
+          {
+            "number": 3225,
+            "title": "Dashboard & Excel CSV not Matching",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3225"
+          },
+          {
+            "number": 3214,
+            "title": "LinkedIn data source connection is failing",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3214"
+          },
+          {
+            "number": 3184,
+            "title": "Authentication of Dashboards Through MacOS Hangs on Credential Flow",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3184"
+          },
+          {
+            "number": 3177,
+            "title": "Crash Report: NullReferenceException occurring inside Infragistics.RPEditorFilterFieldCell.SetDateAggregatable(Boolean value)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3177"
+          },
+          {
+            "number": 3176,
+            "title": "Crash Report: Infragistics.NativeColorUtility.ConvertHexStringToColorInt(String hexColor)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3176"
+          },
+          {
+            "number": 3165,
+            "title": "Cant Change Color on Fixed Line Picker",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3165"
+          },
+          {
+            "number": 3148,
+            "title": "Date Range Is Missing Error, But is Present",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3148"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-04-01..2026-04-30"
+      },
+      "curr_closed_refs": {
+        "total": 12,
+        "issues": [
+          {
+            "number": 3214,
+            "title": "LinkedIn data source connection is failing",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3214"
+          },
+          {
+            "number": 3177,
+            "title": "Crash Report: NullReferenceException occurring inside Infragistics.RPEditorFilterFieldCell.SetDateAggregatable(Boolean value)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3177"
+          },
+          {
+            "number": 3176,
+            "title": "Crash Report: Infragistics.NativeColorUtility.ConvertHexStringToColorInt(String hexColor)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3176"
+          },
+          {
+            "number": 1826,
+            "title": "[2 times] TypeError: Cannot read properties of undefined (reading 'split')",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1826"
+          },
+          {
+            "number": 3019,
+            "title": "Slingshot: ClickHouse connector",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3019"
+          },
+          {
+            "number": 2203,
+            "title": "MacOS crash in BaseVisualization when opening dashboard from Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2203"
+          },
+          {
+            "number": 2875,
+            "title": "Doughnut chart - tooltips missing on some slices (pie, funnel)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2875"
+          },
+          {
+            "number": 3085,
+            "title": "EvoWebSiteStandalone.Controllers.WebAPI.CredentialsController\",\"lvl\":\"Error\",\"ticks\":639100502832324091,\"msg\":\"Action finished (.UnauthorizedServiceException)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3085"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-04-01..2026-04-30"
+      },
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 53,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
+      "curr_added": 53,
+      "curr_closed": 25,
+      "curr_delta": 28,
+      "prev_added": 1212,
+      "prev_closed": 854,
+      "prev_delta": 358,
+      "curr_added_refs": {
+        "total": 53,
+        "issues": [
+          {
+            "number": 3328,
+            "title": "Youtube connector: Add default date for MyVideos, MyLikedVideos /probably TopVideos",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3328"
+          },
+          {
+            "number": 3327,
+            "title": "Showing Chart Tooltip causes and Error in getSeriesValuePosition - Editing a dashboard that has a Combo Chart",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3327"
+          },
+          {
+            "number": 3310,
+            "title": "Fix failing test ChartEditorFeature_OverlapGap",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3310"
+          },
+          {
+            "number": 3309,
+            "title": "Issue with flaky test \"Test_ChoroplethMapTooltipDecimals\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3309"
+          },
+          {
+            "number": 3306,
+            "title": "[BUG]: Percent does not display correctly when using format (1234)% for negative",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3306"
+          },
+          {
+            "number": 3303,
+            "title": "Incorrect Date Range When Selecting \u201cLast 30 Days\u201d",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3303"
+          },
+          {
+            "number": 3298,
+            "title": "Youtube connector: OperatingSystem filtering by EndDate fails",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3298"
+          },
+          {
+            "number": 3296,
+            "title": "Youtube connector: TrafficSources when selecting a field forces a filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3296"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-04-01..2026-04-30"
+      },
+      "curr_closed_refs": {
+        "total": 25,
+        "issues": [
+          {
+            "number": 3214,
+            "title": "LinkedIn data source connection is failing",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3214"
+          },
+          {
+            "number": 3291,
+            "title": "Youtube connector: SQL error messages when changing chart type",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3291"
+          },
+          {
+            "number": 3136,
+            "title": "Youtube connector: `Published at` filter is automatically added for a datasource",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3136"
+          },
+          {
+            "number": 3264,
+            "title": "Youtube connector:  Videos data mismatch",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3264"
+          },
+          {
+            "number": 3290,
+            "title": "Youtube connector: Traffic Sources - Blank data",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3290"
+          },
+          {
+            "number": 3177,
+            "title": "Crash Report: NullReferenceException occurring inside Infragistics.RPEditorFilterFieldCell.SetDateAggregatable(Boolean value)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3177"
+          },
+          {
+            "number": 3176,
+            "title": "Crash Report: Infragistics.NativeColorUtility.ConvertHexStringToColorInt(String hexColor)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3176"
+          },
+          {
+            "number": 3289,
+            "title": "Youtube connector:",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3289"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-04-01..2026-04-30"
+      },
+      "always_show_headline": true
     },
     "crash_by_platform": [
       {
         "label": "Web",
-        "count": 3
+        "count": 1
       },
       {
         "label": "WPF",
-        "count": 3
+        "count": 1
       },
       {
         "label": "MacOS",
-        "count": 6
+        "count": 4
       },
       {
         "label": "iOS",
@@ -61,57 +384,134 @@
   },
   "sections": [
     {
-      "title": "Reveal SDK Public Bugs",
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
       "metrics": [
         {
           "label": "New bugs",
           "current": 7,
           "previous": 7,
-          "delta": 0
+          "delta": 0,
+          "current_refs": {
+            "total": 7,
+            "issues": [
+              {
+                "number": 648,
+                "title": "[BUG]: Percent does not display correctly when using format (1234)% for negative",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/648"
+              },
+              {
+                "number": 646,
+                "title": "[BUG]: addDateField Does not add the right config column type",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/646"
+              },
+              {
+                "number": 643,
+                "title": "[BUG]: Widget shows unnecessary vertical scrolling in Dashboard Edit Mode",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/643"
+              },
+              {
+                "number": 642,
+                "title": "[BUG]: Percentage value shows in decimal even fraction vale set to zero",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/642"
+              },
+              {
+                "number": 640,
+                "title": "[BUG]: Performance Graph loading takes more time",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/640"
+              },
+              {
+                "number": 639,
+                "title": "[BUG]: PDF Export does not match dashboard",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/639"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-04-01..2026-04-30"
+          }
         },
         {
           "label": "Closed bugs",
           "current": 6,
           "previous": 4,
-          "delta": 2
+          "delta": 2,
+          "current_refs": {
+            "total": 6,
+            "issues": [
+              {
+                "number": 635,
+                "title": "test test",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/635"
+              },
+              {
+                "number": 646,
+                "title": "[BUG]: addDateField Does not add the right config column type",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/646"
+              },
+              {
+                "number": 643,
+                "title": "[BUG]: Widget shows unnecessary vertical scrolling in Dashboard Edit Mode",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/643"
+              },
+              {
+                "number": 642,
+                "title": "[BUG]: Percentage value shows in decimal even fraction vale set to zero",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/642"
+              },
+              {
+                "number": 612,
+                "title": "[BUG]: Pie Chart Legend Disappears for no apparent reason",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/612"
+              },
+              {
+                "number": 599,
+                "title": "[BUG]: Donut not displaying tooltips/drilldowns consistently",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/599"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-04-01..2026-04-30"
+          }
         },
         {
           "label": "New feature requests",
           "current": 5,
           "previous": 9,
-          "delta": -4
+          "delta": -4,
+          "current_refs": {}
         },
         {
           "label": "Closed feature requests",
           "current": 1,
           "previous": 3,
-          "delta": -2
+          "delta": -2,
+          "current_refs": {}
         }
       ],
       "subsections": []
     },
     {
-      "title": "Reveal Slingshot/Crash reports and bugs",
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
       "metrics": [
         {
-          "label": "New bugs since last month",
-          "current": 50,
-          "previous": 1211,
-          "delta": -1161
+          "label": "All new bugs (any label)",
+          "current": 53,
+          "previous": 1212,
+          "delta": -1159,
+          "current_refs": {}
         },
         {
           "label": "New Crash Reports",
           "current": 4,
           "previous": 56,
-          "delta": -52
+          "delta": -52,
+          "current_refs": {}
         },
         {
           "label": "New Slingshot Bugs",
-          "current": 6,
-          "previous": 207,
-          "delta": -201
+          "current": 7,
+          "previous": 208,
+          "delta": -201,
+          "current_refs": {}
         }
       ],
       "subsections": [

@@ -1,0 +1,460 @@
+{
+  "generated": "2026-06-18T09:09:14Z",
+  "curr": "2026-06",
+  "prev": "2026-05",
+  "summary": {
+    "bugs": {
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
+      "total_open": 74,
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 1,
+      "curr_closed": 1,
+      "curr_delta": 0,
+      "prev_added": 4,
+      "prev_closed": 2,
+      "prev_delta": 2,
+      "curr_added_refs": {
+        "total": 1,
+        "issues": [
+          {
+            "number": 3610,
+            "title": "[WPF]Facebook provider crashes",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3610"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-06-01..2026-06-30"
+      },
+      "curr_closed_refs": {
+        "total": 1,
+        "issues": [
+          {
+            "number": 3025,
+            "title": "Investigate why Reveal datasource credentials do not appear in Slingshot apps (iOS/Android/WPF)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3025"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-06-01..2026-06-30"
+      },
+      "always_show_headline": false
+    },
+    "crash_reports": {
+      "title": "SLINGSHOT CRASH REPORTS",
+      "total_open": 9,
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 2,
+      "curr_delta": -2,
+      "prev_added": 1,
+      "prev_closed": 4,
+      "prev_delta": -3,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-06-01..2026-06-30"
+      },
+      "curr_closed_refs": {
+        "total": 2,
+        "issues": [
+          {
+            "number": 2775,
+            "title": "System.NullReferenceException: Object reference not set to an instance of an object.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2775"
+          },
+          {
+            "number": 2989,
+            "title": "Crash when quickly drilling up/down in tree map",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2989"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-06-01..2026-06-30"
+      },
+      "always_show_headline": false
+    },
+    "all_slingshot": {
+      "title": "ALL OPEN SLINGSHOT ISSUES",
+      "total_open": 95,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 1,
+      "curr_closed": 5,
+      "curr_delta": -4,
+      "prev_added": 6,
+      "prev_closed": 7,
+      "prev_delta": -1,
+      "curr_added_refs": {
+        "total": 1,
+        "issues": [
+          {
+            "number": 3610,
+            "title": "[WPF]Facebook provider crashes",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3610"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-06-01..2026-06-30"
+      },
+      "curr_closed_refs": {
+        "total": 5,
+        "issues": [
+          {
+            "number": 3025,
+            "title": "Investigate why Reveal datasource credentials do not appear in Slingshot apps (iOS/Android/WPF)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3025"
+          },
+          {
+            "number": 3016,
+            "title": "Slingshot: TikTok Organic connector",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3016"
+          },
+          {
+            "number": 2775,
+            "title": "System.NullReferenceException: Object reference not set to an instance of an object.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2775"
+          },
+          {
+            "number": 3336,
+            "title": "Slingshot: support creating Data Agents from within Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3336"
+          },
+          {
+            "number": 2989,
+            "title": "Crash when quickly drilling up/down in tree map",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2989"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-06-01..2026-06-30"
+      },
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 12,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
+      "curr_added": 12,
+      "curr_closed": 23,
+      "curr_delta": -11,
+      "prev_added": 33,
+      "prev_closed": 22,
+      "prev_delta": 11,
+      "curr_added_refs": {
+        "total": 12,
+        "issues": [
+          {
+            "number": 3610,
+            "title": "[WPF]Facebook provider crashes",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3610"
+          },
+          {
+            "number": 3607,
+            "title": "Paged Grid Excel export can use stale unpaged cache while visible grid shows fresh data",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3607"
+          },
+          {
+            "number": 3598,
+            "title": "Isolate RevealAgent`s cache per environment",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3598"
+          },
+          {
+            "number": 3594,
+            "title": "Fix SqlProviderTests",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3594"
+          },
+          {
+            "number": 3589,
+            "title": "Tooltips are not displayed for Scatter maps, funnels, donuts and pies",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3589"
+          },
+          {
+            "number": 3581,
+            "title": "Issues in filtering DateTime by value",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3581"
+          },
+          {
+            "number": 3559,
+            "title": "Image export leaves stray close button and crashes RevealView when clicked",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3559"
+          },
+          {
+            "number": 3554,
+            "title": "BigQuery data source item fails in Java SDK 2.0 during create widget",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3554"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-06-01..2026-06-30"
+      },
+      "curr_closed_refs": {
+        "total": 23,
+        "issues": [
+          {
+            "number": 3559,
+            "title": "Image export leaves stray close button and crashes RevealView when clicked",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3559"
+          },
+          {
+            "number": 3540,
+            "title": "Edit data source for TiKTok Ads datasource not working",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3540"
+          },
+          {
+            "number": 3025,
+            "title": "Investigate why Reveal datasource credentials do not appear in Slingshot apps (iOS/Android/WPF)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3025"
+          },
+          {
+            "number": 2890,
+            "title": "Interactive filtering menu still shows \"Filter by\" for field already selected for filtering",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2890"
+          },
+          {
+            "number": 3589,
+            "title": "Tooltips are not displayed for Scatter maps, funnels, donuts and pies",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3589"
+          },
+          {
+            "number": 3379,
+            "title": "Accessibility and Keyboard Navigation issues in View Mode and Export dialogs",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3379"
+          },
+          {
+            "number": 2957,
+            "title": "Custom visualization disappears when opening the Context menu in edit mode.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2957"
+          },
+          {
+            "number": 2775,
+            "title": "System.NullReferenceException: Object reference not set to an instance of an object.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2775"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
+      },
+      "always_show_headline": true
+    },
+    "crash_by_platform": [
+      {
+        "label": "Web",
+        "count": 1
+      },
+      {
+        "label": "WPF",
+        "count": 1
+      },
+      {
+        "label": "MacOS",
+        "count": 4
+      },
+      {
+        "label": "iOS",
+        "count": 1
+      },
+      {
+        "label": "Android",
+        "count": 1
+      }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
+      "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "metrics": [
+        {
+          "label": "New bugs",
+          "current": 10,
+          "previous": 2,
+          "delta": 8,
+          "current_refs": {
+            "total": 10,
+            "issues": [
+              {
+                "number": 672,
+                "title": "[BUG]: canAddDashboardFilter / canAddDateFilter throws '_globalFiltersGrid' null error when set before dashboard assignment in v2.0",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/672"
+              },
+              {
+                "number": 670,
+                "title": "[BUG]: Japanese localization regression: Add Visualization button label is incorrect (\u201c+ \u53ef\u8996\u5316\u201d vs expected \u201c+ \u8868\u793a\u5f62\u5f0f\u201d)",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/670"
+              },
+              {
+                "number": 669,
+                "title": "[BUG]: The system has ascending and descending backwards",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/669"
+              },
+              {
+                "number": 668,
+                "title": "[BUG]: Localization bug (ja-JP): \u201cField name already in use\u201d mistranslated",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/668"
+              },
+              {
+                "number": 667,
+                "title": "[BUG]: chart toolbar visualization selector not working",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/667"
+              },
+              {
+                "number": 666,
+                "title": "[BUG]: Unable to reuse previously registered post-calculated field names",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/666"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-06-01..2026-06-30"
+          }
+        },
+        {
+          "label": "Closed bugs",
+          "current": 7,
+          "previous": 1,
+          "delta": 6,
+          "current_refs": {
+            "total": 7,
+            "issues": [
+              {
+                "number": 664,
+                "title": "[BUG]: Export image - UI option freeze",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/664"
+              },
+              {
+                "number": 667,
+                "title": "[BUG]: chart toolbar visualization selector not working",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/667"
+              },
+              {
+                "number": 668,
+                "title": "[BUG]: Localization bug (ja-JP): \u201cField name already in use\u201d mistranslated",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/668"
+              },
+              {
+                "number": 592,
+                "title": "[Sample]: Custom Visualizations chart disappears when edited",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/592"
+              },
+              {
+                "number": 657,
+                "title": "[BUG]: Add support for AllowDiskUse in MongoDB",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/657"
+              },
+              {
+                "number": 546,
+                "title": "[BUG]: No data available message is not displayed for Grid Visualization",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/546"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
+          }
+        },
+        {
+          "label": "New feature requests",
+          "current": 2,
+          "previous": 2,
+          "delta": 0,
+          "current_refs": {}
+        },
+        {
+          "label": "Closed feature requests",
+          "current": 1,
+          "previous": 2,
+          "delta": -1,
+          "current_refs": {}
+        }
+      ],
+      "subsections": []
+    },
+    {
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
+      "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "metrics": [
+        {
+          "label": "All new bugs (any label)",
+          "current": 12,
+          "previous": 33,
+          "delta": -21,
+          "current_refs": {}
+        },
+        {
+          "label": "New Crash Reports",
+          "current": 0,
+          "previous": 1,
+          "delta": -1,
+          "current_refs": {}
+        },
+        {
+          "label": "New Slingshot Bugs",
+          "current": 1,
+          "previous": 4,
+          "delta": -3,
+          "current_refs": {}
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Crash Reports by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "title": "Slingshot Bugs by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
