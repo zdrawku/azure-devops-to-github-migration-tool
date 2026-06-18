@@ -8,7 +8,7 @@
 <!-- Ignite UI Web Components: dark indigo theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/igniteui-webcomponents@5/themes/dark/indigo.css">
 
-<!-- ApexCharts for doughnut -->
+<!-- ApexCharts for charts -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3/dist/apexcharts.min.js"></script>
 
 <!-- Ignite UI Web Components: register needed components -->
@@ -22,7 +22,7 @@
      FONT SIZE — change this one value to scale the entire page.
      All component sizes below are expressed in em and inherit it.
      ============================================================ */
-  :root { font-size: 15px; }
+  :root { font-size: 18px; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
@@ -39,14 +39,16 @@
   #output { display: none; flex-direction: column; gap: .75em; }
   #output.visible { display: flex; }
 
-  /* Summary KPI cards row */
-  .summary-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: .75em; }
+  /* Unified cards container — all KPI cards and section cards in one flex flow */
+  .cards-container { display: flex; flex-wrap: wrap; gap: .75em; align-items: flex-start; }
+  .cards-container .kpi-card { width: 420px; height: 380px; flex: 0 0 auto; overflow: auto; }
+  .cards-container igc-card { width: 620px; height: 380px; flex: 0 0 auto; }
+  .cards-container .chart-section { width: 520px; height: 380px; flex: 0 0 auto; overflow: auto; }
   .kpi-card { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
               border-radius: 8px; padding: 1em 1.25em; }
   .kpi-card .kpi-title { font-size: .82em; font-weight: 700; text-transform: uppercase;
                           letter-spacing: .04em; color: var(--ig-gray-600); margin-bottom: .25em; }
-  .kpi-card .kpi-value { font-size: 2.75em; font-weight: 700; line-height: 1.1; margin-bottom: .75rem; }
-  .kpi-card .kpi-value--historical { color: var(--ig-gray-400); font-size: 2.2em; }
+  .kpi-card .kpi-value { font-size: 1.75em; font-weight: 700; line-height: 1.1; margin-bottom: .75rem; }
   .kpi-card .kpi-row { display: flex; justify-content: space-between; align-items: baseline;
                         padding: .2em 0; font-size: .88em; }
   .kpi-card .kpi-row .kpi-label { font-weight: 600; }
@@ -65,10 +67,11 @@
   .delta-down { color: var(--ig-success-500); font-weight: 700; font-size: .88em; }
   .delta-zero { color: var(--ig-gray-500); font-weight: 700; font-size: .88em; }
 
-  /* Bottom row: chart + detail cards side by side, wrapping on overflow */
-  .bottom-row { display: flex; flex-wrap: wrap; gap: .75em; align-items: flex-start; }
-  .bottom-row .chart-section { flex: 1 1 280px; min-width: 260px; }
-  .bottom-row igc-card { flex: 1 1 320px; min-width: 280px; }
+  .section-open-count { margin-bottom: .75em; }
+  .section-open-count .open-count-num { font-size: 1.75em; font-weight: 700; line-height: 1.1; display: block; }
+  .section-open-count .open-count-lbl { font-size: .82em; color: var(--ig-gray-500); }
+  .section-open-count .open-count-sub { margin-top: .35em; font-size: .82em; color: var(--ig-gray-500); }
+  .section-open-count .open-count-note { margin-top: .2em; font-size: .75em; color: var(--ig-gray-500); }
 
   /* Chart section */
   .chart-section { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
@@ -79,6 +82,7 @@
   igc-card { --ig-size: 1; overflow: hidden; }
   igc-card-header { padding: .75em 1em .25em; }
   igc-card-content { padding: 0 1em .75em; }
+  .cards-container igc-card igc-card-content { display: block; height: 450px; overflow: auto; }
   .card-title { font-size: .95em; font-weight: 700; margin-bottom: .15em; }
   .card-title a { color: var(--ig-primary-300); text-decoration: none; }
   .card-title a:hover { text-decoration: underline; }
@@ -91,14 +95,27 @@
   tr.sub-hdr td { font-weight: 700; color: var(--ig-gray-500); padding-top: .6em; border-bottom: none;
                   font-size: .78em; text-transform: uppercase; letter-spacing: .04em; }
   tr.sub td:first-child { padding-left: 1em; color: var(--ig-gray-500); }
-  .metric-links { margin-top: .18em; font-size: .75em; line-height: 1.35; color: var(--ig-gray-500); }
+  .metric-links { margin-top: .18em; font-size: .95em; line-height: 1.35; color: var(--ig-gray-500); }
   .metric-links a { color: var(--ig-primary-300); text-decoration: none; }
   .metric-links a:hover { text-decoration: underline; }
 
   .error-msg { color: var(--ig-error-500); font-size: .95em; padding: 1em; }
 
+  .trend-section { background: var(--ig-surface-500); border: 1px solid var(--ig-gray-200);
+                   border-radius: 8px; padding: 1em 1.25em; width: 100%; }
+  .trend-section h3 { font-size: .95em; font-weight: 700; margin-bottom: .25em; }
+  .trend-section .trend-meta { color: var(--ig-gray-500); font-size: .8em; margin-bottom: .75em; }
+  #trendChart { width: 100%; height: 320px; }
+
   @media (max-width: 520px) {
-    .summary-row { grid-template-columns: 1fr; }
+    .cards-container .kpi-card,
+    .cards-container igc-card,
+    .cards-container .chart-section {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .cards-container igc-card igc-card-content { height: auto; }
   }
 </style>
 </head>
@@ -176,11 +193,8 @@ function renderMetricRefs(refs) {
   return `<div class="metric-links">${links}${more}</div>`;
 }
 
-function renderSummaryCard(card, currLabel, prevLabel, isLatest) {
-  const showHeadline = isLatest || card.always_show_headline;
-  const headline = showHeadline
-    ? `<div class="kpi-value">${card.total_open}</div>`
-    : `<div class="kpi-value kpi-value--historical" title="Open count not available for historical months">—</div>`;
+function renderSummaryCard(card, currLabel, prevLabel) {
+  const headline = `<div class="kpi-value">${card.total_open}</div>`;
   return `<div class="kpi-card">
     <div class="kpi-title">${card.title}</div>
     ${headline}
@@ -207,6 +221,102 @@ function renderChart(crashByPlatform) {
     <h3>Crash reports by platform</h3>
     <div id="crashChart"></div>
   </div>`;
+}
+
+function formatTrendMonth(yyyymm) {
+  const [y, m] = yyyymm.split('-');
+  return new Date(+y, +m - 1, 1).toLocaleString(undefined, { month: 'short', year: 'numeric' });
+}
+
+function renderTrendSection() {
+  return `<section class="trend-section">
+    <h3>Bugs Trend Over Time</h3>
+    <div class="trend-meta">Series: Reveal SDK Public, Reveal Private, Slingshot Bugs</div>
+    <div id="trendChart"></div>
+  </section>`;
+}
+
+let trendDataCache = null;
+let trendDataCacheKey = '';
+let trendChartInstance = null;
+
+async function getTrendData(months) {
+  const key = months.join(',');
+  if (trendDataCache && trendDataCacheKey === key) return trendDataCache;
+
+  const points = [];
+  for (const month of months) {
+    try {
+      const r = await fetch(`./data-${month}.json`, { cache: 'no-cache' });
+      if (!r.ok) continue;
+      const data = await r.json();
+      const publicOpen = data.sections?.[0]?.open_bug_count ?? data.sections?.[0]?.open_count;
+      const privateOpen = data.sections?.[1]?.open_bug_count ?? data.sections?.[1]?.open_count;
+      const slingshotOpen = data.summary?.bugs?.total_open;
+      points.push({
+        month: formatTrendMonth(month),
+        publicSdkOpenBugs: Number(publicOpen ?? 0),
+        privateRevealOpenBugs: Number(privateOpen ?? 0),
+        slingshotOpenBugs: Number(slingshotOpen ?? 0),
+      });
+    } catch (_) {
+      // Skip missing/unreadable month data and render what is available.
+    }
+  }
+
+  trendDataCache = points;
+  trendDataCacheKey = key;
+  return points;
+}
+
+async function mountTrendChart(months) {
+  const el = document.getElementById('trendChart');
+  if (!el || !Array.isArray(months) || months.length === 0) return;
+
+  const points = await getTrendData(months);
+  if (!points.length) return;
+
+  if (trendChartInstance) {
+    trendChartInstance.destroy();
+    trendChartInstance = null;
+  }
+
+  const options = {
+    chart: {
+      type: 'line',
+      height: el.clientHeight || 320,
+      width: '100%',
+      background: 'transparent',
+      toolbar: { show: true },
+      animations: { enabled: true },
+    },
+    series: [
+      { name: 'Reveal SDK Public', data: points.map(p => p.publicSdkOpenBugs) },
+      { name: 'Reveal Private', data: points.map(p => p.privateRevealOpenBugs) },
+      { name: 'Slingshot Bugs', data: points.map(p => p.slingshotOpenBugs) },
+    ],
+    xaxis: {
+      categories: points.map(p => p.month),
+      labels: { style: { colors: '#ccc' } },
+    },
+    yaxis: {
+      title: { text: 'Open bugs', style: { color: '#ccc' } },
+      labels: { style: { colors: '#ccc' } },
+      min: 0,
+      forceNiceScale: true,
+    },
+    stroke: { width: 3, curve: 'smooth' },
+    markers: { size: 4 },
+    dataLabels: { enabled: false },
+    legend: { position: 'top', labels: { colors: '#ccc' } },
+    colors: ['#4fc3f7', '#ffa726', '#66bb6a'],
+    grid: { borderColor: 'rgba(255,255,255,0.12)' },
+    tooltip: { shared: true },
+    theme: { mode: 'dark' },
+  };
+
+  trendChartInstance = new ApexCharts(el, options);
+  trendChartInstance.render();
 }
 
 function mountChart(crashByPlatform) {
@@ -245,12 +355,28 @@ function renderSection(sec, curr, prev) {
       rows += `<tr class="sub"><td>${m.label}</td><td>${m.current}</td><td>${badge(m.delta)}</td></tr>\n`;
     }
   }
+  const hasOpenMetrics = sec.open_count != null;
+  const openIssueLabel = sec.open_count_label || 'open issues';
+  const openBugCount = sec.open_bug_count;
+  const liveOpenIssues = sec.live_open_count;
+  const liveOpenBugs = sec.live_open_bug_count;
+  const hasLive = liveOpenIssues != null && liveOpenBugs != null;
+  const openHtml = hasOpenMetrics
+    ? `<div class="section-open-count">
+         <span class="open-count-num">${sec.open_count}</span>
+         <span class="open-count-lbl">${openIssueLabel}</span>
+         ${openBugCount != null ? `<div class="open-count-sub"><strong>${openBugCount}</strong> open bugs as of ${curr}</div>` : ''}
+         ${hasLive ? `<div class="open-count-sub">Live now: <strong>${liveOpenIssues}</strong> open issues · <strong>${liveOpenBugs}</strong> open bugs</div>` : ''}
+         <div class="open-count-note">Snapshot open count uses month-end logic (created before period end and not closed by period end). Live now uses <code>is:open</code> and <code>is:open type:Bug</code>.</div>
+       </div>`
+    : '';
   return `<igc-card>
     <igc-card-header>
       <h3 slot="title" class="card-title"><a href="${sec.url}">${sec.title}</a></h3>
       <h5 slot="subtitle" class="window">${repoSlug(sec.url)} · ${curr} vs ${prev}</h5>
     </igc-card-header>
     <igc-card-content>
+      ${openHtml}
       <table>
         <thead><tr><th>Metric</th><th>#</th><th>vs prev</th></tr></thead>
         <tbody>${rows}</tbody>
@@ -260,6 +386,7 @@ function renderSection(sec, curr, prev) {
 }
 
 let latestMonth = null;
+let availableMonths = [];
 
 async function loadReport(month) {
   const status = document.getElementById('status');
@@ -279,36 +406,39 @@ async function loadReport(month) {
     const ts = new Date(data.generated).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
     gen.textContent = `${data.curr} vs ${data.prev} · generated ${ts}`;
 
-    let html = '';
+    const [sdkSec, privateSec] = data.sections || [];
+    const s = data.summary || {};
 
-    // Summary KPI row (if data has summary)
-    const isLatest = month === latestMonth;
-    if (data.summary) {
-      html += `<div class="summary-row">
-        ${renderSummaryCard(data.summary.bugs, data.curr, data.prev, isLatest)}
-        ${renderSummaryCard(data.summary.crash_reports, data.curr, data.prev, isLatest)}
-        ${renderSummaryCard(data.summary.all_slingshot, data.curr, data.prev, isLatest)}
-        ${data.summary.all_private_bugs ? renderSummaryCard(data.summary.all_private_bugs, data.curr, data.prev, isLatest) : ''}
-      </div>`;
-
-    }
-
-    // Bottom row: chart + detail section cards
-    html += `<div class="bottom-row">`;
-    if (data.summary && data.summary.crash_by_platform) {
-      html += renderChart(data.summary.crash_by_platform);
-    }
-    html += data.sections.map(sec => renderSection(sec, data.curr, data.prev)).join('');
-    html += `</div>`;
+    // All cards in one flex container, in the specified order:
+    // 1. Reveal SDK (Public) section
+    // 2. ALL NEW BUGS · REVEAL (PRIVATE)
+    // 3. Reveal (Private) section
+    // 4. ALL OPEN SLINGSHOT ISSUES
+    // 5. SLINGSHOT BUGS (EXCL. CRASH REPORTS)
+    // 6. SLINGSHOT CRASH REPORTS
+    // 7. Crash by platform chart
+    let html = '<div class="cards-container">';
+    if (sdkSec)             html += renderSection(sdkSec, data.curr, data.prev);
+    if (s.all_private_bugs) html += renderSummaryCard(s.all_private_bugs, data.curr, data.prev);
+    if (privateSec)         html += renderSection(privateSec, data.curr, data.prev);
+    if (s.all_slingshot)    html += renderSummaryCard(s.all_slingshot, data.curr, data.prev);
+    if (s.bugs)             html += renderSummaryCard(s.bugs, data.curr, data.prev);
+    if (s.crash_reports)    html += renderSummaryCard(s.crash_reports, data.curr, data.prev);
+    if (s.crash_by_platform) html += renderChart(s.crash_by_platform);
+    html += '</div>';
+    html += renderTrendSection();
 
     output.innerHTML = html;
     output.className = 'visible';
     status.innerHTML = '';
 
     // Mount chart after DOM is updated and layout is flushed
-    if (data.summary && data.summary.crash_by_platform) {
-      requestAnimationFrame(() => mountChart(data.summary.crash_by_platform));
+    if (s.crash_by_platform) {
+      requestAnimationFrame(() => mountChart(s.crash_by_platform));
     }
+    requestAnimationFrame(() => {
+      mountTrendChart(availableMonths);
+    });
   } catch (e) {
     output.innerHTML = `<p class="error-msg">❌ ${e.message}</p>`;
     output.className = 'visible';
@@ -330,6 +460,8 @@ async function init() {
       select.placeholder = 'No reports yet';
       return;
     }
+
+    availableMonths = [...manifest.months];
 
     // Populate newest-first
     [...manifest.months].reverse().forEach(m => {

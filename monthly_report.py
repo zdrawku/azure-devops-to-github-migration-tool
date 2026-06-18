@@ -157,6 +157,21 @@ def search_issue_refs(repo: str, base_query: str, period: MonthRange,
     }
 
 
+def open_count_as_of(repo: str, base_query: str, cutoff: date) -> int:
+    """Return how many issues were open at the end of the cutoff date.
+
+    Uses creation/closure ranges to model "open as-of" for historical months.
+    """
+    cutoff_iso = cutoff.isoformat()
+    base = f"{base_query.strip()} " if base_query and base_query.strip() else ""
+    q = (
+        f"{base}"
+        f"created:1970-01-01..{cutoff_iso} "
+        f"-closed:1970-01-01..{cutoff_iso}"
+    )
+    return search_count(repo, q)
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Metric helpers
 # ──────────────────────────────────────────────────────────────────────────────
@@ -184,6 +199,11 @@ class ReportSection:
     prev_label: str
     metrics: list[Metric] = field(default_factory=list)
     subsections: list[tuple[str, list[Metric]]] = field(default_factory=list)
+    open_count: int = 0
+    open_count_label: str = ""
+    open_bug_count: int = 0
+    live_open_count: int = 0
+    live_open_bug_count: int = 0
 
 
 def collect_metric(repo: str, label: str, base_query: str,
@@ -211,6 +231,11 @@ def collect_public_sdk(curr: MonthRange, prev: MonthRange) -> ReportSection:
         url=f"https://github.com/{PUBLIC_REPO}/issues",
         curr_label=curr.label,
         prev_label=prev.label,
+        open_count=open_count_as_of(PUBLIC_REPO, '', curr.end),
+        open_count_label=f"open issues as of {curr.end.isoformat()}",
+        open_bug_count=open_count_as_of(PUBLIC_REPO, 'type:Bug', curr.end),
+        live_open_count=search_count(PUBLIC_REPO, 'is:open'),
+        live_open_bug_count=search_count(PUBLIC_REPO, 'is:open type:Bug'),
     )
     section.metrics = [
         collect_metric_with_refs(PUBLIC_REPO, "New bugs",     "type:Bug",     curr, prev, "created", ref_limit=6),
@@ -227,6 +252,11 @@ def collect_private_reveal(curr: MonthRange, prev: MonthRange) -> ReportSection:
         url=f"https://github.com/{PRIVATE_REPO}/issues",
         curr_label=curr.label,
         prev_label=prev.label,
+        open_count=open_count_as_of(PRIVATE_REPO, '', curr.end),
+        open_count_label=f"open issues as of {curr.end.isoformat()}",
+        open_bug_count=open_count_as_of(PRIVATE_REPO, 'type:Bug', curr.end),
+        live_open_count=search_count(PRIVATE_REPO, 'is:open'),
+        live_open_bug_count=search_count(PRIVATE_REPO, 'is:open type:Bug'),
     )
     section.metrics = [
         collect_metric(PRIVATE_REPO, "All new bugs (any label)", "type:Bug", curr, prev, "created"),
@@ -290,8 +320,8 @@ class PlatformCount:
 def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
     """Collect dashboard summary: open counts + monthly added/closed for 3 KPI cards."""
 
-    # Bugs excluding crash reports (open now)
-    bugs_open = search_count(PRIVATE_REPO, 'is:open label:Slingshot type:Bug -label:"Crash Report"')
+    # Bugs excluding crash reports (open as of end of selected month)
+    bugs_open = open_count_as_of(PRIVATE_REPO, 'label:Slingshot type:Bug -label:"Crash Report"', curr.end)
     bugs_curr_added = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" created:{curr.query_range()}')
     bugs_curr_closed = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" closed:{curr.query_range()}')
     bugs_prev_added = search_count(PRIVATE_REPO, f'type:Bug label:Slingshot -label:"Crash Report" created:{prev.query_range()}')
@@ -309,8 +339,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:Slingshot -label:"Crash Report"', curr, "closed"),
     )
 
-    # Crash reports (open now)
-    crash_open = search_count(PRIVATE_REPO, 'is:open type:Bug label:"Crash Report"')
+    # Crash reports (open as of end of selected month)
+    crash_open = open_count_as_of(PRIVATE_REPO, 'type:Bug label:"Crash Report"', curr.end)
     crash_curr_added = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" created:{curr.query_range()}')
     crash_curr_closed = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" closed:{curr.query_range()}')
     crash_prev_added = search_count(PRIVATE_REPO, f'type:Bug label:"Crash Report" created:{prev.query_range()}')
@@ -328,8 +358,8 @@ def collect_summary(curr: MonthRange, prev: MonthRange) -> dict:
         curr_closed_refs=search_issue_refs(PRIVATE_REPO, 'type:Bug label:"Crash Report"', curr, "closed"),
     )
 
-    # All open slingshot issues
-    all_open = search_count(PRIVATE_REPO, 'is:open label:Slingshot')
+    # All slingshot issues open as of end of selected month
+    all_open = open_count_as_of(PRIVATE_REPO, 'label:Slingshot', curr.end)
     all_curr_added = search_count(PRIVATE_REPO, f'label:Slingshot created:{curr.query_range()}')
     all_curr_closed = search_count(PRIVATE_REPO, f'label:Slingshot closed:{curr.query_range()}')
     all_prev_added = search_count(PRIVATE_REPO, f'label:Slingshot created:{prev.query_range()}')
@@ -499,6 +529,11 @@ def generate_json(sections: list[ReportSection], curr: MonthRange, prev: MonthRa
             {
                 "title": sec.title,
                 "url": sec.url,
+                "open_count": sec.open_count,
+                "open_count_label": sec.open_count_label,
+                "open_bug_count": sec.open_bug_count,
+                "live_open_count": sec.live_open_count,
+                "live_open_bug_count": sec.live_open_bug_count,
                 "metrics": [
                     {
                         "label": m.label,

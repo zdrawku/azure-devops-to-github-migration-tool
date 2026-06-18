@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-18T09:09:14Z",
+  "generated": "2026-06-18T11:59:27Z",
   "curr": "2026-06",
   "prev": "2026-05",
   "summary": {
@@ -255,6 +255,11 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "open_count": 187,
+      "open_count_label": "open issues as of 2026-06-30",
+      "open_bug_count": 35,
+      "live_open_count": 187,
+      "live_open_bug_count": 35,
       "metrics": [
         {
           "label": "New bugs",
@@ -360,6 +365,11 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "open_count": 785,
+      "open_count_label": "open issues as of 2026-06-30",
+      "open_bug_count": 386,
+      "live_open_count": 785,
+      "live_open_bug_count": 386,
       "metrics": [
         {
           "label": "All new bugs (any label)",

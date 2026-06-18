@@ -1,11 +1,11 @@
 {
-  "generated": "2026-06-18T09:03:05Z",
+  "generated": "2026-06-18T11:53:12Z",
   "curr": "2026-04",
   "prev": "2026-03",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 74,
+      "total_open": 72,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 7,
       "curr_closed": 5,
@@ -89,7 +89,7 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 9,
+      "total_open": 14,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 4,
       "curr_closed": 4,
@@ -153,7 +153,7 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 95,
+      "total_open": 100,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 11,
       "curr_closed": 12,
@@ -386,6 +386,11 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "open_count": 182,
+      "open_count_label": "open issues as of 2026-04-30",
+      "open_bug_count": 31,
+      "live_open_count": 187,
+      "live_open_bug_count": 35,
       "metrics": [
         {
           "label": "New bugs",
@@ -491,6 +496,11 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "open_count": 793,
+      "open_count_label": "open issues as of 2026-04-30",
+      "open_bug_count": 386,
+      "live_open_count": 785,
+      "live_open_bug_count": 386,
       "metrics": [
         {
           "label": "All new bugs (any label)",
