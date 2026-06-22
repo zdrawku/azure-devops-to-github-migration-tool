@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-18T11:59:27Z",
+  "generated": "2026-06-22T01:50:03Z",
   "curr": "2026-06",
   "prev": "2026-05",
   "summary": {
@@ -126,17 +126,32 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 12,
+      "total_open": 15,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 12,
-      "curr_closed": 23,
-      "curr_delta": -11,
+      "curr_added": 15,
+      "curr_closed": 24,
+      "curr_delta": -9,
       "prev_added": 33,
       "prev_closed": 22,
       "prev_delta": 11,
       "curr_added_refs": {
-        "total": 12,
+        "total": 15,
         "issues": [
+          {
+            "number": 3620,
+            "title": "TestMySqlNorthwindProcStringParamOutputParams throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3620"
+          },
+          {
+            "number": 3619,
+            "title": "DataLayerTests Pipeline failures with: \"SQLiteException (0x87AF0570): file is not a database\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3619"
+          },
+          {
+            "number": 3614,
+            "title": "Keyboard Navigation gets stuck for Grid/Pivot/Sparkline",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3614"
+          },
           {
             "number": 3610,
             "title": "[WPF]Facebook provider crashes",
@@ -161,28 +176,18 @@
             "number": 3589,
             "title": "Tooltips are not displayed for Scatter maps, funnels, donuts and pies",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3589"
-          },
-          {
-            "number": 3581,
-            "title": "Issues in filtering DateTime by value",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3581"
-          },
-          {
-            "number": 3559,
-            "title": "Image export leaves stray close button and crashes RevealView when clicked",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3559"
-          },
-          {
-            "number": 3554,
-            "title": "BigQuery data source item fails in Java SDK 2.0 during create widget",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3554"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-06-01..2026-06-30"
       },
       "curr_closed_refs": {
-        "total": 23,
+        "total": 24,
         "issues": [
+          {
+            "number": 3393,
+            "title": "[BUG]: Sublevels do not expand in Pivot charts when hierarchy values are identical",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3393"
+          },
           {
             "number": 3559,
             "title": "Image export leaves stray close button and crashes RevealView when clicked",
@@ -217,11 +222,6 @@
             "number": 2957,
             "title": "Custom visualization disappears when opening the Context menu in edit mode.",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2957"
-          },
-          {
-            "number": 2775,
-            "title": "System.NullReferenceException: Object reference not set to an instance of an object.",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2775"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
@@ -257,9 +257,9 @@
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
       "open_count": 187,
       "open_count_label": "open issues as of 2026-06-30",
-      "open_bug_count": 35,
+      "open_bug_count": 34,
       "live_open_count": 187,
-      "live_open_bug_count": 35,
+      "live_open_bug_count": 34,
       "metrics": [
         {
           "label": "New bugs",
@@ -305,12 +305,17 @@
         },
         {
           "label": "Closed bugs",
-          "current": 7,
+          "current": 8,
           "previous": 1,
-          "delta": 6,
+          "delta": 7,
           "current_refs": {
-            "total": 7,
+            "total": 8,
             "issues": [
+              {
+                "number": 653,
+                "title": "[BUG]: Sublevels do not expand in Pivot charts when hierarchy values are identical",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/653"
+              },
               {
                 "number": 664,
                 "title": "[BUG]: Export image - UI option freeze",
@@ -335,11 +340,6 @@
                 "number": 657,
                 "title": "[BUG]: Add support for AllowDiskUse in MongoDB",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/657"
-              },
-              {
-                "number": 546,
-                "title": "[BUG]: No data available message is not displayed for Grid Visualization",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/546"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
@@ -347,9 +347,9 @@
         },
         {
           "label": "New feature requests",
-          "current": 2,
+          "current": 3,
           "previous": 2,
-          "delta": 0,
+          "delta": 1,
           "current_refs": {}
         },
         {
@@ -365,17 +365,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 785,
+      "open_count": 787,
       "open_count_label": "open issues as of 2026-06-30",
-      "open_bug_count": 386,
-      "live_open_count": 785,
-      "live_open_bug_count": 386,
+      "open_bug_count": 388,
+      "live_open_count": 787,
+      "live_open_bug_count": 388,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 12,
+          "current": 15,
           "previous": 33,
-          "delta": -21,
+          "delta": -18,
           "current_refs": {}
         },
         {
