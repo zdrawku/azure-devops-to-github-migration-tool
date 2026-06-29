@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-22T01:50:03Z",
+  "generated": "2026-06-29T01:43:59Z",
   "curr": "2026-06",
   "prev": "2026-05",
   "summary": {
@@ -126,17 +126,42 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 15,
+      "total_open": 20,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 15,
-      "curr_closed": 24,
-      "curr_delta": -9,
+      "curr_added": 20,
+      "curr_closed": 31,
+      "curr_delta": -11,
       "prev_added": 33,
       "prev_closed": 22,
       "prev_delta": 11,
       "curr_added_refs": {
-        "total": 15,
+        "total": 20,
         "issues": [
+          {
+            "number": 3669,
+            "title": "[BUG] Visualization dates use server locale instead of browser/RevealSdkSettings.overrideLocale",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3669"
+          },
+          {
+            "number": 3648,
+            "title": "Error received when applying more than one Above average aggregation filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3648"
+          },
+          {
+            "number": 3647,
+            "title": "Incorrect results when applying some filters in aggregated values",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3647"
+          },
+          {
+            "number": 3642,
+            "title": "Incorrect query result when filtering by a hidden value field",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3642"
+          },
+          {
+            "number": 3631,
+            "title": "Fiscal Quarter calculation discrepancy between Production and Dev (Test_FiscalQuarterTest_ExcelFile)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3631"
+          },
           {
             "number": 3620,
             "title": "TestMySqlNorthwindProcStringParamOutputParams throws",
@@ -151,77 +176,52 @@
             "number": 3614,
             "title": "Keyboard Navigation gets stuck for Grid/Pivot/Sparkline",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3614"
-          },
-          {
-            "number": 3610,
-            "title": "[WPF]Facebook provider crashes",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3610"
-          },
-          {
-            "number": 3607,
-            "title": "Paged Grid Excel export can use stale unpaged cache while visible grid shows fresh data",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3607"
-          },
-          {
-            "number": 3598,
-            "title": "Isolate RevealAgent`s cache per environment",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3598"
-          },
-          {
-            "number": 3594,
-            "title": "Fix SqlProviderTests",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3594"
-          },
-          {
-            "number": 3589,
-            "title": "Tooltips are not displayed for Scatter maps, funnels, donuts and pies",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3589"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-06-01..2026-06-30"
       },
       "curr_closed_refs": {
-        "total": 24,
+        "total": 31,
         "issues": [
+          {
+            "number": 3648,
+            "title": "Error received when applying more than one Above average aggregation filter",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3648"
+          },
+          {
+            "number": 2591,
+            "title": "[SharePlus] SharePlus Not Accepting Lookup Values for a Filtered View",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2591"
+          },
+          {
+            "number": 3642,
+            "title": "Incorrect query result when filtering by a hidden value field",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3642"
+          },
+          {
+            "number": 3594,
+            "title": "SQLite custom query support bug",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3594"
+          },
+          {
+            "number": 3619,
+            "title": "DataLayerTests Pipeline failures with: \"SQLiteException (0x87AF0570): file is not a database\"",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3619"
+          },
+          {
+            "number": 2907,
+            "title": "Bubble chart Excel export shows inconsistent data compared to dashboard view",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2907"
+          },
+          {
+            "number": 2943,
+            "title": "Sample visualization files from the Other->Custom category throw errors",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2943"
+          },
           {
             "number": 3393,
             "title": "[BUG]: Sublevels do not expand in Pivot charts when hierarchy values are identical",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3393"
-          },
-          {
-            "number": 3559,
-            "title": "Image export leaves stray close button and crashes RevealView when clicked",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3559"
-          },
-          {
-            "number": 3540,
-            "title": "Edit data source for TiKTok Ads datasource not working",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3540"
-          },
-          {
-            "number": 3025,
-            "title": "Investigate why Reveal datasource credentials do not appear in Slingshot apps (iOS/Android/WPF)",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3025"
-          },
-          {
-            "number": 2890,
-            "title": "Interactive filtering menu still shows \"Filter by\" for field already selected for filtering",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2890"
-          },
-          {
-            "number": 3589,
-            "title": "Tooltips are not displayed for Scatter maps, funnels, donuts and pies",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3589"
-          },
-          {
-            "number": 3379,
-            "title": "Accessibility and Keyboard Navigation issues in View Mode and Export dialogs",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3379"
-          },
-          {
-            "number": 2957,
-            "title": "Custom visualization disappears when opening the Context menu in edit mode.",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2957"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
@@ -255,20 +255,35 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 187,
+      "open_count": 186,
       "open_count_label": "open issues as of 2026-06-30",
-      "open_bug_count": 34,
-      "live_open_count": 187,
-      "live_open_bug_count": 34,
+      "open_bug_count": 30,
+      "live_open_count": 186,
+      "live_open_bug_count": 30,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 10,
+          "current": 13,
           "previous": 2,
-          "delta": 8,
+          "delta": 11,
           "current_refs": {
-            "total": 10,
+            "total": 13,
             "issues": [
+              {
+                "number": 680,
+                "title": "[BUG]: Legend Not Showing",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/680"
+              },
+              {
+                "number": 675,
+                "title": "[BUG]: Stored procedure schema change can leave per-parameter cached data stale, causing \u201cno such column\u201d errors for some users",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/675"
+              },
+              {
+                "number": 674,
+                "title": "[BUG]:  Number format abbreviation (K/M) not persisted after save",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/674"
+              },
               {
                 "number": 672,
                 "title": "[BUG]: canAddDashboardFilter / canAddDateFilter throws '_globalFiltersGrid' null error when set before dashboard assignment in v2.0",
@@ -283,21 +298,6 @@
                 "number": 669,
                 "title": "[BUG]: The system has ascending and descending backwards",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/669"
-              },
-              {
-                "number": 668,
-                "title": "[BUG]: Localization bug (ja-JP): \u201cField name already in use\u201d mistranslated",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/668"
-              },
-              {
-                "number": 667,
-                "title": "[BUG]: chart toolbar visualization selector not working",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/667"
-              },
-              {
-                "number": 666,
-                "title": "[BUG]: Unable to reuse previously registered post-calculated field names",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/666"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-06-01..2026-06-30"
@@ -305,41 +305,41 @@
         },
         {
           "label": "Closed bugs",
-          "current": 8,
+          "current": 15,
           "previous": 1,
-          "delta": 7,
+          "delta": 14,
           "current_refs": {
-            "total": 8,
+            "total": 15,
             "issues": [
               {
-                "number": 653,
-                "title": "[BUG]: Sublevels do not expand in Pivot charts when hierarchy values are identical",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/653"
+                "number": 674,
+                "title": "[BUG]:  Number format abbreviation (K/M) not persisted after save",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/674"
               },
               {
-                "number": 664,
-                "title": "[BUG]: Export image - UI option freeze",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/664"
+                "number": 598,
+                "title": "[BUG]: Pivot not displaying tooltip/drill down when clicking field as an added hierarchy",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/598"
               },
               {
-                "number": 667,
-                "title": "[BUG]: chart toolbar visualization selector not working",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/667"
+                "number": 600,
+                "title": "[BUG]: Chart drilldown not being applied to all dashboard widgets correctly",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/600"
               },
               {
-                "number": 668,
-                "title": "[BUG]: Localization bug (ja-JP): \u201cField name already in use\u201d mistranslated",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/668"
+                "number": 613,
+                "title": "[BUG]: Custom Visualizations do not reflect applied filters in presentation mode",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/613"
               },
               {
-                "number": 592,
-                "title": "[Sample]: Custom Visualizations chart disappears when edited",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/592"
+                "number": 621,
+                "title": "[BUG]: MongoDB Connection Verification Fails Due to Missing userContext in Second Authentication Call",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/621"
               },
               {
-                "number": 657,
-                "title": "[BUG]: Add support for AllowDiskUse in MongoDB",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/657"
+                "number": 577,
+                "title": "[BUG]: Bubble chart Excel export shows inconsistent data compared to dashboard view",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/577"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-06-01..2026-06-30"
@@ -347,9 +347,9 @@
         },
         {
           "label": "New feature requests",
-          "current": 3,
+          "current": 6,
           "previous": 2,
-          "delta": 1,
+          "delta": 4,
           "current_refs": {}
         },
         {
@@ -365,17 +365,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 787,
+      "open_count": 794,
       "open_count_label": "open issues as of 2026-06-30",
-      "open_bug_count": 388,
-      "live_open_count": 787,
-      "live_open_bug_count": 388,
+      "open_bug_count": 386,
+      "live_open_count": 794,
+      "live_open_bug_count": 386,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 15,
+          "current": 20,
           "previous": 33,
-          "delta": -18,
+          "delta": -13,
           "current_refs": {}
         },
         {
