@@ -1,0 +1,315 @@
+{
+  "generated": "2026-07-06T01:35:21Z",
+  "curr": "2026-07",
+  "prev": "2026-06",
+  "summary": {
+    "bugs": {
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
+      "total_open": 73,
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 1,
+      "prev_closed": 2,
+      "prev_delta": -1,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-07-01..2026-07-31"
+      },
+      "always_show_headline": false
+    },
+    "crash_reports": {
+      "title": "SLINGSHOT CRASH REPORTS",
+      "total_open": 9,
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 0,
+      "prev_closed": 2,
+      "prev_delta": -2,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-07-01..2026-07-31"
+      },
+      "always_show_headline": false
+    },
+    "all_slingshot": {
+      "title": "ALL OPEN SLINGSHOT ISSUES",
+      "total_open": 94,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 1,
+      "prev_closed": 6,
+      "prev_delta": -5,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-07-01..2026-07-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-07-01..2026-07-31"
+      },
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 2,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
+      "curr_added": 2,
+      "curr_closed": 4,
+      "curr_delta": -2,
+      "prev_added": 21,
+      "prev_closed": 32,
+      "prev_delta": -11,
+      "curr_added_refs": {
+        "total": 2,
+        "issues": [
+          {
+            "number": 3709,
+            "title": "Bug in Slingshot: First element is focused when opening a pop up list",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3709"
+          },
+          {
+            "number": 3690,
+            "title": "Scatter map tooltip displays in the top left instead of near the data point",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3690"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-07-01..2026-07-31"
+      },
+      "curr_closed_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 2940,
+            "title": "Bubble chart tooltip appears in a position away from the bubble",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2940"
+          },
+          {
+            "number": 3690,
+            "title": "Scatter map tooltip displays in the top left instead of near the data point",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3690"
+          },
+          {
+            "number": 3620,
+            "title": "TestMySqlNorthwindProcStringParamOutputParams throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3620"
+          },
+          {
+            "number": 2912,
+            "title": "[BUG]: Month names in date-type axis labels are not localized to the expected Japanese when exporting to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2912"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-07-01..2026-07-31"
+      },
+      "always_show_headline": true
+    },
+    "crash_by_platform": [
+      {
+        "label": "Web",
+        "count": 1
+      },
+      {
+        "label": "WPF",
+        "count": 1
+      },
+      {
+        "label": "MacOS",
+        "count": 4
+      },
+      {
+        "label": "iOS",
+        "count": 1
+      },
+      {
+        "label": "Android",
+        "count": 1
+      }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
+      "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "open_count": 187,
+      "open_count_label": "open issues as of 2026-07-31",
+      "open_bug_count": 30,
+      "live_open_count": 187,
+      "live_open_bug_count": 30,
+      "metrics": [
+        {
+          "label": "New bugs",
+          "current": 1,
+          "previous": 14,
+          "delta": -13,
+          "current_refs": {
+            "total": 1,
+            "issues": [
+              {
+                "number": 683,
+                "title": "[BUG]:  Excel export uses single quotes instead of double quotes in date axis label format code (yyyy'\u5e74'm'\u6708' vs yyyy\"\u5e74\"m\"\u6708\")",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/683"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-07-01..2026-07-31"
+          }
+        },
+        {
+          "label": "Closed bugs",
+          "current": 1,
+          "previous": 16,
+          "delta": -15,
+          "current_refs": {
+            "total": 1,
+            "issues": [
+              {
+                "number": 591,
+                "title": "[BUG]: Bubble chart tooltip appears in a position away from the bubble",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/591"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-07-01..2026-07-31"
+          }
+        },
+        {
+          "label": "New feature requests",
+          "current": 2,
+          "previous": 6,
+          "delta": -4,
+          "current_refs": {}
+        },
+        {
+          "label": "Closed feature requests",
+          "current": 0,
+          "previous": 2,
+          "delta": -2,
+          "current_refs": {}
+        }
+      ],
+      "subsections": []
+    },
+    {
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
+      "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "open_count": 787,
+      "open_count_label": "open issues as of 2026-07-31",
+      "open_bug_count": 384,
+      "live_open_count": 787,
+      "live_open_bug_count": 384,
+      "metrics": [
+        {
+          "label": "All new bugs (any label)",
+          "current": 2,
+          "previous": 21,
+          "delta": -19,
+          "current_refs": {}
+        },
+        {
+          "label": "New Crash Reports",
+          "current": 0,
+          "previous": 0,
+          "delta": 0,
+          "current_refs": {}
+        },
+        {
+          "label": "New Slingshot Bugs",
+          "current": 0,
+          "previous": 1,
+          "delta": -1,
+          "current_refs": {}
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Crash Reports by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "title": "Slingshot Bugs by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
