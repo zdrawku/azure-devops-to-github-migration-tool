@@ -1,21 +1,27 @@
 {
-  "generated": "2026-07-06T01:35:21Z",
+  "generated": "2026-07-13T04:26:22Z",
   "curr": "2026-07",
   "prev": "2026-06",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 73,
+      "total_open": 74,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 0,
+      "curr_added": 1,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 1,
       "prev_added": 1,
       "prev_closed": 2,
       "prev_delta": -1,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3722,
+            "title": "Chat messages hover popups should appear only when hovering over the specified element",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3722"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
@@ -27,11 +33,11 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 9,
+      "total_open": 8,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_closed": 1,
+      "curr_delta": -1,
       "prev_added": 0,
       "prev_closed": 2,
       "prev_delta": -2,
@@ -41,8 +47,14 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 2924,
+            "title": "Slingshot app crashes when dragging a value to create a dashboard",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2924"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-07-01..2026-07-31"
       },
       "always_show_headline": false
@@ -51,37 +63,79 @@
       "title": "ALL OPEN SLINGSHOT ISSUES",
       "total_open": 94,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 0,
-      "curr_closed": 0,
+      "curr_added": 1,
+      "curr_closed": 1,
       "curr_delta": 0,
       "prev_added": 1,
       "prev_closed": 6,
       "prev_delta": -5,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3722,
+            "title": "Chat messages hover popups should appear only when hovering over the specified element",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3722"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 2924,
+            "title": "Slingshot app crashes when dragging a value to create a dashboard",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2924"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-07-01..2026-07-31"
       },
       "always_show_headline": false
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 2,
+      "total_open": 8,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 2,
-      "curr_closed": 4,
-      "curr_delta": -2,
+      "curr_added": 8,
+      "curr_closed": 9,
+      "curr_delta": -1,
       "prev_added": 21,
       "prev_closed": 32,
       "prev_delta": -11,
       "curr_added_refs": {
-        "total": 2,
+        "total": 8,
         "issues": [
+          {
+            "number": 3739,
+            "title": "ClickHouse custom query incorrect type inference",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3739"
+          },
+          {
+            "number": 3736,
+            "title": "Occasional request failures are occurring in Node.js due to unexpected timeout behavior",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3736"
+          },
+          {
+            "number": 3734,
+            "title": "Opening Visualisation filter for time field throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3734"
+          },
+          {
+            "number": 3733,
+            "title": "Select Values filter should render with values selected",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3733"
+          },
+          {
+            "number": 3722,
+            "title": "Chat messages hover popups should appear only when hovering over the specified element",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3722"
+          },
+          {
+            "number": 3712,
+            "title": "Applying date filter throws on XMLA based Datasources",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3712"
+          },
           {
             "number": 3709,
             "title": "Bug in Slingshot: First element is focused when opening a pop up list",
@@ -96,8 +150,33 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 4,
+        "total": 9,
         "issues": [
+          {
+            "number": 2349,
+            "title": "Stacked Column chart shows blank if first series has 0 as its value",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2349"
+          },
+          {
+            "number": 3734,
+            "title": "Opening Visualisation filter for time field throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3734"
+          },
+          {
+            "number": 3712,
+            "title": "Applying date filter throws on XMLA based Datasources",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3712"
+          },
+          {
+            "number": 2924,
+            "title": "Slingshot app crashes when dragging a value to create a dashboard",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2924"
+          },
+          {
+            "number": 3709,
+            "title": "Bug in Slingshot: First element is focused when opening a pop up list",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3709"
+          },
           {
             "number": 2940,
             "title": "Bubble chart tooltip appears in a position away from the bubble",
@@ -112,11 +191,6 @@
             "number": 3620,
             "title": "TestMySqlNorthwindProcStringParamOutputParams throws",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3620"
-          },
-          {
-            "number": 2912,
-            "title": "[BUG]: Month names in date-type axis labels are not localized to the expected Japanese when exporting to Excel",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2912"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-07-01..2026-07-31"
@@ -142,7 +216,7 @@
       },
       {
         "label": "Android",
-        "count": 1
+        "count": 0
       }
     ]
   },
@@ -150,20 +224,35 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 187,
+      "open_count": 192,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 30,
-      "live_open_count": 187,
-      "live_open_bug_count": 30,
+      "open_bug_count": 31,
+      "live_open_count": 192,
+      "live_open_bug_count": 31,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 1,
+          "current": 4,
           "previous": 14,
-          "delta": -13,
+          "delta": -10,
           "current_refs": {
-            "total": 1,
+            "total": 4,
             "issues": [
+              {
+                "number": 688,
+                "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/688"
+              },
+              {
+                "number": 687,
+                "title": "[BUG]: Tooltips do not consistently appear for all slices in Pie and Doughnut charts",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/687"
+              },
+              {
+                "number": 686,
+                "title": "Bug: AI generated column chart does not use correct column for top n data filter",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/686"
+              },
               {
                 "number": 683,
                 "title": "[BUG]:  Excel export uses single quotes instead of double quotes in date axis label format code (yyyy'\u5e74'm'\u6708' vs yyyy\"\u5e74\"m\"\u6708\")",
@@ -175,12 +264,22 @@
         },
         {
           "label": "Closed bugs",
-          "current": 1,
+          "current": 3,
           "previous": 16,
-          "delta": -15,
+          "delta": -13,
           "current_refs": {
-            "total": 1,
+            "total": 3,
             "issues": [
+              {
+                "number": 559,
+                "title": "[BUG]: Hovering over a field in a pivot with more than 4 rows will not display the contents of the field",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/559"
+              },
+              {
+                "number": 597,
+                "title": "[BUG]: Stacked Column not rendering when >=1 fields have all 0 values (works in V1.7).",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/597"
+              },
               {
                 "number": 591,
                 "title": "[BUG]: Bubble chart tooltip appears in a position away from the bubble",
@@ -192,9 +291,9 @@
         },
         {
           "label": "New feature requests",
-          "current": 2,
+          "current": 6,
           "previous": 6,
-          "delta": -4,
+          "delta": 0,
           "current_refs": {}
         },
         {
@@ -210,17 +309,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 787,
+      "open_count": 794,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 384,
-      "live_open_count": 787,
-      "live_open_bug_count": 384,
+      "open_bug_count": 385,
+      "live_open_count": 794,
+      "live_open_bug_count": 385,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 2,
+          "current": 8,
           "previous": 21,
-          "delta": -19,
+          "delta": -13,
           "current_refs": {}
         },
         {
@@ -232,9 +331,9 @@
         },
         {
           "label": "New Slingshot Bugs",
-          "current": 0,
+          "current": 1,
           "previous": 1,
-          "delta": -1,
+          "delta": 0,
           "current_refs": {}
         }
       ],
