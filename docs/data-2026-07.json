@@ -1,15 +1,15 @@
 {
-  "generated": "2026-07-13T04:26:22Z",
+  "generated": "2026-07-20T04:34:37Z",
   "curr": "2026-07",
   "prev": "2026-06",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 74,
+      "total_open": 73,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 1,
-      "curr_closed": 0,
-      "curr_delta": 1,
+      "curr_closed": 1,
+      "curr_delta": 0,
       "prev_added": 1,
       "prev_closed": 2,
       "prev_delta": -1,
@@ -25,8 +25,14 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 1631,
+            "title": "Slingshot Customer Issue: Azure Analysis Services unable to refresh token. No option to fix from client.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1631"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-07-01..2026-07-31"
       },
       "always_show_headline": false
@@ -61,11 +67,11 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 94,
+      "total_open": 93,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 1,
-      "curr_closed": 1,
-      "curr_delta": 0,
+      "curr_closed": 2,
+      "curr_delta": -1,
       "prev_added": 1,
       "prev_closed": 6,
       "prev_delta": -5,
@@ -81,8 +87,13 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 1,
+        "total": 2,
         "issues": [
+          {
+            "number": 1631,
+            "title": "Slingshot Customer Issue: Azure Analysis Services unable to refresh token. No option to fix from client.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1631"
+          },
           {
             "number": 2924,
             "title": "Slingshot app crashes when dragging a value to create a dashboard",
@@ -95,17 +106,42 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 8,
+      "total_open": 12,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 8,
-      "curr_closed": 9,
-      "curr_delta": -1,
-      "prev_added": 21,
+      "curr_added": 12,
+      "curr_closed": 12,
+      "curr_delta": 0,
+      "prev_added": 27,
       "prev_closed": 32,
-      "prev_delta": -11,
+      "prev_delta": -5,
       "curr_added_refs": {
-        "total": 8,
+        "total": 12,
         "issues": [
+          {
+            "number": 3784,
+            "title": "Stored procedure DateTime parameter set server-side is not honored (.NET + Java)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3784"
+          },
+          {
+            "number": 3766,
+            "title": "PostgreSQL `numeric` values outside `System.Decimal` range fail during data loading",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3766"
+          },
+          {
+            "number": 3758,
+            "title": "PDF download under NodeJS does not work",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3758"
+          },
+          {
+            "number": 3750,
+            "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3750"
+          },
+          {
+            "number": 3749,
+            "title": "[BUG]: Tooltips do not consistently appear for all slices in Pie and Doughnut charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3749"
+          },
           {
             "number": 3739,
             "title": "ClickHouse custom query incorrect type inference",
@@ -120,38 +156,28 @@
             "number": 3734,
             "title": "Opening Visualisation filter for time field throws",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3734"
-          },
-          {
-            "number": 3733,
-            "title": "Select Values filter should render with values selected",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3733"
-          },
-          {
-            "number": 3722,
-            "title": "Chat messages hover popups should appear only when hovering over the specified element",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3722"
-          },
-          {
-            "number": 3712,
-            "title": "Applying date filter throws on XMLA based Datasources",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3712"
-          },
-          {
-            "number": 3709,
-            "title": "Bug in Slingshot: First element is focused when opening a pop up list",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3709"
-          },
-          {
-            "number": 3690,
-            "title": "Scatter map tooltip displays in the top left instead of near the data point",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3690"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 9,
+        "total": 12,
         "issues": [
+          {
+            "number": 1116,
+            "title": "Cannot set date value for stored procedure parameters on data source provider",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1116"
+          },
+          {
+            "number": 1631,
+            "title": "Slingshot Customer Issue: Azure Analysis Services unable to refresh token. No option to fix from client.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1631"
+          },
+          {
+            "number": 3736,
+            "title": "Occasional request failures are occurring in Node.js due to unexpected timeout behavior",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3736"
+          },
           {
             "number": 2349,
             "title": "Stacked Column chart shows blank if first series has 0 as its value",
@@ -176,21 +202,6 @@
             "number": 3709,
             "title": "Bug in Slingshot: First element is focused when opening a pop up list",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3709"
-          },
-          {
-            "number": 2940,
-            "title": "Bubble chart tooltip appears in a position away from the bubble",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2940"
-          },
-          {
-            "number": 3690,
-            "title": "Scatter map tooltip displays in the top left instead of near the data point",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3690"
-          },
-          {
-            "number": 3620,
-            "title": "TestMySqlNorthwindProcStringParamOutputParams throws",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3620"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-07-01..2026-07-31"
@@ -224,20 +235,30 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 192,
+      "open_count": 193,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 31,
-      "live_open_count": 192,
-      "live_open_bug_count": 31,
+      "open_bug_count": 32,
+      "live_open_count": 193,
+      "live_open_bug_count": 32,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 4,
+          "current": 5,
           "previous": 14,
-          "delta": -10,
+          "delta": -9,
           "current_refs": {
-            "total": 4,
+            "total": 5,
             "issues": [
+              {
+                "number": 695,
+                "title": "[BUG]: Grid Sorting Lost after RevealBiDOM Round-trip",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/695"
+              },
+              {
+                "number": 692,
+                "title": "[BUG] RevealView captures all Tab key navigation and prevents focus movement to other page elements since Reveal 2.0",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/692"
+              },
               {
                 "number": 688,
                 "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
@@ -247,11 +268,6 @@
                 "number": 687,
                 "title": "[BUG]: Tooltips do not consistently appear for all slices in Pie and Doughnut charts",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/687"
-              },
-              {
-                "number": 686,
-                "title": "Bug: AI generated column chart does not use correct column for top n data filter",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/686"
               },
               {
                 "number": 683,
@@ -291,16 +307,16 @@
         },
         {
           "label": "New feature requests",
-          "current": 6,
+          "current": 9,
           "previous": 6,
-          "delta": 0,
+          "delta": 3,
           "current_refs": {}
         },
         {
           "label": "Closed feature requests",
-          "current": 0,
+          "current": 3,
           "previous": 2,
-          "delta": -2,
+          "delta": 1,
           "current_refs": {}
         }
       ],
@@ -309,17 +325,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 794,
+      "open_count": 802,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 385,
-      "live_open_count": 794,
-      "live_open_bug_count": 385,
+      "open_bug_count": 392,
+      "live_open_count": 802,
+      "live_open_bug_count": 392,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 8,
-          "previous": 21,
-          "delta": -13,
+          "current": 12,
+          "previous": 27,
+          "delta": -15,
           "current_refs": {}
         },
         {
