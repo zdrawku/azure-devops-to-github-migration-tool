@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T04:34:37Z",
+  "generated": "2026-07-27T04:32:24Z",
   "curr": "2026-07",
   "prev": "2026-06",
   "summary": {
@@ -41,20 +41,31 @@
       "title": "SLINGSHOT CRASH REPORTS",
       "total_open": 8,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 0,
-      "curr_closed": 1,
+      "curr_added": 1,
+      "curr_closed": 2,
       "curr_delta": -1,
       "prev_added": 0,
       "prev_closed": 2,
       "prev_delta": -2,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3808,
+            "title": "Opening `Edit Data Source Details` dialog throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3808"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 1,
+        "total": 2,
         "issues": [
+          {
+            "number": 1700,
+            "title": "[2 times] TypeError: Cannot read properties of null (reading 'getDataSource')     at s.__cancelBlock",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1700"
+          },
           {
             "number": 2924,
             "title": "Slingshot app crashes when dragging a value to create a dashboard",
@@ -67,11 +78,11 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 93,
+      "total_open": 92,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 1,
-      "curr_closed": 2,
-      "curr_delta": -1,
+      "curr_closed": 3,
+      "curr_delta": -2,
       "prev_added": 1,
       "prev_closed": 6,
       "prev_delta": -5,
@@ -87,8 +98,13 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 2,
+        "total": 3,
         "issues": [
+          {
+            "number": 1700,
+            "title": "[2 times] TypeError: Cannot read properties of null (reading 'getDataSource')     at s.__cancelBlock",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1700"
+          },
           {
             "number": 1631,
             "title": "Slingshot Customer Issue: Azure Analysis Services unable to refresh token. No option to fix from client.",
@@ -106,17 +122,32 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 12,
+      "total_open": 15,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 12,
-      "curr_closed": 12,
-      "curr_delta": 0,
+      "curr_added": 15,
+      "curr_closed": 14,
+      "curr_delta": 1,
       "prev_added": 27,
       "prev_closed": 32,
       "prev_delta": -5,
       "curr_added_refs": {
-        "total": 12,
+        "total": 15,
         "issues": [
+          {
+            "number": 3817,
+            "title": "Regression: menuItems not rendered in widget toolbar when showToolbar: true",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3817"
+          },
+          {
+            "number": 3808,
+            "title": "Opening `Edit Data Source Details` dialog throws",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3808"
+          },
+          {
+            "number": 3806,
+            "title": "Connecting to PostgreSQL in Slingshot fails due to unsresolved db",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3806"
+          },
           {
             "number": 3784,
             "title": "Stored procedure DateTime parameter set server-side is not honored (.NET + Java)",
@@ -141,28 +172,23 @@
             "number": 3749,
             "title": "[BUG]: Tooltips do not consistently appear for all slices in Pie and Doughnut charts",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3749"
-          },
-          {
-            "number": 3739,
-            "title": "ClickHouse custom query incorrect type inference",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3739"
-          },
-          {
-            "number": 3736,
-            "title": "Occasional request failures are occurring in Node.js due to unexpected timeout behavior",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3736"
-          },
-          {
-            "number": 3734,
-            "title": "Opening Visualisation filter for time field throws",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3734"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-07-01..2026-07-31"
       },
       "curr_closed_refs": {
-        "total": 12,
+        "total": 14,
         "issues": [
+          {
+            "number": 1700,
+            "title": "[2 times] TypeError: Cannot read properties of null (reading 'getDataSource')     at s.__cancelBlock",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1700"
+          },
+          {
+            "number": 3113,
+            "title": "Linkedin not working on Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3113"
+          },
           {
             "number": 1116,
             "title": "Cannot set date value for stored procedure parameters on data source provider",
@@ -192,16 +218,6 @@
             "number": 3712,
             "title": "Applying date filter throws on XMLA based Datasources",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3712"
-          },
-          {
-            "number": 2924,
-            "title": "Slingshot app crashes when dragging a value to create a dashboard",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2924"
-          },
-          {
-            "number": 3709,
-            "title": "Bug in Slingshot: First element is focused when opening a pop up list",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3709"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-07-01..2026-07-31"
@@ -211,7 +227,7 @@
     "crash_by_platform": [
       {
         "label": "Web",
-        "count": 1
+        "count": 0
       },
       {
         "label": "WPF",
@@ -235,24 +251,29 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 193,
+      "open_count": 194,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 32,
-      "live_open_count": 193,
-      "live_open_bug_count": 32,
+      "open_bug_count": 33,
+      "live_open_count": 194,
+      "live_open_bug_count": 33,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 5,
+          "current": 6,
           "previous": 14,
-          "delta": -9,
+          "delta": -8,
           "current_refs": {
-            "total": 5,
+            "total": 6,
             "issues": [
               {
-                "number": 695,
-                "title": "[BUG]: Grid Sorting Lost after RevealBiDOM Round-trip",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/695"
+                "number": 698,
+                "title": "[BUG]: Bar Chart loses categories after applying multiple filter selections",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/698"
+              },
+              {
+                "number": 696,
+                "title": "[BUG]: A paged Grid without an explicit sort can generate an invalid SQL Server query",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/696"
               },
               {
                 "number": 692,
@@ -307,16 +328,16 @@
         },
         {
           "label": "New feature requests",
-          "current": 9,
+          "current": 10,
           "previous": 6,
-          "delta": 3,
+          "delta": 4,
           "current_refs": {}
         },
         {
           "label": "Closed feature requests",
-          "current": 3,
+          "current": 4,
           "previous": 2,
-          "delta": 1,
+          "delta": 2,
           "current_refs": {}
         }
       ],
@@ -325,24 +346,24 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 802,
+      "open_count": 800,
       "open_count_label": "open issues as of 2026-07-31",
-      "open_bug_count": 392,
-      "live_open_count": 802,
-      "live_open_bug_count": 392,
+      "open_bug_count": 393,
+      "live_open_count": 800,
+      "live_open_bug_count": 393,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 12,
+          "current": 15,
           "previous": 27,
-          "delta": -15,
+          "delta": -12,
           "current_refs": {}
         },
         {
           "label": "New Crash Reports",
-          "current": 0,
+          "current": 1,
           "previous": 0,
-          "delta": 0,
+          "delta": 1,
           "current_refs": {}
         },
         {
