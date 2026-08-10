@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-03T04:25:15Z",
+  "generated": "2026-08-10T03:08:12Z",
   "curr": "2026-08",
   "prev": "2026-07",
   "summary": {
@@ -71,22 +71,74 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 0,
+      "total_open": 2,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_added": 2,
+      "curr_closed": 8,
+      "curr_delta": -6,
       "prev_added": 21,
       "prev_closed": 26,
       "prev_delta": -5,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 2,
+        "issues": [
+          {
+            "number": 3886,
+            "title": "MongoDB match aggregation optimization is not working",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3886"
+          },
+          {
+            "number": 3866,
+            "title": "[SDK Server] MariaDB NuGet package declares incompatible MySqlConnector dependency",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3866"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 8,
+        "issues": [
+          {
+            "number": 2417,
+            "title": "Sorting by caption for specific date elements crashes (XMLA datasource)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2417"
+          },
+          {
+            "number": 1029,
+            "title": "Fiscal Years doesn't work for BigQuery and Athena providers",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1029"
+          },
+          {
+            "number": 1030,
+            "title": "Fiscal Years expand doesn't work for Athena or BigQuery",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1030"
+          },
+          {
+            "number": 2811,
+            "title": "MySQL implement STDEV aggregation",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2811"
+          },
+          {
+            "number": 2813,
+            "title": "MySQL fix VARIANCE aggregation",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2813"
+          },
+          {
+            "number": 2853,
+            "title": "Revisit BigQuery log function implementation",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2853"
+          },
+          {
+            "number": 3023,
+            "title": "Re-enter credentials prompt on failed datasource authentication (Reveal + Slingshot)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3023"
+          },
+          {
+            "number": 3739,
+            "title": "ClickHouse custom query incorrect type inference",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3739"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-08-01..2026-08-31"
       },
       "always_show_headline": true
@@ -118,39 +170,66 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 195,
+      "open_count": 199,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 34,
-      "live_open_count": 195,
-      "live_open_bug_count": 34,
+      "open_bug_count": 37,
+      "live_open_count": 199,
+      "live_open_bug_count": 37,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 0,
+          "current": 4,
           "previous": 9,
-          "delta": -9,
+          "delta": -5,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 4,
+            "issues": [
+              {
+                "number": 707,
+                "title": "[BUG]: Index mismatching on aggs. Pablo asked to promote here (he confirmed bug)",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/707"
+              },
+              {
+                "number": 706,
+                "title": "[BUG]: Too Many Parameters Error Message",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/706"
+              },
+              {
+                "number": 704,
+                "title": "[BUG]: Top n filter no longer works in SDK 2.1",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/704"
+              },
+              {
+                "number": 703,
+                "title": "[BUG]: Cant Export a Excel File with 40k rows using Build-In Export",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/703"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
           }
         },
         {
           "label": "Closed bugs",
-          "current": 0,
+          "current": 1,
           "previous": 5,
-          "delta": -5,
+          "delta": -4,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 1,
+            "issues": [
+              {
+                "number": 704,
+                "title": "[BUG]: Top n filter no longer works in SDK 2.1",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/704"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-08-01..2026-08-31"
           }
         },
         {
           "label": "New feature requests",
-          "current": 0,
+          "current": 1,
           "previous": 10,
-          "delta": -10,
+          "delta": -9,
           "current_refs": {}
         },
         {
@@ -166,17 +245,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 801,
+      "open_count": 800,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 387,
-      "live_open_count": 801,
-      "live_open_bug_count": 387,
+      "open_bug_count": 381,
+      "live_open_count": 800,
+      "live_open_bug_count": 381,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 0,
+          "current": 2,
           "previous": 21,
-          "delta": -21,
+          "delta": -19,
           "current_refs": {}
         },
         {
