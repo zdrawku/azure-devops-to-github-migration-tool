@@ -1,21 +1,62 @@
 {
-  "generated": "2026-08-10T03:08:12Z",
+  "generated": "2026-08-17T02:14:56Z",
   "curr": "2026-08",
   "prev": "2026-07",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 70,
+      "total_open": 80,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 0,
+      "curr_added": 10,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 10,
       "prev_added": 1,
       "prev_closed": 4,
       "prev_delta": -3,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 10,
+        "issues": [
+          {
+            "number": 3930,
+            "title": "Chart picker fills the whole screen on smaller screens",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3930"
+          },
+          {
+            "number": 3929,
+            "title": "Date Range shows a missing error, but the value is present",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3929"
+          },
+          {
+            "number": 3928,
+            "title": "Message shown when opening a dashboard link may expose non-public information",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3928"
+          },
+          {
+            "number": 3927,
+            "title": "Center label not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3927"
+          },
+          {
+            "number": 3926,
+            "title": "Legend settings not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3926"
+          },
+          {
+            "number": 3925,
+            "title": "[Dashboard] No data sources for dashboard with data source",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3925"
+          },
+          {
+            "number": 3924,
+            "title": "Bad request error on dashboard only for desktop, not web",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3924"
+          },
+          {
+            "number": 3923,
+            "title": "[DataSource] When adding an Instagram data source in web the process is not completed",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3923"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
@@ -27,17 +68,23 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 8,
+      "total_open": 9,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 0,
+      "curr_added": 1,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 1,
       "prev_added": 1,
       "prev_closed": 2,
       "prev_delta": -1,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3920,
+            "title": "Google Ads datasource replacement overwrites customerId with managerCustomerId",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3920"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
@@ -49,17 +96,58 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 90,
+      "total_open": 102,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 0,
+      "curr_added": 12,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 12,
       "prev_added": 2,
       "prev_closed": 6,
       "prev_delta": -4,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 12,
+        "issues": [
+          {
+            "number": 3965,
+            "title": "Reveal \u2194 Slingshot integration",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3965"
+          },
+          {
+            "number": 3930,
+            "title": "Chart picker fills the whole screen on smaller screens",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3930"
+          },
+          {
+            "number": 3929,
+            "title": "Date Range shows a missing error, but the value is present",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3929"
+          },
+          {
+            "number": 3928,
+            "title": "Message shown when opening a dashboard link may expose non-public information",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3928"
+          },
+          {
+            "number": 3927,
+            "title": "Center label not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3927"
+          },
+          {
+            "number": 3926,
+            "title": "Legend settings not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3926"
+          },
+          {
+            "number": 3925,
+            "title": "[Dashboard] No data sources for dashboard with data source",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3925"
+          },
+          {
+            "number": 3924,
+            "title": "Bad request error on dashboard only for desktop, not web",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3924"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
@@ -71,33 +159,83 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 2,
+      "total_open": 19,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 2,
-      "curr_closed": 8,
-      "curr_delta": -6,
+      "curr_added": 19,
+      "curr_closed": 12,
+      "curr_delta": 7,
       "prev_added": 21,
       "prev_closed": 26,
       "prev_delta": -5,
       "curr_added_refs": {
-        "total": 2,
+        "total": 19,
         "issues": [
+          {
+            "number": 3948,
+            "title": "Filter TOP N By count scenario fails for Oracle v2",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3948"
+          },
+          {
+            "number": 3941,
+            "title": "[BUG]: Angular/Vite DevTools freezes while processing the Reveal SDK dependency source map",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3941"
+          },
+          {
+            "number": 3939,
+            "title": "The test \"Test_HighlightingFilter_BarChart\" is not displaying the highlight in the PDF",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3939"
+          },
+          {
+            "number": 3936,
+            "title": "Missed tooltips in area charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3936"
+          },
+          {
+            "number": 3933,
+            "title": "Delete Status",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3933"
+          },
+          {
+            "number": 3930,
+            "title": "Chart picker fills the whole screen on smaller screens",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3930"
+          },
+          {
+            "number": 3929,
+            "title": "Date Range shows a missing error, but the value is present",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3929"
+          },
+          {
+            "number": 3928,
+            "title": "Message shown when opening a dashboard link may expose non-public information",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3928"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
+      },
+      "curr_closed_refs": {
+        "total": 12,
+        "issues": [
+          {
+            "number": 3907,
+            "title": "Incorrect field organization when blending data",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3907"
+          },
+          {
+            "number": 3866,
+            "title": "[SDK Server] MariaDB NuGet package declares incompatible MySqlConnector dependency",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3866"
+          },
           {
             "number": 3886,
             "title": "MongoDB match aggregation optimization is not working",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3886"
           },
           {
-            "number": 3866,
-            "title": "[SDK Server] MariaDB NuGet package declares incompatible MySqlConnector dependency",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3866"
-          }
-        ],
-        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
-      },
-      "curr_closed_refs": {
-        "total": 8,
-        "issues": [
+            "number": 3806,
+            "title": "Connecting to PostgreSQL in Slingshot fails due to unsresolved db",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3806"
+          },
           {
             "number": 2417,
             "title": "Sorting by caption for specific date elements crashes (XMLA datasource)",
@@ -117,26 +255,6 @@
             "number": 2811,
             "title": "MySQL implement STDEV aggregation",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2811"
-          },
-          {
-            "number": 2813,
-            "title": "MySQL fix VARIANCE aggregation",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2813"
-          },
-          {
-            "number": 2853,
-            "title": "Revisit BigQuery log function implementation",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2853"
-          },
-          {
-            "number": 3023,
-            "title": "Re-enter credentials prompt on failed datasource authentication (Reveal + Slingshot)",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3023"
-          },
-          {
-            "number": 3739,
-            "title": "ClickHouse custom query incorrect type inference",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3739"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-08-01..2026-08-31"
@@ -170,20 +288,30 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 199,
+      "open_count": 201,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 37,
-      "live_open_count": 199,
-      "live_open_bug_count": 37,
+      "open_bug_count": 39,
+      "live_open_count": 201,
+      "live_open_bug_count": 39,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 4,
+          "current": 6,
           "previous": 9,
-          "delta": -5,
+          "delta": -3,
           "current_refs": {
-            "total": 4,
+            "total": 6,
             "issues": [
+              {
+                "number": 709,
+                "title": "[BUG]: AI Generated Widgets do not format numbers correctly",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/709"
+              },
+              {
+                "number": 708,
+                "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/708"
+              },
               {
                 "number": 707,
                 "title": "[BUG]: Index mismatching on aggs. Pablo asked to promote here (he confirmed bug)",
@@ -245,31 +373,31 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 800,
+      "open_count": 825,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 381,
-      "live_open_count": 800,
-      "live_open_bug_count": 381,
+      "open_bug_count": 394,
+      "live_open_count": 825,
+      "live_open_bug_count": 394,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 2,
+          "current": 19,
           "previous": 21,
-          "delta": -19,
+          "delta": -2,
           "current_refs": {}
         },
         {
           "label": "New Crash Reports",
-          "current": 0,
+          "current": 1,
           "previous": 1,
-          "delta": -1,
+          "delta": 0,
           "current_refs": {}
         },
         {
           "label": "New Slingshot Bugs",
-          "current": 0,
+          "current": 10,
           "previous": 1,
-          "delta": -1,
+          "delta": 9,
           "current_refs": {}
         }
       ],
