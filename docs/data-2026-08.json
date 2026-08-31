@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-24T02:18:05Z",
+  "generated": "2026-08-31T06:25:06Z",
   "curr": "2026-08",
   "prev": "2026-07",
   "summary": {
@@ -113,11 +113,11 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 102,
+      "total_open": 101,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 15,
-      "curr_closed": 3,
-      "curr_delta": 12,
+      "curr_closed": 4,
+      "curr_delta": 11,
       "prev_added": 2,
       "prev_closed": 6,
       "prev_delta": -4,
@@ -168,8 +168,13 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
-        "total": 3,
+        "total": 4,
         "issues": [
+          {
+            "number": 4003,
+            "title": "[BUG]: Add REST API Connection dialog crashes on open (web) \u2014 '_displayType' null in getCell",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4003"
+          },
           {
             "number": 3920,
             "title": "Google Ads datasource replacement overwrites customerId with managerCustomerId",
@@ -192,63 +197,68 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 22,
+      "total_open": 30,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 22,
-      "curr_closed": 16,
-      "curr_delta": 6,
+      "curr_added": 30,
+      "curr_closed": 17,
+      "curr_delta": 13,
       "prev_added": 21,
       "prev_closed": 26,
       "prev_delta": -5,
       "curr_added_refs": {
-        "total": 22,
+        "total": 30,
         "issues": [
+          {
+            "number": 4022,
+            "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4022"
+          },
+          {
+            "number": 4021,
+            "title": "[BUG]: Japanese localization regression: Add Visualization button label is incorrect (\u201c+ \u53ef\u8996\u5316\u201d vs expected \u201c+ \u8868\u793a\u5f62\u5f0f\u201d)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4021"
+          },
+          {
+            "number": 4020,
+            "title": "Database name is shown instead of title on metadata screen",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4020"
+          },
+          {
+            "number": 4019,
+            "title": "Database tables, views, and stored procedures aren't correctly sorted alphabetically when there are multiple schemas",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4019"
+          },
+          {
+            "number": 4018,
+            "title": "Setting theme font doesn't apply the styling as mentioned in the property name",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4018"
+          },
+          {
+            "number": 4017,
+            "title": "Pie/Donut chart disappear after legend adjustments",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4017"
+          },
+          {
+            "number": 4013,
+            "title": "\"There's no data to display\" state is inconsistent across visualizations",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4013"
+          },
           {
             "number": 4001,
             "title": "[BUG]: Scatter Map tile-imagery transition crashes with localName.equals is not a function",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4001"
-          },
-          {
-            "number": 3995,
-            "title": "AI answer fabricates date columns and silently drops unmatched \"active\" filter",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3995"
-          },
-          {
-            "number": 3981,
-            "title": "App crashes when adding a data source - odata",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3981"
-          },
-          {
-            "number": 3948,
-            "title": "Filter TOP N By count scenario fails for Oracle v2",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3948"
-          },
-          {
-            "number": 3941,
-            "title": "[BUG]: Angular/Vite DevTools freezes while processing the Reveal SDK dependency source map",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3941"
-          },
-          {
-            "number": 3939,
-            "title": "The test \"Test_HighlightingFilter_BarChart\" is not displaying the highlight in the PDF",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3939"
-          },
-          {
-            "number": 3936,
-            "title": "Missed tooltips in area charts",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3936"
-          },
-          {
-            "number": 3933,
-            "title": "Delete Status",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3933"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
       },
       "curr_closed_refs": {
-        "total": 16,
+        "total": 17,
         "issues": [
+          {
+            "number": 4019,
+            "title": "Database tables, views, and stored procedures aren't correctly sorted alphabetically when there are multiple schemas",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4019"
+          },
           {
             "number": 3920,
             "title": "Google Ads datasource replacement overwrites customerId with managerCustomerId",
@@ -283,11 +293,6 @@
             "number": 3886,
             "title": "MongoDB match aggregation optimization is not working",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3886"
-          },
-          {
-            "number": 3806,
-            "title": "Connecting to PostgreSQL in Slingshot fails due to unsresolved db",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3806"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-08-01..2026-08-31"
@@ -321,20 +326,35 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 202,
+      "open_count": 205,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 40,
-      "live_open_count": 202,
-      "live_open_bug_count": 40,
+      "open_bug_count": 42,
+      "live_open_count": 205,
+      "live_open_bug_count": 42,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 7,
-          "previous": 9,
-          "delta": -2,
+          "current": 10,
+          "previous": 8,
+          "delta": 2,
           "current_refs": {
-            "total": 7,
+            "total": 10,
             "issues": [
+              {
+                "number": 713,
+                "title": "[BUG]: AI-Generated Dashboard Issues - Date Filters",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/713"
+              },
+              {
+                "number": 712,
+                "title": "[BUG]: AI-Generated Dashboard Issues",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/712"
+              },
+              {
+                "number": 711,
+                "title": "[BUG]: MapBox / OpenStreetMap implementation for custom map tiles not working",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/711"
+              },
               {
                 "number": 710,
                 "title": "[BUG]: Missing/disappearing Horizontal Scroll Bar",
@@ -349,21 +369,6 @@
                 "number": 708,
                 "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/708"
-              },
-              {
-                "number": 707,
-                "title": "[BUG]: Index mismatching on aggs. Pablo asked to promote here (he confirmed bug)",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/707"
-              },
-              {
-                "number": 706,
-                "title": "[BUG]: Too Many Parameters Error Message",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/706"
-              },
-              {
-                "number": 704,
-                "title": "[BUG]: Top n filter no longer works in SDK 2.1",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/704"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-08-01..2026-08-31"
@@ -389,8 +394,8 @@
         {
           "label": "New feature requests",
           "current": 1,
-          "previous": 10,
-          "delta": -9,
+          "previous": 11,
+          "delta": -10,
           "current_refs": {}
         },
         {
@@ -406,17 +411,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 822,
+      "open_count": 825,
       "open_count_label": "open issues as of 2026-08-31",
-      "open_bug_count": 393,
-      "live_open_count": 822,
-      "live_open_bug_count": 393,
+      "open_bug_count": 401,
+      "live_open_count": 825,
+      "live_open_bug_count": 401,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 22,
+          "current": 30,
           "previous": 21,
-          "delta": 1,
+          "delta": 9,
           "current_refs": {}
         },
         {
