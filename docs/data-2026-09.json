@@ -1,0 +1,339 @@
+{
+  "generated": "2026-09-07T05:27:23Z",
+  "curr": "2026-09",
+  "prev": "2026-08",
+  "summary": {
+    "bugs": {
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
+      "total_open": 80,
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 12,
+      "prev_closed": 2,
+      "prev_delta": 10,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-09-01..2026-09-30"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-09-01..2026-09-30"
+      },
+      "always_show_headline": false
+    },
+    "crash_reports": {
+      "title": "SLINGSHOT CRASH REPORTS",
+      "total_open": 8,
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 1,
+      "prev_closed": 1,
+      "prev_delta": 0,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-09-01..2026-09-30"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-09-01..2026-09-30"
+      },
+      "always_show_headline": false
+    },
+    "all_slingshot": {
+      "title": "ALL OPEN SLINGSHOT ISSUES",
+      "total_open": 101,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 15,
+      "prev_closed": 4,
+      "prev_delta": 11,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-09-01..2026-09-30"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-09-01..2026-09-30"
+      },
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 12,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
+      "curr_added": 12,
+      "curr_closed": 4,
+      "curr_delta": 8,
+      "prev_added": 30,
+      "prev_closed": 20,
+      "prev_delta": 10,
+      "curr_added_refs": {
+        "total": 12,
+        "issues": [
+          {
+            "number": 4084,
+            "title": "New DataGrid doesn't follow our sorting criteria",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4084"
+          },
+          {
+            "number": 4083,
+            "title": "New DataGrid issues",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4083"
+          },
+          {
+            "number": 4073,
+            "title": "Grid not showing values for fields with dots in their names when paging is disabled",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4073"
+          },
+          {
+            "number": 4072,
+            "title": "A couple of issues with pie charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4072"
+          },
+          {
+            "number": 4070,
+            "title": "ScatterMap widget does not re-query when its bound global filter changes",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4070"
+          },
+          {
+            "number": 4059,
+            "title": "Error thrown after setting Conditional Formatting",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4059"
+          },
+          {
+            "number": 4046,
+            "title": "Headless export mutates the dashboard model",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4046"
+          },
+          {
+            "number": 4041,
+            "title": "New Data Grid: interactive PDF export does not preserve client-side sort state",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4041"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
+      },
+      "curr_closed_refs": {
+        "total": 4,
+        "issues": [
+          {
+            "number": 4041,
+            "title": "New Data Grid: interactive PDF export does not preserve client-side sort state",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4041"
+          },
+          {
+            "number": 4046,
+            "title": "Headless export mutates the dashboard model",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4046"
+          },
+          {
+            "number": 4040,
+            "title": "New Data Grid: headless export times out when paging is enabled",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4040"
+          },
+          {
+            "number": 2354,
+            "title": "Duplicate axis labels in bar and column charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2354"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
+      },
+      "always_show_headline": true
+    },
+    "crash_by_platform": [
+      {
+        "label": "Web",
+        "count": 0
+      },
+      {
+        "label": "WPF",
+        "count": 1
+      },
+      {
+        "label": "MacOS",
+        "count": 4
+      },
+      {
+        "label": "iOS",
+        "count": 1
+      },
+      {
+        "label": "Android",
+        "count": 0
+      }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
+      "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "open_count": 207,
+      "open_count_label": "open issues as of 2026-09-30",
+      "open_bug_count": 42,
+      "live_open_count": 207,
+      "live_open_bug_count": 42,
+      "metrics": [
+        {
+          "label": "New bugs",
+          "current": 1,
+          "previous": 9,
+          "delta": -8,
+          "current_refs": {
+            "total": 1,
+            "issues": [
+              {
+                "number": 715,
+                "title": "[BUG]: Widget filter value listing based on unique key",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/715"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
+          }
+        },
+        {
+          "label": "Closed bugs",
+          "current": 0,
+          "previous": 2,
+          "delta": -2,
+          "current_refs": {
+            "total": 0,
+            "issues": [],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
+          }
+        },
+        {
+          "label": "New feature requests",
+          "current": 1,
+          "previous": 2,
+          "delta": -1,
+          "current_refs": {}
+        },
+        {
+          "label": "Closed feature requests",
+          "current": 0,
+          "previous": 0,
+          "delta": 0,
+          "current_refs": {}
+        }
+      ],
+      "subsections": []
+    },
+    {
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
+      "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "open_count": 836,
+      "open_count_label": "open issues as of 2026-09-30",
+      "open_bug_count": 406,
+      "live_open_count": 836,
+      "live_open_bug_count": 406,
+      "metrics": [
+        {
+          "label": "All new bugs (any label)",
+          "current": 12,
+          "previous": 30,
+          "delta": -18,
+          "current_refs": {}
+        },
+        {
+          "label": "New Crash Reports",
+          "current": 0,
+          "previous": 1,
+          "delta": -1,
+          "current_refs": {}
+        },
+        {
+          "label": "New Slingshot Bugs",
+          "current": 0,
+          "previous": 12,
+          "delta": -12,
+          "current_refs": {}
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Crash Reports by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "title": "Slingshot Bugs by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 1,
+              "delta": -1
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
