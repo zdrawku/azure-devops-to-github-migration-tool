@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07T05:27:23Z",
+  "generated": "2026-09-14T05:35:40Z",
   "curr": "2026-09",
   "prev": "2026-08",
   "summary": {
@@ -27,17 +27,23 @@
     },
     "crash_reports": {
       "title": "SLINGSHOT CRASH REPORTS",
-      "total_open": 8,
+      "total_open": 9,
       "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
-      "curr_added": 0,
+      "curr_added": 1,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 1,
       "prev_added": 1,
       "prev_closed": 1,
       "prev_delta": 0,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 4126,
+            "title": "Slingshot crashes when creating a linkedin data hub connections",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4126"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
@@ -49,17 +55,23 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 101,
+      "total_open": 102,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 0,
+      "curr_added": 1,
       "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_delta": 1,
       "prev_added": 15,
       "prev_closed": 4,
       "prev_delta": 11,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 4126,
+            "title": "Slingshot crashes when creating a linkedin data hub connections",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4126"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
@@ -71,41 +83,77 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 12,
+      "total_open": 31,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 12,
-      "curr_closed": 4,
-      "curr_delta": 8,
+      "curr_added": 31,
+      "curr_closed": 22,
+      "curr_delta": 9,
       "prev_added": 30,
       "prev_closed": 20,
       "prev_delta": 10,
       "curr_added_refs": {
-        "total": 12,
+        "total": 31,
         "issues": [
           {
-            "number": 4084,
-            "title": "New DataGrid doesn't follow our sorting criteria",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4084"
+            "number": 4143,
+            "title": "Export fails with a bare \"Export failed\" when the request body exceeds the host's limit",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4143"
           },
           {
-            "number": 4083,
-            "title": "New DataGrid issues",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4083"
+            "number": 4142,
+            "title": "onUrlLinkRequested is passed the raw [field] template instead of the resolved URL",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4142"
           },
           {
-            "number": 4073,
-            "title": "Grid not showing values for fields with dots in their names when paging is disabled",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4073"
+            "number": 4141,
+            "title": "Paged DataGrid: pager advances but the grid keeps rendering page 1's rows",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4141"
           },
           {
-            "number": 4072,
-            "title": "A couple of issues with pie charts",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4072"
+            "number": 4139,
+            "title": "Incorrect Grouping When Data Is Unsorted and the Field Name Contains Dots",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4139"
           },
           {
-            "number": 4070,
-            "title": "ScatterMap widget does not re-query when its bound global filter changes",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4070"
+            "number": 4126,
+            "title": "Slingshot crashes when creating a linkedin data hub connections",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4126"
+          },
+          {
+            "number": 4119,
+            "title": "Opening a dashboard filter's connection editor animates the wrong layer",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4119"
+          },
+          {
+            "number": 4113,
+            "title": "Hyperlink configuration becomes out of sync after renaming a visualization field",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4113"
+          },
+          {
+            "number": 4107,
+            "title": "Setting filter field overwrites filter custom title",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4107"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
+      },
+      "curr_closed_refs": {
+        "total": 22,
+        "issues": [
+          {
+            "number": 4141,
+            "title": "Paged DataGrid: pager advances but the grid keeps rendering page 1's rows",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4141"
+          },
+          {
+            "number": 3750,
+            "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3750"
+          },
+          {
+            "number": 4087,
+            "title": "Data Grid: Expand Groups by Default When Paging Is Enabled",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4087"
           },
           {
             "number": 4059,
@@ -113,40 +161,24 @@
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4059"
           },
           {
-            "number": 4046,
-            "title": "Headless export mutates the dashboard model",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4046"
+            "number": 4113,
+            "title": "Hyperlink configuration becomes out of sync after renaming a visualization field",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4113"
           },
           {
-            "number": 4041,
-            "title": "New Data Grid: interactive PDF export does not preserve client-side sort state",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4041"
-          }
-        ],
-        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
-      },
-      "curr_closed_refs": {
-        "total": 4,
-        "issues": [
-          {
-            "number": 4041,
-            "title": "New Data Grid: interactive PDF export does not preserve client-side sort state",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4041"
+            "number": 4084,
+            "title": "New DataGrid doesn't follow our sorting criteria",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4084"
           },
           {
-            "number": 4046,
-            "title": "Headless export mutates the dashboard model",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4046"
+            "number": 4102,
+            "title": "Selecting field in dashboard filter creation doesn't show field name selected if dashboard only has Text Box visualization",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4102"
           },
           {
-            "number": 4040,
-            "title": "New Data Grid: headless export times out when paging is enabled",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4040"
-          },
-          {
-            "number": 2354,
-            "title": "Duplicate axis labels in bar and column charts",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2354"
+            "number": 4106,
+            "title": "Changing filter Field always updates Display Field if dashboard only has Text Box visualization",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4106"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -180,52 +212,62 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 207,
+      "open_count": 202,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 42,
-      "live_open_count": 207,
-      "live_open_bug_count": 42,
+      "open_bug_count": 38,
+      "live_open_count": 202,
+      "live_open_bug_count": 38,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 1,
+          "current": 0,
           "previous": 9,
-          "delta": -8,
+          "delta": -9,
           "current_refs": {
-            "total": 1,
-            "issues": [
-              {
-                "number": 715,
-                "title": "[BUG]: Widget filter value listing based on unique key",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/715"
-              }
-            ],
+            "total": 0,
+            "issues": [],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
           }
         },
         {
           "label": "Closed bugs",
-          "current": 0,
+          "current": 3,
           "previous": 2,
-          "delta": -2,
+          "delta": 1,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 3,
+            "issues": [
+              {
+                "number": 701,
+                "title": "[BUG]: Tooltips do not display on donut or pie chart widget",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/701"
+              },
+              {
+                "number": 632,
+                "title": "[BUG]: \"New Calculated Field\u201d formatting options (Show data labels) are not applied in Excel expor",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/632"
+              },
+              {
+                "number": 711,
+                "title": "[BUG]: MapBox / OpenStreetMap implementation for custom map tiles not working",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/711"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
           }
         },
         {
           "label": "New feature requests",
-          "current": 1,
+          "current": 2,
           "previous": 2,
-          "delta": -1,
+          "delta": 0,
           "current_refs": {}
         },
         {
           "label": "Closed feature requests",
-          "current": 0,
+          "current": 2,
           "previous": 0,
-          "delta": 0,
+          "delta": 2,
           "current_refs": {}
         }
       ],
@@ -234,24 +276,24 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 836,
+      "open_count": 841,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 406,
-      "live_open_count": 836,
-      "live_open_bug_count": 406,
+      "open_bug_count": 407,
+      "live_open_count": 841,
+      "live_open_bug_count": 407,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 12,
+          "current": 31,
           "previous": 30,
-          "delta": -18,
+          "delta": 1,
           "current_refs": {}
         },
         {
           "label": "New Crash Reports",
-          "current": 0,
+          "current": 1,
           "previous": 1,
-          "delta": -1,
+          "delta": 0,
           "current_refs": {}
         },
         {
