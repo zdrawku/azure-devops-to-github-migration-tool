@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T05:35:40Z",
+  "generated": "2026-09-21T05:39:51Z",
   "curr": "2026-09",
   "prev": "2026-08",
   "summary": {
@@ -83,17 +83,22 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 31,
+      "total_open": 39,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 31,
-      "curr_closed": 22,
-      "curr_delta": 9,
-      "prev_added": 30,
+      "curr_added": 39,
+      "curr_closed": 31,
+      "curr_delta": 8,
+      "prev_added": 34,
       "prev_closed": 20,
-      "prev_delta": 10,
+      "prev_delta": 14,
       "curr_added_refs": {
-        "total": 31,
+        "total": 39,
         "issues": [
+          {
+            "number": 4147,
+            "title": "Grid \"Paged Rows Size\" setting in the editor does not change the page size of a paged grid",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4147"
+          },
           {
             "number": 4143,
             "title": "Export fails with a bare \"Export failed\" when the request body exceeds the host's limit",
@@ -115,70 +120,65 @@
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4139"
           },
           {
+            "number": 4132,
+            "title": "Oracle: custom query projection is ignored when building the schema",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4132"
+          },
+          {
+            "number": 4131,
+            "title": "Oracle: divide-by-zero raises ORA-01476 instead of yielding NULL",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4131"
+          },
+          {
             "number": 4126,
             "title": "Slingshot crashes when creating a linkedin data hub connections",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4126"
-          },
-          {
-            "number": 4119,
-            "title": "Opening a dashboard filter's connection editor animates the wrong layer",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4119"
-          },
-          {
-            "number": 4113,
-            "title": "Hyperlink configuration becomes out of sync after renaming a visualization field",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4113"
-          },
-          {
-            "number": 4107,
-            "title": "Setting filter field overwrites filter custom title",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4107"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
-        "total": 22,
+        "total": 31,
         "issues": [
           {
-            "number": 4141,
-            "title": "Paged DataGrid: pager advances but the grid keeps rendering page 1's rows",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4141"
+            "number": 4031,
+            "title": "Paging option missing from Grid settings after switching visualization type from Pivot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4031"
           },
           {
-            "number": 3750,
-            "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3750"
+            "number": 4131,
+            "title": "Oracle: divide-by-zero raises ORA-01476 instead of yielding NULL",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4131"
           },
           {
-            "number": 4087,
-            "title": "Data Grid: Expand Groups by Default When Paging Is Enabled",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4087"
+            "number": 4132,
+            "title": "Oracle: custom query projection is ignored when building the schema",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4132"
           },
           {
-            "number": 4059,
-            "title": "Error thrown after setting Conditional Formatting",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4059"
+            "number": 3948,
+            "title": "Filter TOP N By count scenario fails for Oracle v2",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3948"
           },
           {
-            "number": 4113,
-            "title": "Hyperlink configuration becomes out of sync after renaming a visualization field",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4113"
+            "number": 4022,
+            "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4022"
           },
           {
-            "number": 4084,
-            "title": "New DataGrid doesn't follow our sorting criteria",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4084"
+            "number": 4032,
+            "title": "[BUG]: Cascading is not working in visualization level filters",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4032"
           },
           {
-            "number": 4102,
-            "title": "Selecting field in dashboard filter creation doesn't show field name selected if dashboard only has Text Box visualization",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4102"
+            "number": 1673,
+            "title": "Font size is not applied on grids' headers.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1673"
           },
           {
-            "number": 4106,
-            "title": "Changing filter Field always updates Display Field if dashboard only has Text Box visualization",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4106"
+            "number": 4018,
+            "title": "Setting theme font doesn't apply the styling as mentioned in the property name",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4018"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -212,31 +212,57 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 202,
+      "open_count": 203,
       "open_count_label": "open issues as of 2026-09-30",
       "open_bug_count": 38,
-      "live_open_count": 202,
+      "live_open_count": 203,
       "live_open_bug_count": 38,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 0,
+          "current": 3,
           "previous": 9,
-          "delta": -9,
+          "delta": -6,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 3,
+            "issues": [
+              {
+                "number": 719,
+                "title": "[BUG]: Key not present in dictionary",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/719"
+              },
+              {
+                "number": 718,
+                "title": "[BUG]: Model Training Issue #2 - Not applying correct filters",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/718"
+              },
+              {
+                "number": 717,
+                "title": "[BUG]: Model Training Issue #1 - Virtual Fields not used",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/717"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
           }
         },
         {
           "label": "Closed bugs",
-          "current": 3,
+          "current": 5,
           "previous": 2,
-          "delta": 1,
+          "delta": 3,
           "current_refs": {
-            "total": 3,
+            "total": 5,
             "issues": [
+              {
+                "number": 507,
+                "title": "[BUG]: Cascading is not working in visualization level filters",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/507"
+              },
+              {
+                "number": 708,
+                "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/708"
+              },
               {
                 "number": 701,
                 "title": "[BUG]: Tooltips do not display on donut or pie chart widget",
@@ -276,17 +302,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 841,
+      "open_count": 838,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 407,
-      "live_open_count": 841,
-      "live_open_bug_count": 407,
+      "open_bug_count": 411,
+      "live_open_count": 838,
+      "live_open_bug_count": 411,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 31,
-          "previous": 30,
-          "delta": 1,
+          "current": 39,
+          "previous": 34,
+          "delta": 5,
           "current_refs": {}
         },
         {
