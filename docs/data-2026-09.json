@@ -1,15 +1,15 @@
 {
-  "generated": "2026-09-28T06:07:12Z",
+  "generated": "2026-09-28T14:06:48Z",
   "curr": "2026-09",
   "prev": "2026-08",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 80,
+      "total_open": 79,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_closed": 1,
+      "curr_delta": -1,
       "prev_added": 12,
       "prev_closed": 2,
       "prev_delta": 10,
@@ -19,8 +19,14 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3462,
+            "title": "Excel workbook with namespace-prefixed sheets loads with 0 sheets and leaves UI in infinite loader",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3462"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-09-01..2026-09-30"
       },
       "always_show_headline": false
@@ -55,11 +61,11 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 102,
+      "total_open": 101,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 1,
-      "curr_closed": 0,
-      "curr_delta": 1,
+      "curr_closed": 1,
+      "curr_delta": 0,
       "prev_added": 15,
       "prev_closed": 4,
       "prev_delta": 11,
@@ -75,25 +81,36 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3462,
+            "title": "Excel workbook with namespace-prefixed sheets loads with 0 sheets and leaves UI in infinite loader",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3462"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-09-01..2026-09-30"
       },
       "always_show_headline": false
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 51,
+      "total_open": 52,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 51,
-      "curr_closed": 33,
-      "curr_delta": 18,
+      "curr_added": 52,
+      "curr_closed": 45,
+      "curr_delta": 7,
       "prev_added": 34,
       "prev_closed": 20,
       "prev_delta": 14,
       "curr_added_refs": {
-        "total": 51,
+        "total": 52,
         "issues": [
+          {
+            "number": 4227,
+            "title": "Outer border missing in the New Grid",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4227"
+          },
           {
             "number": 4202,
             "title": "UTF-8 BOM in the engine jar version resource",
@@ -128,57 +145,52 @@
             "number": 4196,
             "title": "PostgreSQL TLS and certificate validation",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4196"
-          },
-          {
-            "number": 4195,
-            "title": "Restrict callback server bind address and port",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4195"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
-        "total": 33,
+        "total": 45,
         "issues": [
           {
-            "number": 2354,
-            "title": "Duplicate axis labels in bar and column charts",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2354"
+            "number": 1764,
+            "title": "Column headers might merge incorrectly with multiple Columns fields",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1764"
           },
           {
-            "number": 4001,
-            "title": "[BUG]: Scatter Map tile-imagery transition crashes with localName.equals is not a function",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4001"
+            "number": 1886,
+            "title": "Sorting Grid by a calculated field not working while editing a visualization.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1886"
           },
           {
-            "number": 4018,
-            "title": "Setting theme font doesn't apply the styling as mentioned in the property name",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4018"
+            "number": 1899,
+            "title": "Chart in exported Excel should not be part of the fixed headers",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1899"
           },
           {
-            "number": 4031,
-            "title": "Paging option missing from Grid settings after switching visualization type from Pivot",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4031"
+            "number": 2089,
+            "title": "Uncaught TypeError: this.settings(...).pagedRows is not a function",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2089"
           },
           {
-            "number": 4034,
-            "title": "Dashboard filter \"Field\" input cannot be set on SQL Server data source, and changing it overwrites a custom filter name",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4034"
+            "number": 2122,
+            "title": "Grid paging disables sorting from the column header but not from the field settings.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2122"
           },
           {
-            "number": 4147,
-            "title": "Grid \"Paged Rows Size\" setting in the editor does not change the page size of a paged grid",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4147"
+            "number": 2435,
+            "title": "Choropleth Map crashing when using wrong country name",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2435"
           },
           {
-            "number": 4111,
-            "title": "Undo does nothing for visualization settings changes",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4111"
+            "number": 2515,
+            "title": "[Grid Paging] missing progress indicator when changing pages",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2515"
           },
           {
-            "number": 4131,
-            "title": "Oracle: divide-by-zero raises ORA-01476 instead of yielding NULL",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4131"
+            "number": 2956,
+            "title": "Inconsistency in data state after db update and manual refresh along with filters and Excel Export",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2956"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -212,11 +224,11 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 200,
+      "open_count": 199,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 37,
-      "live_open_count": 200,
-      "live_open_bug_count": 37,
+      "open_bug_count": 36,
+      "live_open_count": 199,
+      "live_open_bug_count": 36,
       "metrics": [
         {
           "label": "New bugs",
@@ -252,12 +264,17 @@
         },
         {
           "label": "Closed bugs",
-          "current": 7,
+          "current": 8,
           "previous": 2,
-          "delta": 5,
+          "delta": 6,
           "current_refs": {
-            "total": 7,
+            "total": 8,
             "issues": [
+              {
+                "number": 217,
+                "title": "[BUG]: Calculated date field not respecting sort",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/217"
+              },
               {
                 "number": 688,
                 "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
@@ -282,11 +299,6 @@
                 "number": 701,
                 "title": "[BUG]: Tooltips do not display on donut or pie chart widget",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/701"
-              },
-              {
-                "number": 632,
-                "title": "[BUG]: \"New Calculated Field\u201d formatting options (Show data labels) are not applied in Excel expor",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/632"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -312,17 +324,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 853,
+      "open_count": 841,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 421,
-      "live_open_count": 853,
-      "live_open_bug_count": 421,
+      "open_bug_count": 410,
+      "live_open_count": 841,
+      "live_open_bug_count": 410,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 51,
+          "current": 52,
           "previous": 34,
-          "delta": 17,
+          "delta": 18,
           "current_refs": {}
         },
         {
