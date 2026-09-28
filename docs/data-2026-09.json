@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-21T05:39:51Z",
+  "generated": "2026-09-28T06:07:12Z",
   "curr": "2026-09",
   "prev": "2026-08",
   "summary": {
@@ -83,102 +83,102 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 39,
+      "total_open": 51,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 39,
-      "curr_closed": 31,
-      "curr_delta": 8,
+      "curr_added": 51,
+      "curr_closed": 33,
+      "curr_delta": 18,
       "prev_added": 34,
       "prev_closed": 20,
       "prev_delta": 14,
       "curr_added_refs": {
-        "total": 39,
+        "total": 51,
         "issues": [
           {
-            "number": 4147,
-            "title": "Grid \"Paged Rows Size\" setting in the editor does not change the page size of a paged grid",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4147"
+            "number": 4202,
+            "title": "UTF-8 BOM in the engine jar version resource",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4202"
           },
           {
-            "number": 4143,
-            "title": "Export fails with a bare \"Export failed\" when the request body exceeds the host's limit",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4143"
+            "number": 4201,
+            "title": "Certify Jetty 12.1",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4201"
           },
           {
-            "number": 4142,
-            "title": "onUrlLinkRequested is passed the raw [field] template instead of the resolved URL",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4142"
+            "number": 4200,
+            "title": "Support stance on the Playwright ubuntu20.04-x64 fallback",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4200"
           },
           {
-            "number": 4141,
-            "title": "Paged DataGrid: pager advances but the grid keeps rendering page 1's rows",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4141"
+            "number": 4199,
+            "title": "Export documentation for the Java SDK 2.x",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4199"
           },
           {
-            "number": 4139,
-            "title": "Incorrect Grouping When Data Is Unsorted and the Field Name Contains Dots",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4139"
+            "number": 4198,
+            "title": "Export temp files are never cleaned up and one copy is world-readable",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4198"
           },
           {
-            "number": 4132,
-            "title": "Oracle: custom query projection is ignored when building the schema",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4132"
+            "number": 4197,
+            "title": "Decide on a generic connection-string property bag across connectors",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4197"
           },
           {
-            "number": 4131,
-            "title": "Oracle: divide-by-zero raises ORA-01476 instead of yielding NULL",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4131"
+            "number": 4196,
+            "title": "PostgreSQL TLS and certificate validation",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4196"
           },
           {
-            "number": 4126,
-            "title": "Slingshot crashes when creating a linkedin data hub connections",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4126"
+            "number": 4195,
+            "title": "Restrict callback server bind address and port",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4195"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-09-01..2026-09-30"
       },
       "curr_closed_refs": {
-        "total": 31,
+        "total": 33,
         "issues": [
+          {
+            "number": 2354,
+            "title": "Duplicate axis labels in bar and column charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2354"
+          },
+          {
+            "number": 4001,
+            "title": "[BUG]: Scatter Map tile-imagery transition crashes with localName.equals is not a function",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4001"
+          },
+          {
+            "number": 4018,
+            "title": "Setting theme font doesn't apply the styling as mentioned in the property name",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4018"
+          },
           {
             "number": 4031,
             "title": "Paging option missing from Grid settings after switching visualization type from Pivot",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4031"
           },
           {
+            "number": 4034,
+            "title": "Dashboard filter \"Field\" input cannot be set on SQL Server data source, and changing it overwrites a custom filter name",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4034"
+          },
+          {
+            "number": 4147,
+            "title": "Grid \"Paged Rows Size\" setting in the editor does not change the page size of a paged grid",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4147"
+          },
+          {
+            "number": 4111,
+            "title": "Undo does nothing for visualization settings changes",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4111"
+          },
+          {
             "number": 4131,
             "title": "Oracle: divide-by-zero raises ORA-01476 instead of yielding NULL",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4131"
-          },
-          {
-            "number": 4132,
-            "title": "Oracle: custom query projection is ignored when building the schema",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4132"
-          },
-          {
-            "number": 3948,
-            "title": "Filter TOP N By count scenario fails for Oracle v2",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3948"
-          },
-          {
-            "number": 4022,
-            "title": "[BUG]:  2.1.0 Update -  data queries no longer emit OpenTelemetry spans. Only information_schema metadata queries are visible.",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4022"
-          },
-          {
-            "number": 4032,
-            "title": "[BUG]: Cascading is not working in visualization level filters",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4032"
-          },
-          {
-            "number": 1673,
-            "title": "Font size is not applied on grids' headers.",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1673"
-          },
-          {
-            "number": 4018,
-            "title": "Setting theme font doesn't apply the styling as mentioned in the property name",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4018"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -212,20 +212,25 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 203,
+      "open_count": 200,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 38,
-      "live_open_count": 203,
-      "live_open_bug_count": 38,
+      "open_bug_count": 37,
+      "live_open_count": 200,
+      "live_open_bug_count": 37,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 3,
+          "current": 4,
           "previous": 9,
-          "delta": -6,
+          "delta": -5,
           "current_refs": {
-            "total": 3,
+            "total": 4,
             "issues": [
+              {
+                "number": 720,
+                "title": "[BUG]: Web client 2.2.1: listener leak in shared renderer (_toUnbind) after RevealView container is removed",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/720"
+              },
               {
                 "number": 719,
                 "title": "[BUG]: Key not present in dictionary",
@@ -247,12 +252,22 @@
         },
         {
           "label": "Closed bugs",
-          "current": 5,
+          "current": 7,
           "previous": 2,
-          "delta": 3,
+          "delta": 5,
           "current_refs": {
-            "total": 5,
+            "total": 7,
             "issues": [
+              {
+                "number": 688,
+                "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/688"
+              },
+              {
+                "number": 717,
+                "title": "[BUG]: Model Training Issue #1 - Virtual Fields not used",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/717"
+              },
               {
                 "number": 507,
                 "title": "[BUG]: Cascading is not working in visualization level filters",
@@ -272,11 +287,6 @@
                 "number": 632,
                 "title": "[BUG]: \"New Calculated Field\u201d formatting options (Show data labels) are not applied in Excel expor",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/632"
-              },
-              {
-                "number": 711,
-                "title": "[BUG]: MapBox / OpenStreetMap implementation for custom map tiles not working",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/711"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-09-01..2026-09-30"
@@ -291,9 +301,9 @@
         },
         {
           "label": "Closed feature requests",
-          "current": 2,
+          "current": 4,
           "previous": 0,
-          "delta": 2,
+          "delta": 4,
           "current_refs": {}
         }
       ],
@@ -302,17 +312,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 838,
+      "open_count": 853,
       "open_count_label": "open issues as of 2026-09-30",
-      "open_bug_count": 411,
-      "live_open_count": 838,
-      "live_open_bug_count": 411,
+      "open_bug_count": 421,
+      "live_open_count": 853,
+      "live_open_bug_count": 421,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 39,
+          "current": 51,
           "previous": 34,
-          "delta": 5,
+          "delta": 17,
           "current_refs": {}
         },
         {
