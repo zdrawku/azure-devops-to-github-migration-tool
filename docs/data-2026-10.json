@@ -1,0 +1,320 @@
+{
+  "generated": "2026-10-05T06:26:27Z",
+  "curr": "2026-10",
+  "prev": "2026-09",
+  "summary": {
+    "bugs": {
+      "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
+      "total_open": 79,
+      "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 0,
+      "prev_closed": 1,
+      "prev_delta": -1,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-10-01..2026-10-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-10-01..2026-10-31"
+      },
+      "always_show_headline": false
+    },
+    "crash_reports": {
+      "title": "SLINGSHOT CRASH REPORTS",
+      "total_open": 9,
+      "note": "label:\"Crash Report\" \u00b7 Reveal private repo",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 1,
+      "prev_closed": 0,
+      "prev_delta": 1,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+created%3A2026-10-01..2026-10-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3A%22Crash+Report%22+closed%3A2026-10-01..2026-10-31"
+      },
+      "always_show_headline": false
+    },
+    "all_slingshot": {
+      "title": "ALL OPEN SLINGSHOT ISSUES",
+      "total_open": 101,
+      "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
+      "curr_added": 0,
+      "curr_closed": 0,
+      "curr_delta": 0,
+      "prev_added": 1,
+      "prev_closed": 1,
+      "prev_delta": 0,
+      "curr_added_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-10-01..2026-10-31"
+      },
+      "curr_closed_refs": {
+        "total": 0,
+        "issues": [],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-10-01..2026-10-31"
+      },
+      "always_show_headline": false
+    },
+    "all_private_bugs": {
+      "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
+      "total_open": 2,
+      "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
+      "curr_added": 2,
+      "curr_closed": 2,
+      "curr_delta": 0,
+      "prev_added": 53,
+      "prev_closed": 49,
+      "prev_delta": 4,
+      "curr_added_refs": {
+        "total": 2,
+        "issues": [
+          {
+            "number": 4265,
+            "title": "Engine1: Above/Below Average value filters include the grand total row in the average",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4265"
+          },
+          {
+            "number": 4262,
+            "title": "[Reveal][Charts] A spline area chart with ~260 series renders no legend at all, and its widget Edit menu never opens - since the chart series limit was removed (Reveal ae57c4850e, #4161)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4262"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-10-01..2026-10-31"
+      },
+      "curr_closed_refs": {
+        "total": 2,
+        "issues": [
+          {
+            "number": 4072,
+            "title": "A couple of issues with pie charts",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4072"
+          },
+          {
+            "number": 3834,
+            "title": "[BUG]: Field labels lose localization after dashboard Refresh",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3834"
+          }
+        ],
+        "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-10-01..2026-10-31"
+      },
+      "always_show_headline": true
+    },
+    "crash_by_platform": [
+      {
+        "label": "Web",
+        "count": 0
+      },
+      {
+        "label": "WPF",
+        "count": 1
+      },
+      {
+        "label": "MacOS",
+        "count": 4
+      },
+      {
+        "label": "iOS",
+        "count": 1
+      },
+      {
+        "label": "Android",
+        "count": 0
+      }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Reveal SDK (Public) \u2014 Bugs & Features",
+      "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
+      "open_count": 201,
+      "open_count_label": "open issues as of 2026-10-31",
+      "open_bug_count": 38,
+      "live_open_count": 201,
+      "live_open_bug_count": 38,
+      "metrics": [
+        {
+          "label": "New bugs",
+          "current": 4,
+          "previous": 5,
+          "delta": -1,
+          "current_refs": {
+            "total": 4,
+            "issues": [
+              {
+                "number": 727,
+                "title": "[BUG]: TODAY() causes DATEDIFF to fail with Redshift date columns",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/727"
+              },
+              {
+                "number": 726,
+                "title": "[BUG]: Export to powerpoint ignores text description",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/726"
+              },
+              {
+                "number": 725,
+                "title": "[BUG]: Totals on pivot widget with lots of rows are not correct",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/725"
+              },
+              {
+                "number": 724,
+                "title": "[BUG]: Temporary files generated during headless export are not being cleaned up",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/724"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-10-01..2026-10-31"
+          }
+        },
+        {
+          "label": "Closed bugs",
+          "current": 1,
+          "previous": 10,
+          "delta": -9,
+          "current_refs": {
+            "total": 1,
+            "issues": [
+              {
+                "number": 699,
+                "title": "[BUG]: Field labels lose localization after dashboard Refresh",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/699"
+              }
+            ],
+            "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-10-01..2026-10-31"
+          }
+        },
+        {
+          "label": "New feature requests",
+          "current": 0,
+          "previous": 2,
+          "delta": -2,
+          "current_refs": {}
+        },
+        {
+          "label": "Closed feature requests",
+          "current": 0,
+          "previous": 4,
+          "delta": -4,
+          "current_refs": {}
+        }
+      ],
+      "subsections": []
+    },
+    {
+      "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
+      "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
+      "open_count": 847,
+      "open_count_label": "open issues as of 2026-10-31",
+      "open_bug_count": 407,
+      "live_open_count": 847,
+      "live_open_bug_count": 407,
+      "metrics": [
+        {
+          "label": "All new bugs (any label)",
+          "current": 2,
+          "previous": 53,
+          "delta": -51,
+          "current_refs": {}
+        },
+        {
+          "label": "New Crash Reports",
+          "current": 0,
+          "previous": 1,
+          "delta": -1,
+          "current_refs": {}
+        },
+        {
+          "label": "New Slingshot Bugs",
+          "current": 0,
+          "previous": 0,
+          "delta": 0,
+          "current_refs": {}
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Crash Reports by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "title": "Slingshot Bugs by platform",
+          "metrics": [
+            {
+              "label": "Web",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "WPF",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "MacOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "iOS",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            },
+            {
+              "label": "Android",
+              "current": 0,
+              "previous": 0,
+              "delta": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
