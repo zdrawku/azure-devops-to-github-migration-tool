@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T05:29:24Z",
+  "generated": "2026-10-26T05:35:49Z",
   "curr": "2026-10",
   "prev": "2026-09",
   "summary": {
@@ -55,17 +55,22 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 101,
+      "total_open": 102,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
-      "curr_added": 1,
+      "curr_added": 2,
       "curr_closed": 1,
-      "curr_delta": 0,
+      "curr_delta": 1,
       "prev_added": 1,
       "prev_closed": 1,
       "prev_delta": 0,
       "curr_added_refs": {
-        "total": 1,
+        "total": 2,
         "issues": [
+          {
+            "number": 4511,
+            "title": "Enable Engine2 in Slingshot",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4511"
+          },
           {
             "number": 4352,
             "title": "Popup animation snapshot temporarily duplicates DOM IDs",
@@ -89,17 +94,42 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 12,
+      "total_open": 18,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 12,
-      "curr_closed": 14,
-      "curr_delta": -2,
-      "prev_added": 53,
+      "curr_added": 18,
+      "curr_closed": 34,
+      "curr_delta": -16,
+      "prev_added": 54,
       "prev_closed": 49,
-      "prev_delta": 4,
+      "prev_delta": 5,
       "curr_added_refs": {
-        "total": 12,
+        "total": 18,
         "issues": [
+          {
+            "number": 4519,
+            "title": "Replace the new viewer's hand-built controls with Ignite UI components",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4519"
+          },
+          {
+            "number": 4494,
+            "title": "Elasticsearch fails with post-aggregation filter using Average or Percent",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4494"
+          },
+          {
+            "number": 4481,
+            "title": "[BUG]: Joined Table Names are Swapped (same as 722 but not AI related)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4481"
+          },
+          {
+            "number": 4455,
+            "title": "Java/Node SDKs: a failing extension point is skipped (Node) or reported without a correlation id",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4455"
+          },
+          {
+            "number": 4440,
+            "title": "Grouping by a constant calculated field fails on ClickHouse and MongoDB",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4440"
+          },
           {
             "number": 4390,
             "title": "Flaky: Test_ScatterMapZoomSavedFromEdit times out because a map tooltip cancels the Ctrl+drag zoom",
@@ -114,77 +144,52 @@
             "number": 4368,
             "title": "Headless export maps fail due to nested template zip layout",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4368"
-          },
-          {
-            "number": 4361,
-            "title": "New DataGrid crashes when changing page size from settings",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4361"
-          },
-          {
-            "number": 4350,
-            "title": "Crosshairs on combo chart get stuck if mouse moves over tooltip",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4350"
-          },
-          {
-            "number": 4324,
-            "title": "Filter for CSV datasources is lost on save",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4324"
-          },
-          {
-            "number": 4322,
-            "title": "Paged DataGrid column filter fails for fields with encoded names",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4322"
-          },
-          {
-            "number": 4291,
-            "title": "exportDashboard injects unsanitized request body into headless-browser JS; SSRF + script execution still live",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4291"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-10-01..2026-10-31"
       },
       "curr_closed_refs": {
-        "total": 14,
+        "total": 34,
         "issues": [
           {
-            "number": 4368,
-            "title": "Headless export maps fail due to nested template zip layout",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4368"
+            "number": 4186,
+            "title": "New DataGrid Sorts Truncated Data Incorrectly",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4186"
           },
           {
-            "number": 4350,
-            "title": "Crosshairs on combo chart get stuck if mouse moves over tooltip",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4350"
+            "number": 4097,
+            "title": "Grid paging silently ignored when client newLocalProcessingEnabled beta is on but server NewLocalProcessingEnabled is off",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4097"
           },
           {
-            "number": 1726,
-            "title": "Excel export fails with formula error",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1726"
+            "number": 2710,
+            "title": "The generated PDF is missing some visualizations",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2710"
           },
           {
-            "number": 4390,
-            "title": "Flaky: Test_ScatterMapZoomSavedFromEdit times out because a map tooltip cancels the Ctrl+drag zoom",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4390"
+            "number": 4455,
+            "title": "Java/Node SDKs: a failing extension point is skipped (Node) or reported without a correlation id",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4455"
           },
           {
-            "number": 3760,
-            "title": "Oracle TIMESTAMP WITH TIME ZONE renders differently per machine (client-side conversion)",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3760"
+            "number": 4388,
+            "title": "Custom visualizations receive date values shifted to the browser\u2019s local time",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4388"
           },
           {
-            "number": 3817,
-            "title": "Regression: menuItems not rendered in widget toolbar when showToolbar: true",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3817"
+            "number": 2828,
+            "title": "Map visualizations sometimes are not loaded in Headless export",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2828"
           },
           {
-            "number": 4194,
-            "title": "Move engine init info off the command line to stdin",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4194"
+            "number": 2887,
+            "title": "Visualizations sometimes are not fully loaded in Headless export",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2887"
           },
           {
-            "number": 4284,
-            "title": "Redis cache entry expiration not considering timezone correctly",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4284"
+            "number": 2277,
+            "title": "Excel export crashes on specific dashboard",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2277"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-10-01..2026-10-31"
@@ -206,7 +211,7 @@
       },
       {
         "label": "iOS",
-        "count": 1
+        "count": 2
       },
       {
         "label": "Android",
@@ -218,20 +223,35 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 203,
+      "open_count": 199,
       "open_count_label": "open issues as of 2026-10-31",
-      "open_bug_count": 36,
-      "live_open_count": 203,
-      "live_open_bug_count": 36,
+      "open_bug_count": 32,
+      "live_open_count": 199,
+      "live_open_bug_count": 32,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 4,
+          "current": 7,
           "previous": 5,
-          "delta": -1,
+          "delta": 2,
           "current_refs": {
-            "total": 4,
+            "total": 7,
             "issues": [
+              {
+                "number": 743,
+                "title": "[BUG]: Joined Table Names are Swapped (same as 722 but not AI related)",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/743"
+              },
+              {
+                "number": 742,
+                "title": "PostgreSQL UUID Columns \u2013 Filter Values Error (LOWER(uuid))",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/742"
+              },
+              {
+                "number": 739,
+                "title": "Conditional Formatting Evaluates Incorrect Rounded Values for Percentage Fields",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/739"
+              },
               {
                 "number": 727,
                 "title": "[BUG]: TODAY() causes DATEDIFF to fail with Redshift date columns",
@@ -246,11 +266,6 @@
                 "number": 725,
                 "title": "[BUG]: Totals on pivot widget with lots of rows are not correct",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/725"
-              },
-              {
-                "number": 724,
-                "title": "[BUG]: Temporary files generated during headless export are not being cleaned up",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/724"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-10-01..2026-10-31"
@@ -258,26 +273,41 @@
         },
         {
           "label": "Closed bugs",
-          "current": 3,
+          "current": 10,
           "previous": 10,
-          "delta": -7,
+          "delta": 0,
           "current_refs": {
-            "total": 3,
+            "total": 10,
             "issues": [
               {
-                "number": 725,
-                "title": "[BUG]: Totals on pivot widget with lots of rows are not correct",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/725"
+                "number": 722,
+                "title": "[BUG]: AI Joined tables names are swapped",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/722"
               },
               {
-                "number": 707,
-                "title": "[BUG]: Index mismatching on aggs. Pablo asked to promote here (he confirmed bug)",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/707"
+                "number": 719,
+                "title": "[BUG]: Key not present in dictionary",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/719"
               },
               {
-                "number": 699,
-                "title": "[BUG]: Field labels lose localization after dashboard Refresh",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/699"
+                "number": 718,
+                "title": "[BUG]: Model Training Issue #2 - Not applying correct filters",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/718"
+              },
+              {
+                "number": 712,
+                "title": "[BUG]: AI-Generated Dashboard Issues",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/712"
+              },
+              {
+                "number": 709,
+                "title": "[BUG]: AI Generated Widgets do not format numbers correctly",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/709"
+              },
+              {
+                "number": 639,
+                "title": "[BUG]: PDF Export does not match dashboard",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/639"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-10-01..2026-10-31"
@@ -303,17 +333,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 897,
+      "open_count": 885,
       "open_count_label": "open issues as of 2026-10-31",
-      "open_bug_count": 405,
-      "live_open_count": 897,
-      "live_open_bug_count": 405,
+      "open_bug_count": 392,
+      "live_open_count": 885,
+      "live_open_bug_count": 392,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 12,
-          "previous": 53,
-          "delta": -41,
+          "current": 18,
+          "previous": 54,
+          "delta": -36,
           "current_refs": {}
         },
         {
