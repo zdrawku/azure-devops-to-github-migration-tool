@@ -1,15 +1,15 @@
 {
-  "generated": "2026-11-02T07:00:27Z",
+  "generated": "2026-11-09T07:25:59Z",
   "curr": "2026-11",
   "prev": "2026-10",
   "summary": {
     "bugs": {
       "title": "SLINGSHOT BUGS (EXCL. CRASH REPORTS)",
-      "total_open": 78,
+      "total_open": 77,
       "note": "label:Slingshot -label:\"Crash Report\" \u00b7 Reveal private repo",
       "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_closed": 1,
+      "curr_delta": -1,
       "prev_added": 0,
       "prev_closed": 1,
       "prev_delta": -1,
@@ -19,8 +19,14 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+created%3A2026-11-01..2026-11-30"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3926,
+            "title": "Legend settings not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3926"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+label%3ASlingshot+-label%3A%22Crash+Report%22+closed%3A2026-11-01..2026-11-30"
       },
       "always_show_headline": false
@@ -49,11 +55,11 @@
     },
     "all_slingshot": {
       "title": "ALL OPEN SLINGSHOT ISSUES",
-      "total_open": 100,
+      "total_open": 99,
       "note": "label:Slingshot \u00b7 all types (bugs, crash reports, features\u2026)",
       "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
+      "curr_closed": 1,
+      "curr_delta": -1,
       "prev_added": 2,
       "prev_closed": 3,
       "prev_delta": -1,
@@ -63,30 +69,93 @@
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+created%3A2026-11-01..2026-11-30"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 1,
+        "issues": [
+          {
+            "number": 3926,
+            "title": "Legend settings not exported correctly to Excel",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3926"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+label%3ASlingshot+closed%3A2026-11-01..2026-11-30"
       },
       "always_show_headline": false
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 0,
+      "total_open": 3,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 0,
-      "curr_closed": 0,
-      "curr_delta": 0,
-      "prev_added": 55,
+      "curr_added": 3,
+      "curr_closed": 14,
+      "curr_delta": -11,
+      "prev_added": 57,
       "prev_closed": 81,
-      "prev_delta": -26,
+      "prev_delta": -24,
       "curr_added_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 3,
+        "issues": [
+          {
+            "number": 4702,
+            "title": "Sparkline headings are empty or in English in the Excel export",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4702"
+          },
+          {
+            "number": 4642,
+            "title": "Test2923 UI PDF export E2E tests fail: oracles predate the 390pt landscape overview limit",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4642"
+          },
+          {
+            "number": 4633,
+            "title": "PDF export: grid highlights are missing when a rule compares against a hidden column",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4633"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-11-01..2026-11-30"
       },
       "curr_closed_refs": {
-        "total": 0,
-        "issues": [],
+        "total": 14,
+        "issues": [
+          {
+            "number": 3758,
+            "title": "PDF download under NodeJS does not work",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3758"
+          },
+          {
+            "number": 4195,
+            "title": "Restrict callback server bind address and port",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4195"
+          },
+          {
+            "number": 3884,
+            "title": "[BUG]: Cant Export a Excel File with 40k rows using Build-In Export",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3884"
+          },
+          {
+            "number": 4198,
+            "title": "Export temp files are never cleaned up and one copy is world-readable",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4198"
+          },
+          {
+            "number": 4243,
+            "title": "Temporary files generated during headless export are not being cleaned up",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4243"
+          },
+          {
+            "number": 1782,
+            "title": "Sybase Package - Missing SqlData.",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1782"
+          },
+          {
+            "number": 1513,
+            "title": "When exporting to Excel, big number formatting is not maintained",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/1513"
+          },
+          {
+            "number": 3792,
+            "title": "[BUG] RevealView captures all Tab key navigation and prevents focus movement to other page elements since Reveal 2.0",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3792"
+          }
+        ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-11-01..2026-11-30"
       },
       "always_show_headline": true
@@ -118,46 +187,83 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 196,
+      "open_count": 192,
       "open_count_label": "open issues as of 2026-11-30",
-      "open_bug_count": 30,
-      "live_open_count": 196,
-      "live_open_bug_count": 30,
+      "open_bug_count": 27,
+      "live_open_count": 192,
+      "live_open_bug_count": 27,
       "metrics": [
         {
           "label": "New bugs",
-          "current": 0,
+          "current": 2,
           "previous": 8,
-          "delta": -8,
+          "delta": -6,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 2,
+            "issues": [
+              {
+                "number": 748,
+                "title": "[BUG] refreshDashboardData() changes dashboard filter DOM order when a date filter comes first",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/748"
+              },
+              {
+                "number": 747,
+                "title": "[BUG] RevealView instances remain in memory after their containers are removed",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/747"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+created%3A2026-11-01..2026-11-30"
           }
         },
         {
           "label": "Closed bugs",
-          "current": 0,
+          "current": 5,
           "previous": 14,
-          "delta": -14,
+          "delta": -9,
           "current_refs": {
-            "total": 0,
-            "issues": [],
+            "total": 5,
+            "issues": [
+              {
+                "number": 724,
+                "title": "[BUG]: Temporary files generated during headless export are not being cleaned up",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/724"
+              },
+              {
+                "number": 688,
+                "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/688"
+              },
+              {
+                "number": 703,
+                "title": "[BUG]: Cant Export a Excel File with 40k rows using Build-In Export",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/703"
+              },
+              {
+                "number": 720,
+                "title": "[BUG]: Web client 2.2.1: listener leak in shared renderer (_toUnbind) after RevealView container is removed",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/720"
+              },
+              {
+                "number": 745,
+                "title": "[BUG]: onAssetRequested is not applied to the \"Set up the Database\" dialog opened via \"Edit\" data source (showEditDataSource)",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/745"
+              }
+            ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-11-01..2026-11-30"
           }
         },
         {
           "label": "New feature requests",
-          "current": 0,
+          "current": 1,
           "previous": 3,
-          "delta": -3,
+          "delta": -2,
           "current_refs": {}
         },
         {
           "label": "Closed feature requests",
-          "current": 0,
+          "current": 2,
           "previous": 1,
-          "delta": -1,
+          "delta": 1,
           "current_refs": {}
         }
       ],
@@ -166,17 +272,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 886,
+      "open_count": 902,
       "open_count_label": "open issues as of 2026-11-30",
-      "open_bug_count": 383,
-      "live_open_count": 886,
-      "live_open_bug_count": 383,
+      "open_bug_count": 374,
+      "live_open_count": 902,
+      "live_open_bug_count": 374,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 0,
-          "previous": 55,
-          "delta": -55,
+          "current": 3,
+          "previous": 57,
+          "delta": -54,
           "current_refs": {}
         },
         {
