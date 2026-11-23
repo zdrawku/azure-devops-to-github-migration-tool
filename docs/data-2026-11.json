@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-16T07:29:28Z",
+  "generated": "2026-11-23T08:26:09Z",
   "curr": "2026-11",
   "prev": "2026-10",
   "summary": {
@@ -104,17 +104,27 @@
     },
     "all_private_bugs": {
       "title": "ALL NEW BUGS \u00b7 REVEAL (PRIVATE)",
-      "total_open": 12,
+      "total_open": 14,
       "note": "type:Bug \u00b7 all labels \u00b7 new this month vs prev month",
-      "curr_added": 12,
-      "curr_closed": 21,
-      "curr_delta": -9,
+      "curr_added": 14,
+      "curr_closed": 27,
+      "curr_delta": -13,
       "prev_added": 57,
       "prev_closed": 81,
       "prev_delta": -24,
       "curr_added_refs": {
-        "total": 12,
+        "total": 14,
         "issues": [
+          {
+            "number": 4824,
+            "title": ".NET Core version of Reveal.UI.Core has not been compiled since #4164",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4824"
+          },
+          {
+            "number": 4808,
+            "title": "E2E: Test_GlobalFilter_ReadOnlyProperty and TestRegistryKeepsNoListenersOfReplacedDashboards fail in every run",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4808"
+          },
           {
             "number": 4800,
             "title": "Pivot value sort and filters are ignored on Engine1 with Process Data On Server when grand totals are hidden",
@@ -144,23 +154,43 @@
             "number": 4766,
             "title": "[SharePlus] Managed metadata columns are not saving values correctly",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4766"
-          },
-          {
-            "number": 4748,
-            "title": "Engine2 can run without the legacy cache, which Java disables by default",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4748"
-          },
-          {
-            "number": 4730,
-            "title": "Generate XML documentation for Reveal.Sdk.Data.MongoDB and Reveal.Sdk.Cache.Redis packages",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4730"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+created%3A2026-11-01..2026-11-30"
       },
       "curr_closed_refs": {
-        "total": 21,
+        "total": 27,
         "issues": [
+          {
+            "number": 4824,
+            "title": ".NET Core version of Reveal.UI.Core has not been compiled since #4164",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4824"
+          },
+          {
+            "number": 4481,
+            "title": "[BUG]: Joined Table Names are Swapped (same as 722 but not AI related)",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4481"
+          },
+          {
+            "number": 4784,
+            "title": "Blended field list shows a joined table's fields under another table's heading when a search hides a table",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4784"
+          },
+          {
+            "number": 3842,
+            "title": "[BUG]: Dashboard filter field picker bypasses `localizedStringsProvider` and selected value ignores `field.label`",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3842"
+          },
+          {
+            "number": 4808,
+            "title": "E2E: Test_GlobalFilter_ReadOnlyProperty and TestRegistryKeepsNoListenersOfReplacedDashboards fail in every run",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4808"
+          },
+          {
+            "number": 3557,
+            "title": "[BUG]: Add Visualization filter is pushed to end",
+            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3557"
+          },
           {
             "number": 4275,
             "title": "SQL Server: date functions on datetimeoffset use the stored offset, not UTC",
@@ -170,36 +200,6 @@
             "number": 4515,
             "title": "Paged grid: column filter list is empty when the column name contains an underscore",
             "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4515"
-          },
-          {
-            "number": 4322,
-            "title": "Paged DataGrid column filter fails for fields with encoded names",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4322"
-          },
-          {
-            "number": 4748,
-            "title": "Engine2 can run without the legacy cache, which Java disables by default",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4748"
-          },
-          {
-            "number": 2412,
-            "title": "Every Slingshot release requires a restart of the reveal engine service",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/2412"
-          },
-          {
-            "number": 3808,
-            "title": "Opening `Edit Data Source Details` dialog throws",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/3808"
-          },
-          {
-            "number": 4702,
-            "title": "Sparkline headings are empty or in English in the Excel export",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4702"
-          },
-          {
-            "number": 4730,
-            "title": "Generate XML documentation for Reveal.Sdk.Data.MongoDB and Reveal.Sdk.Cache.Redis packages",
-            "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues/4730"
           }
         ],
         "search_url": "https://github.com/Infragistics-BusinessTools/Reveal/issues?q=is%3Aissue+type%3ABug+closed%3A2026-11-01..2026-11-30"
@@ -233,11 +233,11 @@
     {
       "title": "Reveal SDK (Public) \u2014 Bugs & Features",
       "url": "https://github.com/RevealBi/Reveal.Sdk/issues",
-      "open_count": 192,
+      "open_count": 188,
       "open_count_label": "open issues as of 2026-11-30",
-      "open_bug_count": 28,
-      "live_open_count": 192,
-      "live_open_bug_count": 28,
+      "open_bug_count": 24,
+      "live_open_count": 188,
+      "live_open_bug_count": 24,
       "metrics": [
         {
           "label": "New bugs",
@@ -268,12 +268,32 @@
         },
         {
           "label": "Closed bugs",
-          "current": 5,
+          "current": 9,
           "previous": 14,
-          "delta": -9,
+          "delta": -5,
           "current_refs": {
-            "total": 5,
+            "total": 9,
             "issues": [
+              {
+                "number": 749,
+                "title": "[BUG]:  Axis labels and numeric tick values are still truncated after updating the embedded analytics client and ASP.NET server packages to Reveal SDK `2.2.1`.",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/749"
+              },
+              {
+                "number": 743,
+                "title": "[BUG]: Joined Table Names are Swapped (same as 722 but not AI related)",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/743"
+              },
+              {
+                "number": 700,
+                "title": "[BUG]: Dashboard filter field picker bypasses `localizedStringsProvider` and selected value ignores `field.label`",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/700"
+              },
+              {
+                "number": 512,
+                "title": "[BUG]: Add Visualization filter is pushed to end",
+                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/512"
+              },
               {
                 "number": 724,
                 "title": "[BUG]: Temporary files generated during headless export are not being cleaned up",
@@ -283,21 +303,6 @@
                 "number": 688,
                 "title": "[BUG]: Bubble chart tooltip can show data from a different bubble than the hovered bubble",
                 "url": "https://github.com/RevealBi/Reveal.Sdk/issues/688"
-              },
-              {
-                "number": 703,
-                "title": "[BUG]: Cant Export a Excel File with 40k rows using Build-In Export",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/703"
-              },
-              {
-                "number": 720,
-                "title": "[BUG]: Web client 2.2.1: listener leak in shared renderer (_toUnbind) after RevealView container is removed",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/720"
-              },
-              {
-                "number": 745,
-                "title": "[BUG]: onAssetRequested is not applied to the \"Set up the Database\" dialog opened via \"Edit\" data source (showEditDataSource)",
-                "url": "https://github.com/RevealBi/Reveal.Sdk/issues/745"
               }
             ],
             "search_url": "https://github.com/RevealBi/Reveal.Sdk/issues?q=is%3Aissue+type%3ABug+closed%3A2026-11-01..2026-11-30"
@@ -323,17 +328,17 @@
     {
       "title": "Reveal (Private) \u2014 Slingshot & Crash Reports",
       "url": "https://github.com/Infragistics-BusinessTools/Reveal/issues",
-      "open_count": 899,
+      "open_count": 905,
       "open_count_label": "open issues as of 2026-11-30",
-      "open_bug_count": 376,
-      "live_open_count": 899,
-      "live_open_bug_count": 376,
+      "open_bug_count": 372,
+      "live_open_count": 905,
+      "live_open_bug_count": 372,
       "metrics": [
         {
           "label": "All new bugs (any label)",
-          "current": 12,
+          "current": 14,
           "previous": 57,
-          "delta": -45,
+          "delta": -43,
           "current_refs": {}
         },
         {
